@@ -1,0 +1,80 @@
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { AuthProvider } from './contexts/AuthContext'
+import { GeolocationProvider } from './contexts/GeolocationContext'
+import ProtectedRoute from './components/auth/ProtectedRoute'
+import Layout from './components/layout/Layout'
+import Dashboard from './pages/Dashboard'
+import Properties from './pages/Properties'
+import PropertyImport from './pages/PropertyImport'
+import Vehicles from './pages/Vehicles'
+import Map from './pages/Map'
+import Users from './pages/Users'
+import AuditLogs from './pages/AuditLogs'
+import Register from './pages/Register'
+
+function App() {
+  return (
+    <AuthProvider>
+      <GeolocationProvider>
+        <Router>
+          <Routes>
+          {/* Rota pública para cadastro */}
+          <Route path="/register" element={<Register />} />
+          
+          <Route path="/" element={
+            <ProtectedRoute>
+              <Layout>
+                <Dashboard />
+              </Layout>
+            </ProtectedRoute>
+          } />
+          <Route path="/properties" element={
+            <ProtectedRoute>
+              <Layout>
+                <Properties />
+              </Layout>
+            </ProtectedRoute>
+          } />
+          <Route path="/properties/import" element={
+            <ProtectedRoute requiredRole="team_leader">
+              <Layout>
+                <PropertyImport />
+              </Layout>
+            </ProtectedRoute>
+          } />
+          <Route path="/vehicles" element={
+            <ProtectedRoute>
+              <Layout>
+                <Vehicles />
+              </Layout>
+            </ProtectedRoute>
+          } />
+          <Route path="/map" element={
+            <ProtectedRoute>
+              <Layout>
+                <Map />
+              </Layout>
+            </ProtectedRoute>
+          } />
+          <Route path="/users" element={
+            <ProtectedRoute requiredRole="team_leader">
+              <Layout>
+                <Users />
+              </Layout>
+            </ProtectedRoute>
+          } />
+          <Route path="/audit" element={
+            <ProtectedRoute requiredRole="team_leader">
+              <Layout>
+                <AuditLogs />
+              </Layout>
+            </ProtectedRoute>
+          } />
+          </Routes>
+        </Router>
+      </GeolocationProvider>
+    </AuthProvider>
+  )
+}
+
+export default App

@@ -1,0 +1,51 @@
+/* Custom cluster styles for the map */
+.marker-cluster-small {
+  background-color: rgba(59, 130, 246, 0.8);
+  border: 2px solid rgba(59, 130, 246, 1);
+}
+
+.marker-cluster-small div {
+  background-color: rgba(59, 130, 246, 0.9);
+  color: white;
+  font-weight: bold;
+}
+
+.marker-cluster-medium {
+  background-color: rgba(251, 191, 36, 0.8);
+  border: 2px solid rgba(251, 191, 36, 1);
+}
+
+.marker-cluster-medium div {
+  background-color: rgba(251, 191, 36, 0.9);
+  color: white;
+  font-weight: bold;
+}
+
+.marker-cluster-large {
+  background-color: rgba(239, 68, 68, 0.8);
+  border: 2px solid rgba(239, 68, 68, 1);
+}
+
+.marker-cluster-large div {
+  background-color: rgba(239, 68, 68, 0.9);
+  color: white;
+  font-weight: bold;
+}
+
+.marker-cluster {
+  border-radius: 50%;
+  text-align: center;
+  font-size: 12px;
+  line-height: 1;
+}
+
+.marker-cluster div {
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  margin-left: 5px;
+  margin-top: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
