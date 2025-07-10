@@ -178,7 +178,7 @@ const LoginPage: React.FC = () => {
         </div>
       </footer>
 
-      <style jsx>{`
+      <style>{`
         @keyframes shimmer {
           0% { transform: translateX(-100%); }
           100% { transform: translateX(100%); }

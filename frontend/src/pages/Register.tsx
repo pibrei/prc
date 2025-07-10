@@ -180,7 +180,7 @@ const Register: React.FC = () => {
           </Card>
         </div>
 
-        <style jsx>{`
+        <style>{`
           @keyframes shimmer {
             0% { transform: translateX(-100%); }
             100% { transform: translateX(100%); }
@@ -468,7 +468,7 @@ const Register: React.FC = () => {
         </div>
       </footer>
 
-      <style jsx>{`
+      <style>{`
         @keyframes shimmer {
           0% { transform: translateX(-100%); }
           100% { transform: translateX(100%); }
