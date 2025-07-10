@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo, useCallback } from 'react'
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import MarkerClusterGroup from 'react-leaflet-cluster'
 import L from 'leaflet'
@@ -92,69 +92,21 @@ const Map: React.FC = () => {
   const [searchResults, setSearchResults] = useState<Property[]>([])
   const [showSearchResults, setShowSearchResults] = useState(false)
 
-  // Usar localização do usuário se disponível, senão usar Curitiba como padrão
-  const getMapCenter = (): [number, number] => {
+  // Memoizar o centro do mapa para evitar recálculos desnecessários
+  const mapCenter = useMemo<[number, number]>(() => {
     if (userLocation && hasLocationPermission) {
       return [userLocation.lat, userLocation.lng]
     }
     return [-25.4284, -49.2733] // Curitiba, PR
-  }
-
-  const [mapCenter, setMapCenter] = useState<[number, number]>(getMapCenter())
-
-  // Atualizar centro do mapa quando a localização do usuário estiver disponível
-  useEffect(() => {
-    if (userLocation && hasLocationPermission) {
-      setMapCenter([userLocation.lat, userLocation.lng])
-    }
   }, [userLocation, hasLocationPermission])
 
-  // Definir filtros padrão baseados no perfil do usuário
-  useEffect(() => {
-    if (userProfile) {
-      console.log('👤 Perfil do usuário:', userProfile)
-      console.log('🏢 Definindo filtros:', { batalhao: userProfile.batalhao, cia: userProfile.cia })
-      setSelectedBatalhao(userProfile.batalhao || '')
-      setSelectedCia(userProfile.cia || '')
-    }
-  }, [userProfile])
+  const [manualMapCenter, setManualMapCenter] = useState<[number, number] | null>(null)
 
-  // Carregamento quando os filtros mudarem
-  useEffect(() => {
-    if (selectedBatalhao !== undefined && selectedCia !== undefined) {
-      fetchMapData()
-    }
-  }, [selectedBatalhao, selectedCia])
-
-  // Effect to handle URL parameters for property selection
-  useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search)
-    const propertyId = urlParams.get('property')
-    const lat = urlParams.get('lat')
-    const lng = urlParams.get('lng')
-    
-    if (propertyId && lat && lng && properties.length > 0) {
-      const property = properties.find(p => p.id === propertyId)
-      if (property) {
-        setSelectedProperty(property)
-        setMapCenter([parseFloat(lat), parseFloat(lng)])
-        setSearchTerm(property.name)
-        
-        // Clear URL parameters after processing
-        const newUrl = window.location.pathname
-        window.history.replaceState({}, '', newUrl)
-      }
-    }
-  }, [properties])
-
-  const fetchMapData = async () => {
+  // Memoizar fetchMapData para evitar recriações desnecessárias
+  const fetchMapData = useCallback(async () => {
     try {
-      console.log('🗺️ Fetching properties for map with filters...')
-      console.log('🔍 Filtros aplicados:', { selectedBatalhao, selectedCia })
-      
       // Se não há filtros definidos, não carregar nada
       if (!selectedBatalhao && !selectedCia) {
-        console.log('⚠️ Nenhum filtro definido - aguardando configuração')
         return
       }
       
@@ -172,55 +124,82 @@ const Map: React.FC = () => {
 
         // Filtrar por batalhão e CIA selecionados (padrão do usuário)
         if (selectedBatalhao) {
-          console.log('📍 Aplicando filtro batalhao:', selectedBatalhao)
           query = query.eq('batalhao', selectedBatalhao)
         }
         if (selectedCia) {
-          console.log('🏢 Aplicando filtro cia:', selectedCia)
           query = query.eq('cia', selectedCia)
         }
 
         const { data, error } = await query
 
         if (error) throw error
-        
+
         if (data && data.length > 0) {
           allProperties = [...allProperties, ...data]
-          console.log(`📊 Loaded ${allProperties.length} properties so far`)
-          
-          if (data.length < pageSize) {
-            // Última página
-            break
-          }
           from += pageSize
         } else {
           break
         }
       }
 
-      // Buscar veículos
-      const { data: vehicles, error: vehiclesError } = await supabase
+      setProperties(allProperties)
+
+      // Fetch vehicles
+      const { data: vehiclesData, error: vehiclesError } = await supabase
         .from('vehicles')
         .select('*')
         .not('latitude', 'is', null)
         .not('longitude', 'is', null)
-        .limit(5000)
 
       if (vehiclesError) throw vehiclesError
-
-      console.log(`✅ Map data loaded: ${allProperties.length} properties, ${vehicles?.length || 0} vehicles`)
+      setVehicles(vehiclesData || [])
       
-      setProperties(allProperties)
-      setVehicles(vehicles || [])
     } catch (error) {
       console.error('Erro ao buscar dados do mapa:', error)
     } finally {
       setLoading(false)
     }
-  }
+  }, [selectedBatalhao, selectedCia])
 
-  // Filter functions
-  const getFilteredProperties = () => {
+  // Definir filtros padrão baseados no perfil do usuário
+  useEffect(() => {
+    if (userProfile) {
+      setSelectedBatalhao(userProfile.batalhao || '')
+      setSelectedCia(userProfile.cia || '')
+    }
+  }, [userProfile])
+
+  // Carregamento quando os filtros mudarem
+  useEffect(() => {
+    if (selectedBatalhao !== undefined && selectedCia !== undefined) {
+      fetchMapData()
+    }
+  }, [fetchMapData, selectedBatalhao, selectedCia])
+
+  // Effect to handle URL parameters for property selection - otimizado
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search)
+    const propertyId = urlParams.get('property')
+    const lat = urlParams.get('lat')
+    const lng = urlParams.get('lng')
+    
+    if (propertyId && lat && lng && properties.length > 0) {
+      const property = properties.find(p => p.id === propertyId)
+      if (property && selectedProperty?.id !== propertyId) {
+        setSelectedProperty(property)
+        setManualMapCenter([parseFloat(lat), parseFloat(lng)])
+        setSearchTerm(property.name)
+        
+        // Clear URL parameters after processing
+        const newUrl = window.location.pathname
+        window.history.replaceState({}, '', newUrl)
+      }
+    }
+  }, [properties, selectedProperty?.id])
+
+
+  // Filter functions - memoizadas para performance
+  const getFilteredProperties = useMemo(() => {
     return properties.filter(property => {
       if (propertyTypeFilter !== 'all' && property.property_type !== propertyTypeFilter) return false
       if (camerasFilter === 'with_cameras' && !property.has_cameras) return false
@@ -231,14 +210,14 @@ const Map: React.FC = () => {
       if (battalionFilter !== 'all' && property.batalhao !== battalionFilter) return false
       return true
     })
-  }
+  }, [properties, propertyTypeFilter, camerasFilter, wifiFilter, crpmFilter, battalionFilter])
 
-  const getFilteredVehicles = () => {
+  const getFilteredVehicles = useMemo(() => {
     return vehicles.filter(vehicle => {
       if (vehicleStatusFilter !== 'all' && vehicle.status !== vehicleStatusFilter) return false
       return true
     })
-  }
+  }, [vehicles, vehicleStatusFilter])
 
   const getUniqueValues = (array: any[], key: string) => {
     return [...new Set(array.map(item => item[key]).filter(Boolean))].sort()
@@ -358,7 +337,7 @@ const Map: React.FC = () => {
         <div>
           <h1 className="text-2xl lg:text-3xl font-bold tracking-tight">Mapa Interativo</h1>
           <p className="text-sm text-muted-foreground">
-            {getFilteredProperties().length} propriedades • {getFilteredVehicles().length} veículos
+            {getFilteredProperties.length} propriedades • {getFilteredVehicles.length} veículos
           </p>
         </div>
       </div>
@@ -420,7 +399,7 @@ const Map: React.FC = () => {
                   {showProperties ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
                   <MapPin className="h-3 w-3 ml-1" />
                 </div>
-                <span>Props ({getFilteredProperties().length})</span>
+                <span>Props ({getFilteredProperties.length})</span>
               </Button>
               
               <Button
@@ -432,7 +411,7 @@ const Map: React.FC = () => {
                   {showVehicles ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
                   <Car className="h-3 w-3 ml-1" />
                 </div>
-                <span>Veíc ({getFilteredVehicles().length})</span>
+                <span>Veíc ({getFilteredVehicles.length})</span>
               </Button>
             </div>
             
@@ -646,10 +625,9 @@ const Map: React.FC = () => {
           {/* Mobile-Optimized Map Container */}
           <div className="h-[60vh] sm:h-96 w-full rounded-lg overflow-hidden">
             <MapContainer
-              center={mapCenter}
+              center={manualMapCenter || mapCenter}
               zoom={userLocation && hasLocationPermission ? 14 : 10}
               style={{ height: '100%', width: '100%' }}
-              key={`${mapCenter[0]}-${mapCenter[1]}`}
             >
               <TileLayer
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -680,7 +658,7 @@ const Map: React.FC = () => {
                   });
                 }}
               >
-                {showProperties && getFilteredProperties().map((property) => (
+                {showProperties && getFilteredProperties.map((property) => (
                   <Marker
                     key={property.id}
                     position={[property.latitude, property.longitude]}
@@ -843,7 +821,7 @@ const Map: React.FC = () => {
                   </Marker>
                 ))}
 
-                {showVehicles && getFilteredVehicles().map((vehicle) => (
+                {showVehicles && getFilteredVehicles.map((vehicle) => (
                   <Marker
                     key={vehicle.id}
                     position={[vehicle.latitude!, vehicle.longitude!]}
@@ -920,30 +898,30 @@ const Map: React.FC = () => {
             <div className="space-y-2">
               <div className="flex justify-between">
                 <span className="text-xs sm:text-sm">Propriedades:</span>
-                <span className="text-xs sm:text-sm font-medium">{getFilteredProperties().length}</span>
+                <span className="text-xs sm:text-sm font-medium">{getFilteredProperties.length}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-xs sm:text-sm">Com Câmeras:</span>
                 <span className="text-xs sm:text-sm font-medium text-red-600">
-                  {getFilteredProperties().filter(p => p.has_cameras).length}
+                  {getFilteredProperties.filter(p => p.has_cameras).length}
                 </span>
               </div>
               <div className="flex justify-between">
                 <span className="text-xs sm:text-sm">Veículos Ativos:</span>
                 <span className="text-xs sm:text-sm font-medium text-red-600">
-                  {getFilteredVehicles().filter(v => v.status === 'active').length}
+                  {getFilteredVehicles.filter(v => v.status === 'active').length}
                 </span>
               </div>
               <div className="flex justify-between">
                 <span className="text-xs sm:text-sm">Veículos Resolvidos:</span>
                 <span className="text-xs sm:text-sm font-medium text-green-600">
-                  {getFilteredVehicles().filter(v => v.status === 'resolved').length}
+                  {getFilteredVehicles.filter(v => v.status === 'resolved').length}
                 </span>
               </div>
               <div className="flex justify-between">
                 <span className="text-xs sm:text-sm">Falsos Alarmes:</span>
                 <span className="text-xs sm:text-sm font-medium text-gray-600">
-                  {getFilteredVehicles().filter(v => v.status === 'false_alarm').length}
+                  {getFilteredVehicles.filter(v => v.status === 'false_alarm').length}
                 </span>
               </div>
             </div>
