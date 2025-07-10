@@ -12,6 +12,8 @@ import Vehicles from './pages/Vehicles'
 import Map from './pages/Map'
 import Users from './pages/Users'
 import AuditLogs from './pages/AuditLogs'
+import Reports from './pages/Reports'
+import BattalionSettings from './pages/BattalionSettings'
 import Register from './pages/Register'
 
 function App() {
@@ -83,6 +85,20 @@ function App() {
             <ProtectedRoute requiredRole="team_leader">
               <Layout>
                 <AuditLogs />
+              </Layout>
+            </ProtectedRoute>
+          } />
+          <Route path="/reports" element={
+            <ProtectedRoute requiredRole="team_leader">
+              <Layout>
+                <Reports />
+              </Layout>
+            </ProtectedRoute>
+          } />
+          <Route path="/battalion-settings" element={
+            <ProtectedRoute requiredRole="admin">
+              <Layout>
+                <BattalionSettings />
               </Layout>
             </ProtectedRoute>
           } />

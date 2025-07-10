@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom'
 import { useAuth } from '../../contexts/AuthContext'
 import { Button } from '../ui/button'
 import { Input } from '../ui/input'
-import { LogOut, Home, MapPin, Car, Users, Activity, Menu, X, ChevronDown, Key } from 'lucide-react'
+import { LogOut, Home, MapPin, Car, Users, Activity, Menu, X, ChevronDown, Key, FileText, Settings } from 'lucide-react'
 import LocationPermissionBanner from '../location/LocationPermissionBanner'
 import LocationErrorBanner from '../location/LocationErrorBanner'
 import { supabase } from '../../lib/supabase'
@@ -88,7 +88,14 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   if (userProfile?.role === 'admin' || userProfile?.role === 'team_leader') {
     navigationItems.push(
       { label: 'Usuários', icon: Users, href: '/users' },
-      { label: 'Auditoria', icon: Activity, href: '/audit' }
+      { label: 'Auditoria', icon: Activity, href: '/audit' },
+      { label: 'Relatórios', icon: FileText, href: '/reports' }
+    )
+  }
+
+  if (userProfile?.role === 'admin') {
+    navigationItems.push(
+      { label: 'Configurações', icon: Settings, href: '/battalion-settings' }
     )
   }
 

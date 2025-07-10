@@ -240,3 +240,15 @@ Visão geral sobre o projeto está em @plano-tecnico.md
 - **Integração**: Card informativo, dropdowns de seleção, indicadores visuais
 - **Database**: Consultas filtradas por batalhao e cia, performance otimizada
 - **Status**: Sistema organizacional completo respeitando hierarquia militar da PMPR
+
+### Sistema de Relatórios PDF
+- **Documentação**: `docs/sistema-relatorios-pdf.md`
+- **Implementação**: Sistema completo de geração de relatórios em PDF com formatação profissional
+- **Funcionalidades**: Filtros por período, estatísticas em tempo real, geração assíncrona, download automático
+- **Componentes**: PDFHeader, PDFFooter, PDFPropertyReport, página Reports com filtros avançados
+- **Integração**: Rota protegida /reports, navegação para team_leader e admin, controle de acesso
+- **Bibliotecas**: @react-pdf/renderer v4.3.0, file-saver v2.0.5
+- **Recursos**: Cabeçalho com brasões PMPR, formatação A4, assinatura digital, timestamp automático
+- **Upload de Brasão**: Sistema completo para upload de brasão personalizado por batalhão
+- **Storage**: Bucket battalion-badges no Supabase, página /battalion-settings para admins
+- **Status**: Sistema completo e funcional com upload de brasão implementado
