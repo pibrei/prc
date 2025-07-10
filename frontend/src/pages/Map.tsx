@@ -261,7 +261,8 @@ const Map: React.FC = () => {
 
   const selectProperty = (property: Property) => {
     setSelectedProperty(property)
-    setMapCenter([property.latitude, property.longitude])
+    setManualMapCenter([property.latitude, property.longitude])
+    setUserHasInteracted(true) // Marcar como interação do usuário
     setShowSearchResults(false)
     setSearchTerm(property.name)
   }
@@ -457,7 +458,10 @@ const Map: React.FC = () => {
                 {selectedProperty && (
                   <Button
                     variant="outline"
-                    onClick={() => setMapCenter([selectedProperty.latitude, selectedProperty.longitude])}
+                    onClick={() => {
+                      setManualMapCenter([selectedProperty.latitude, selectedProperty.longitude])
+                      setUserHasInteracted(true)
+                    }}
                     className="w-full h-12 flex items-center justify-center text-sm"
                   >
                     <Navigation className="h-4 w-4 mr-2" />
