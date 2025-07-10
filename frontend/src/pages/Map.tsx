@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react'
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
+import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from 'react-leaflet'
 import MarkerClusterGroup from 'react-leaflet-cluster'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
@@ -64,6 +64,16 @@ interface Vehicle {
   spotted_at: string
 }
 
+// Componente para detectar interações do usuário no mapa
+const MapInteractionDetector: React.FC<{ onUserInteraction: () => void }> = ({ onUserInteraction }) => {
+  useMapEvents({
+    dragstart: () => onUserInteraction(),
+    zoomstart: () => onUserInteraction(),
+    click: () => onUserInteraction(),
+  })
+  return null
+}
+
 const Map: React.FC = () => {
   const [properties, setProperties] = useState<Property[]>([])
   const [vehicles, setVehicles] = useState<Vehicle[]>([])
@@ -92,15 +102,22 @@ const Map: React.FC = () => {
   const [searchResults, setSearchResults] = useState<Property[]>([])
   const [showSearchResults, setShowSearchResults] = useState(false)
 
-  // Memoizar o centro do mapa para evitar recálculos desnecessários
-  const mapCenter = useMemo<[number, number]>(() => {
-    if (userLocation && hasLocationPermission) {
-      return [userLocation.lat, userLocation.lng]
-    }
-    return [-25.4284, -49.2733] // Curitiba, PR
-  }, [userLocation, hasLocationPermission])
-
+  // Estado para controlar o centro inicial do mapa (só define uma vez)
+  const [initialMapCenter, setInitialMapCenter] = useState<[number, number]>([-25.4284, -49.2733])
+  const [isInitialCenterSet, setIsInitialCenterSet] = useState(false)
   const [manualMapCenter, setManualMapCenter] = useState<[number, number] | null>(null)
+  const [userHasInteracted, setUserHasInteracted] = useState(false)
+
+  // Definir centro inicial apenas uma vez quando a localização estiver disponível
+  useEffect(() => {
+    if (userLocation && hasLocationPermission && !isInitialCenterSet && !userHasInteracted) {
+      setInitialMapCenter([userLocation.lat, userLocation.lng])
+      setIsInitialCenterSet(true)
+    }
+  }, [userLocation, hasLocationPermission, isInitialCenterSet, userHasInteracted])
+
+  // Centro final do mapa (prioridade: manual > inicial)
+  const finalMapCenter = manualMapCenter || initialMapCenter
 
   // Memoizar fetchMapData para evitar recriações desnecessárias
   const fetchMapData = useCallback(async () => {
@@ -625,10 +642,17 @@ const Map: React.FC = () => {
           {/* Mobile-Optimized Map Container */}
           <div className="h-[60vh] sm:h-96 w-full rounded-lg overflow-hidden">
             <MapContainer
-              center={manualMapCenter || mapCenter}
-              zoom={userLocation && hasLocationPermission ? 14 : 10}
+              center={finalMapCenter}
+              zoom={isInitialCenterSet ? 14 : 10}
               style={{ height: '100%', width: '100%' }}
+              zoomControl={true}
+              scrollWheelZoom={true}
+              doubleClickZoom={true}
+              dragging={true}
             >
+              {/* Detector de interações do usuário */}
+              <MapInteractionDetector onUserInteraction={() => setUserHasInteracted(true)} />
+              
               <TileLayer
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

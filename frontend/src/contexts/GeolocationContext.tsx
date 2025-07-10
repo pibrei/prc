@@ -94,10 +94,23 @@ export const GeolocationProvider: React.FC<{ children: React.ReactNode }> = ({ c
   const startWatchingLocation = () => {
     if (!navigator.geolocation || watchId !== null) return
 
+    // Para mobile, usar um maximumAge maior para evitar atualizações constantes
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+    
     const id = navigator.geolocation.watchPosition(
       (position) => {
         const { latitude, longitude } = position.coords
-        setUserLocation({ lat: latitude, lng: longitude })
+        const newLocation = { lat: latitude, lng: longitude }
+        
+        // Verificar se a localização mudou significativamente (mais de 100 metros)
+        if (userLocation) {
+          const distance = calculateDistance(userLocation, newLocation)
+          if (distance < 0.1) { // Menos de 100 metros, não atualizar
+            return
+          }
+        }
+        
+        setUserLocation(newLocation)
         console.log('Localização atualizada:', latitude, longitude)
       },
       (error) => {
@@ -105,13 +118,25 @@ export const GeolocationProvider: React.FC<{ children: React.ReactNode }> = ({ c
         // Não definir erro aqui para não interferir na experiência do usuário
       },
       {
-        enableHighAccuracy: true,
+        enableHighAccuracy: !isMobile, // Menos precisão no mobile para economizar bateria
         timeout: 30000,
-        maximumAge: 60000 // 1 minuto
+        maximumAge: isMobile ? 300000 : 60000 // 5 minutos no mobile, 1 minuto no desktop
       }
     )
 
     setWatchId(id)
+  }
+
+  // Função para calcular distância entre duas coordenadas em km
+  const calculateDistance = (pos1: { lat: number; lng: number }, pos2: { lat: number; lng: number }) => {
+    const R = 6371 // Raio da Terra em km
+    const dLat = (pos2.lat - pos1.lat) * Math.PI / 180
+    const dLng = (pos2.lng - pos1.lng) * Math.PI / 180
+    const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+              Math.cos(pos1.lat * Math.PI / 180) * Math.cos(pos2.lat * Math.PI / 180) * 
+              Math.sin(dLng/2) * Math.sin(dLng/2)
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a))
+    return R * c
   }
 
   const stopWatchingLocation = () => {
