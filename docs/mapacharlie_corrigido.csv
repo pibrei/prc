@@ -1,0 +1,223 @@
+Data;Equipe;Cidade;Bairro;Propriedade;Código;Proprietário;Telefone;RG;WiFi;Nome WiFi;Senha WiFi;Câmeras;Qtd Câmeras;Moradores;Atividade;BOU;Observações;Latitude,Longitude
+;;Ibaiti;;ESTÂNCIA RAFAELA;;ENEOVALDO ABUCARUB;(43)99979-0020;;;;;;;;;;;-23.874906,-50.245635
+;;Ibaiti;;SÃO JOSÉ DO ENO;;José Eno;(43)99107-7167;;;;;;;;;;;-23.873963,-50.222491
+;;Ibaiti;;SÍTIO DOIS IRMÃOS;;ELIAS BORGATO;(43)99956-8730;;;;;;;;;;;-23.810963,-50.31303
+;;Ibaiti;;SÍTIO SHALOM;;LILIAN CRISTINA FACCHI OLIVEIRA;(43)99160-2003;;;;;;;;;;;-23.799320,-50.311798
+;;Ibaiti;;RANCHO AGUA DA LIMEIRA;;ALFREDO THOMAZ FILHO;(43)99151-4950;;;;;;;;;;;-23.798871,-50.191995
+;;Ibaiti;;AGROPECUÁRIA FABEMA;;Dinorah Rodrigues Vieira;(41)99681-2511;;;;;;;;;;;-23.725698,-50.407751
+;;Ibaiti;;sítio São José;;Douglas rosa do paraíso;(43)99845-6838;;;;;;;;;;;-23.786744,-50.206610
+;;Ibaiti;;condomínio puganvile;;Tiago Fadel Bueno;(43)99163-6835;;;;;;;;;;;-23.792403,-50.196673
+;;Ibaiti;;Sítio São Jorge;;Nelson Valentim;(43)99965-4780;;;;;;;;;;;-23.943355,-50.318996
+;;Ibaiti;;SÍTIO ACÁCIA;;ANA MÁRCIA NEGRÃO SERRA DE CARVALHO;(43)99650-0707;;;;;;;;;;;-23.646515,-50.300925
+;;Ibaiti;;Fazenda São Judas Tadeu;;Reno Ferrari;(43)99115-7963;;;;;;;;;;;-23.834811,-50.237159
+;;Ibaiti;;Fazenda João de Barro;;Reno Ferrari;(43)99115-7964;;;;;;;;;;;-23.793476,-50.309811
+;;Ibaiti;;Fazenda Arroio do Pilão;;Reno Ferrari;(43)99115-7965;;;;;;;;;;;-23.672088,-50.426956
+;;Ibaiti;;Fazenda Alvorada;;Reno Ferrari;(43)99115-7966;;;;;;;;;;;-23.685411,-50.404893
+;;Ibaiti;;Fazenda Pérola;;Reno Ferrari;(43)99115-7967;;;;;;;;;;;-23.744801,-50.338441
+;;Ibaiti;;Fazenda Preciosa;;Reno Ferrari;(43)99115-7968;;;;;;;;;;;-23.770819,-50.277312
+;;Ibaiti;;Rancho Alegre II;;Reno Ferrari;(43)99115-7969;;;;;;;;;;;-23.776518,-50.282529
+;;Ibaiti;;Fazenda Rancho Alegre I;;Reno Ferrari;(43)99115-7970;;;;;;;;;;;-23.780175,-50.293118
+;;Ibaiti;;Fazenda São João;;Reno Ferrari;(43)99115-7971;;;;;;;;;;;-23.813609,-50.266678
+;;Ibaiti;;Reno Ferrari;;Reno Ferrari;(43)99115-7972;;;;;;;;;;;-23.851631,-50.290808
+;;Ibaiti;;Fazenda Sao Joaquim;1;Reno Ferrari;(43)99115-7973;;;;;;;;;;;-23.845948,-50.306235
+;;Ibaiti;;Sítio Alto das Pedras;;Marinilson Ribas Bueno;(43)98473-384;;;;;;;;;;;-23.818341,-50.235863
+;;Ibaiti;;sítio nova esperança;;Claudio Wroblewski;(43)99134-6958;;;;;;;;;;;-23.81916,-50.228406
+;;Ibaiti;;chácara flora;;José Luiz Caetano;(43)99802-1765;;;;;;;;;;;-23.767307,-50.287460
+;;Ibaiti;;Sítio Mozoni;;Mauro Mozoni;(43)99139-9082;;;;;;;;;;;-23.875688,-50.327446
+;;Ibaiti;;Icelegel;;Ailton Guarneri Júnior;(43)99101-8914;;;;;;;;;;;-23.801170,-50.179952
+;;Ibaiti;;chácara nova geração;;Diogenes Domingues Bueno;(43)99979-3803;;;;;;;;;;;-23.815206,-50.210258
+;;Ibaiti;;DAIL;;RENO FERRARI;(43)99115-7963;;;;;;;;;;;-23.682165,-50.414294
+;;Ibaiti;;Vilela e Machado;;João Vilela e Jair Machado;(43)99171-7899;;;;;;;;;;;-23.859063,-50.228935
+;;Ibaiti;;Recanto Medeiros;;Elizete Mathias de Medeiros;(43)99141-6810;;;;;;;;;;;-23.83364,-50.15459
+;;Ibaiti;;sítio alto da água;;Joel de Moura Bueno;(43)99191-2090;;;;;;;;;;;-23.820999,-50.248463
+;;Ibaiti;;sítio Santa Ana;;Maicon Joeverson Mesquita Reis;(43)99600-7376;;;;;;;;;;;-23.788679,-50.327393
+;;Ibaiti;;Santa Bárbara;;Bruno Oliveira de Almeida;(43)99968-4206;;;;;;;;;;;-23.859533,-50.348351
+;;Ibaiti;;sítio São Francisco;;Francisco Antônio da Cunha;(44)99971-2830;;;;;;;;;;;-23.805813,-50.317867
+;;Ibaiti;;Santo Expedito;;Espedito Cândido Ribeiro;(43)99846-4351;;;;;;;;;;;-23.733860,-50.391651
+;;Ibaiti;;sítio São Sebastião;;Carlos José Ferreira;(43)99145-7385;;;;;;;;;;;-23.925678,-50.313713
+;;Tomazina;;Fazenda ipês são Francisco;40;Pablo Azevedo de campos;19997641100;;;;;;;;;;;-23.743440,-49.921298
+;;Pinhalão;;Sítio são Benedito;53;Haroldo Marcos da rosa;43991115948;;;;;;;;;;;-23.8726233,-50.0590402
+;;Pinhalão;;Sítio São Marcos;54;Emerton Fernandes Cardoso;43991426722;;;;;;;;;;;-23.8726233,-50.0590402
+;;Pinhalão;;Sitio São Luiz;55;Valdeir Luiz de Souza;43988072789;;;;;;;;;;;-23.873178,-50.057077
+;;Pinhalão;;Sítio raízes;56;José Paulino Braga;43991270246;;;FAMILIA BISCOITO;39341669;;;;;;;-23.869747,-50.055659
+;;Tomazina;;Sítio nossa senhora aparecida;41;JULIANO LOUZANO;43996269616;;;;;;;;;;;-23.795066,-49.954044
+;;Tomazina;;Sítio santo Inocêncio;42;Reginaldo Inocêncio braga;43999005983;;;TP-LINK;4245919;;;;;;;-23.820792,-49.984506
+;;Tomazina;;Sítio são José;43;Olinda Izaura Donizete;43984163772;;;;;;;;;;;-23.823453,-49.990291
+;;Tomazina;;Sítio são José;44;Edson José Gusmão;43999791412;;;RODOLFO;rodolfo123;;;;;;;-23.825315,-49.990766
+;;Tomazina;;Sítio santa Rita;45;Leonardo de Oliveira Gomes;43999182187;;;;;;;;;;;-23.8320140,-49.9048570
+;;Tomazina;;Sítio santa Lúcia;46;Fernando aparecido de Moura;43998065015;;;;;;;;;;;-23.810072,-49.938646
+;;Jaboti;;Chácara Vó Jandira;32;Gislaine de oliveira;43999301789;;;;;;;;;;;-23.702988,-50.079298
+;;Jaboti;;Sítio Bela vista;33;João faustino;43996042369;;;;;;;;;;;-23.705185,-50.083198
+;;Jaboti;;Chácara Guarujá;34;ANTONIO QUEIROZ DE SOUZA;43991811680;;;;;;;;;;;-23.701130,-50.082050
+;;Jaboti;;Chácara asa branca;35;Suzane greim divino;43999165417;;;;;;;;;;;-23.699317,-50.082208
+;;Japira;;Sítio água rica;68;Giseli Aparecida Martins Campos;4396143330;;;;;;;;;;;-23.808824,-50.143118
+;;Japira;;Sítio Lagoa Dourada;69;AMANTINO Ribeiro Mendes;41999026397;;;;;;;;;;;-23.739087,-50.182949
+;;Tomazina;;Sitio São Jose;;Jose Roberto Pereira;43 996976102;;;JOSÉ ROBERTO;1020304050;;;;;;;-23.6478731,-49.8702602
+;;Jaboti;;Rencanto Vó Nair;36;Gilvanete de Oliveira;43 998226016;;;;;;;;;;;-23.702988,-50.079298
+;;Tomazina;;Sítio São Miguel arcanjo;47;Joselda Ilda;(43)999108857;;;;;;;;;;;-23.7548380,-49.8561470
+;;Tomazina;;Sítio Souza Cruz 2;48;Eloir Inocência Nogueira;43988092200;;;;;;;;;;;-23.886732,-50.047311
+;;Japira;;PECUARIA ESTRELA DE DAVI;57;DIOGENES CARNEIRO BUENO;429961-8844;;;;;;;;;;;-23.7564260,-50.1338580
+;;Ibaiti;;Pecuária Estrela de Davi;141;Diógenes Carneiro Bueno;429961-8844;;;;;;;;;;;-23.865278,-50.155029
+;;Ibaiti;;Chácara dois irmãos;143;BENEDITO CARLOS DE SOUZA;43991059038;;;;;;;;;;;-23.853294,-50.203463
+;;Tomazina;;Sítio são José;49;Tiago da cunha Pinto;43996565160;;;;;;;;;;;-23.844377,-49.968458
+;;Tomazina;;Estância são José;50;Rodrigo Sanches vieira;43996607808;;;;;;;;;;;-23.842797,-50.006425
+;;Tomazina;;Sítio do Carlão e Foguinho;51;Gilberto Carlos Gonçalves;41997014391;;;;;;;;;;;-23.754017,-49.850414
+;;Tomazina;;Sítio São José;52;Teodoro Cardoso Neto;43988159156;;;;;;;;;;;-23.829602,-49.957501
+;;Tomazina;;FAZENDA ALVORADA;53;LEONEL;43 999843736;;;;;;;;;;;-23.8430828,-49.9913469
+;;Ibaiti;;Fazenda rio do peixe;144;Paulo Waner Palu;43998060748;;;;;;;;;;;-23.9635346,-50.2260596
+;;Ibaiti;;Sítio murakami;145;Marcelo yukio murakami;43999149566;;;Murakami;murakami;;;;;;;-23.8717216,-50.2978007
+;;Tomazina;;Sítio santa Rita;45;Leonardo de Oliveira Gomes;43999182187;;;;;;;;;;;-23.8320140,-49.9048570
+;;Pinhalão;;Sítio São Benedito;58;Benedito Ribeiro da Mota neto;43999689668;;;;;;;;;;;-23.7937646,-50.0508202
+;;Pinhalão;;Sítio são Benedito;59;Angela ribeiro da Mota;43984532301;;;;;;;;;;;-23.7929483,-50.0480760
+;;Pinhalão;;Sítio são Benedito;60;Edite Ribeiro da Mota;43984426243;;;;;;;;;;;-23.7948258,-50.0495311
+;;Pinhalão;;Sítio 4 irmãs;61;Gilmara ribeiro da Mota Souza;41997879377;;;;;;;;;;;-23.7940999,-50.0489410
+;;Pinhalão;;Recanto vó Ana;62;Fabio Barth Wahl;41999371615;;;;;;;;;;;-23.7981997,-50.0653977
+;;Pinhalão;;Parque dos Dinossauros;63;Jonas Lima correa neto;43991261407;;;;;;;;;;;-23.7995148,-50.0693170
+;;Conselheiro Mairinck;;Fazenda triunfo;27;Maria Cecília delise rosa pereira;43996331104;;;camolese;12141618;;;;;;;-23.5445066,-50.1536920
+;;Conselheiro Mairinck;;Fazenda Ribeirão das Pedras;28;Ricardo della giustina;43999640410;;;;;;;;;;;-23.5376900,-50.1613909
+;;Tomazina;;Sítio são Lucas;54;Fernando shinichi iwanopo;43996136418;;;Fernando2;tomazina11;;;;;;;-23.8026134,-49.9311263
+;;Tomazina;;Sítio são José;55;Gerson Alberto de oliveira;43999604289;;;;;;;;;;;-23.7980346,-49.8941044
+;;Tomazina;;Chácara SIMÃO;56;José Simão dos santos;43999121862;;;;;;;;;;;-23.8105299,-49.8884553
+;;Ibaiti;;Sítio santa helena;146;Aparecido Vicente Ferreira;43991518748;;;Leonice;8091969;;;;;;;-23.7248853,-50.3293203
+;;Ibaiti;;Sítio vale verde;147;Adriana Aparecida de Souza fontes;43991952762;;;;;;;;;;;-23.7261898,-50.3298407
+;;Ibaiti;;Recanto dos miranda;148;José Aparecido de Souza;43998344607;;;Batata;batatajl;;;;;;;-23.7281443,-50.3408391
+;;Ibaiti;;Sítio Bela vista;149;José Donizete leite;43996166345;;;Zilda;zilda2019123;;;;;;;-23.7174568,-50.3419485
+;;Ibaiti;;Sítio São João;150;Jiovane Domingues Marçal;41998621659;;;;;;;;;;;-23.7132839,-50.3344749
+;;Ibaiti;;Fazenda bom pastor;151;Geraldo encarnação;91928000;;;tp link;91928000;;;;;;;-23.6365825,-50.3588732
+;;Japira;;SITIO SAO JOSÉ;71;Ivone vigilato santana;43999303331;;;;;;;;;;;-23.7155131,-50.1509098
+;;Japira;;Chácara são José;72;Valdir aparecido alcasser;43999601170;;;;;;;;;;;-23.7155131,-50.1509098
+;;Japira;;Sítio são Pedro;73;Letícia de Cassia Rodrigues;43998106128;;;;;;;;;;;-23.7132781,-50.1489029
+;;Japira;;Sítio são Pedro;74;ANTONIO CEzAR RODRIGUES;43998288205;;;;;;;;;;;-23.7132683,-50.1474538
+;;Japira;;Sítio santo Expedito;75;Alessandro Cardoso de Souza;43996141104;;;;;;;;;;;-23.7131627,-50.1470977
+;;Jaboti;;Chácara 3 irmãos;37;Carlos Alberto vale;43984866345;;;;;;;;;;;-23.7766376,-50.0864698
+;;Jaboti;;Sítio Prudentinho;38;Devonsir Lemes;43998389097;;;;;;;;;;;-23.7765826,-50.0870407
+;;Jaboti;;Chácara Santa Tereza;39;Maria Marta Coutinho;43999096090;;;;;;;;;;;-23.7734969,-50.0876637
+;;Jaboti;;Chácara Santa Tereza;40;Willian Antônio Pereira;43999120882;;;;;;;;;;;-23.7722678,-50.0867219
+;;Jaboti;;SÍTIO SANTO ANTÔNIO;41;Maria jumara Marciano;41998735851;;;;;;;;;;;-23.7742582,-50.0928085
+;;Jaboti;;Sítio marciano;42;Josiel marciano da Silva;43998739975;;;;;;;;;;;-23.7716756,-50.0952024
+;;Jaboti;;Sítio santo Antônio;43;Ivonete daminsk Veloso Marciano;43988568225;;;;;;;;;;;-23.7767204,-50.0940909
+;;Jaboti;;Sítio santo Antônio;44;Antônio marciano de Freitas;43991383033;;;;;;;;;;;-23.7753060,-50.0963886
+;;Jaboti;;Sítio Marciano;45;José marciano de Freitas sobrinho;43991898269;;;;;;;;;;;-23.7748089,-50.0954096
+;;Jaboti;;Sítio nossa senhora Aparecida;46;Délcio ribeiro;43998188095;;;;;;;;;;;-23.7576600,-50.0341955
+;;Jaboti;;Chácara dona diva;47;Amauri Cunha de melo;41998004007;;;;;;;;;;;-23.7543001,-50.0441469
+;;Conselheiro Mairinck;;Chácara ouro verde;29;Victor Rodrigues da Silva;43996285352;;;;;;;;;;;-23.6467979,-50.1081816
+;;Conselheiro Mairinck;;Fazenda Serrito;30;Marco Barbosa;43998722405;;;;;;;;;;;-23.6532206,-50.1001785
+;;Conselheiro Mairinck;;Sítio paineiras;31;Sub Fernando de Siqueira;4398684232;;;;;;;;;;;-23.6470061,-50.0918328
+;;Conselheiro Mairinck;;Sítio água limpa;32;Izaías José de Souza;43996570278;;;;;;;;;;;-23.6415324,-50.1146903
+;;Conselheiro Mairinck;;Sítio rancho fundo;33;Wilson Matozinho;43996104435;;;;;;;;;;;-23.6420155,-50.1188578
+;;Conselheiro Mairinck;;Sítio bico de ouro;34;Marco Rodrigues de Oliveira Cruz;43998408223;;;;;;;;;;;-23.6444225,-50.1229485
+02/11/2025;;Conselheiro Mairinck;;Sítio três irmãs;35;Olivia Maria Chaves Simão;43999752320;;;;;;;;;;;-23.6486716,-50.1258101
+02/11/2025;;Tomazina;Matão;Sítio Itajubá;57;Carlos Alberto Diniz;43991281409;;;;;;;;;;;-23.880570,-50.052429
+02/11/2025;;Tomazina;Matão;Sítio dois irmãos;58;Orlando Aparecido Palmas;4399699521;;;TMZTKOE;elisa2011;;;;;;;-23.884311,-50.031949
+02/11/2025;;Tomazina;Matão;Sítio são João;59;Rafael do vale morais;43988477591;;;Vale Morais;valemorais07;;;;;;;-23.889600,-50.031447
+02/11/2025;;Tomazina;Matão;Sítio São Joaquim;60;Francisco de Sales Gonçalves;43996370854;;;Sales;1459214;;;;;;;-23.885203,-50.036139
+02/11/2025;;Tomazina;Matão;Sítio sousa cruz;61;Claudionira inocência de Sousa;43999616946;;;Casa Nira;10121819;;;;;;;-23.881740,-50.043281
+02/11/2025;;Tomazina;Matão;Sítio do café;62;Claudemir José de Souza;43920028296;;;Souza;88888888;;;;;;;-23.880859,-50.044160
+02/11/2025;;Tomazina;Matão;Sítio Souza Cruz;63;Maristela de Fátima Souza;43988130272;;;Sítio são Luiz;5062425;;;;;;;-23.881270,-50.042112
+24/02/2025;;Tomazina;Matão;Sítio São Francisco;64;José Nerli Costa;43991962292;;;;;;;;;;;-23.885585,-50.042090
+24/02/2025;;Tomazina;Matão;Sítio São Sebastião;65;Fernando da Costa;43991924069;;;Monique;naoseiasenha;;;;;;;-23.886249,-50.044343
+24/02/2025;;Tomazina;Matão;Sítio São Joaquim;66;Maria José Faria Costa;43984080411;;;Maria José;12345678;;;;;;;-23.885583,-50.046401
+24/02/2025;;Tomazina;Matão;Sítio São José;67;Air José Gonçalves;43988496067;;;Ana Lucia;67265502949;;;;;;;-23.881266,-50.040384
+24/02/2025;;Tomazina;Matão;Sítio Santo Honório;68;Silvana Aparecida de Souza Gonçalves;43988534010;;;;;;;;;;;-23.881033,-50.039796
+24/02/2025;;Tomazina;Matão;Sítio São José;69;Márcio de Godoi;43996346141;;;;;;;;;;;-23.881329,-50.038999
+24/02/2025;;Tomazina;Matão;Sítio Santa Helena;70;Silvano de Freitas;43998209851;;;Silvano;19132901;;;;;;;-23.881887,-50.039796
+03/05/2025;;Japira;Polacos;Sítio Recanto;76;Atail Salvador da Silva;43991374813;;;;;;;;;;;-23.782249,-50.132514
+03/05/2025;;Pinhalão;Serrinha;Sítio Três Irmãs;64;Vagner Oliveira de Souza;43999157530;;;;;;;;;;;-23.754688,-50.023817
+03/05/2025;;Jaboti;Varzeão;Rancho Bem Amigos;48;Aloizio Oliveira Silva Junior;43998321811;;;;;;;;;;;-23.700139,-50.022861
+03/06/2025;;Conselheiro Mairinck;Macaria;Sítio Boa Esperança;36;Amauri Jacinto Nunes;43999161587;;;;;;;;;;;-23.650731,-50.163955
+03/06/2025;;Conselheiro Mairinck;Macaria;Chácara Nossa Senhora do Carmo;37;Donizeti Ferreira de Oliveira;43996126283;;;;;;;;;;;-23.650252,-50.163944
+03/06/2025;;Conselheiro Mairinck;Macaria;Sítio Nossa Senhora Aparecida;38;Carlos Roque de Siqueira;43998415312;;;;;;;;;;;-23.649727,-50.162610
+03/06/2025;;Conselheiro Mairinck;Bela Vista;Sítio Canário Amarelo;39;David Francisco de Oliveira Siqueira;43988394000;;;;;;;;;;;-23.645080,-50.174217
+03/06/2025;;Conselheiro Mairinck;Macaria;Sítio Talismã;42;Derli Jacinto Nunes;4319981917724;;;;;;;;;;;-23.652874,-50.152007
+03/10/2025;;Ibaiti;Flamenguinho;Sítio Vale da Paz;154;Renata Bitzer;43996243199;;;;;;;;;;;-23.818356,-50.215354
+03/10/2025;;Ibaiti;Ribeirão dos Pires;Sítio Alto da Serra;155;Jeniffer da Rocha Rosa Bueno;43996524500;;;;;;;;;;;-23.818382,-50.235764
+03/10/2025;;Ibaiti;Flamenguinho;Sítio Três Irmãos;156;Joel Felix;43991628473;;;;;;;;;;;-23.820710,-50.212027
+02/01/2025;;Japira;Pico Agudo;Chácara Santo Antônio;70;Valdenice Batista de Oliveira;0;;;;;;;;;;;-23.761176,-50.183377
+20/03/2025;;Ibaiti;Carvãozinho;Chácara Nossa Senhora Aparecida;157;Elio Ricardo;0;;;;;;;;;;;-23.863441,-50.321653
+20/03/2025;;Ibaiti;Carvãozinho;Sítio São Francisco;158;Antônio Francisco da Silva;43991225958;;;Rosana;12345678;;;;;;;-23.864258,-50.307655
+19/03/2025;;Conselheiro Mairinck;Macaria;Chácara São João;43;Ariane Ferreira de Oliveira;43999064789;;;Everson;128901ae;;;;;;;-23.651810,-50.153806
+20/03/2025;;Ibaiti;Amorinha;Sítio Nossa Senhora Aparecida;159;Alcidio Rodrigues;43991057384;;;Jo;12345678;;;;;;;-23.901666,-50.248821
+20/03/2025;;Ibaiti;São Roque do Bugiu;Chácara Lorente;160;Rafaelly Rodrigues;43991057384;;;Maria do Rosario;mrdl2092;;;;;;;-23.873807,-50.221951
+20/03/2025;;Jaboti;Varzeao;Estância Vô Elso Festa;49;Luiz Ribeiro Festa;43988725285;;;;;;;;;;;-23.699885,-50.010635
+20/03/2025;;Pinhalão;Terra Roxa;Sitio São Sebastião;65;Thiarles Aparecido Teixeira Machado;43984464225;;;Thiarles;30jpjm08;;;;;;;-23.854453,-50.035283
+20/03/2025;;Pinhalão;Lavrinha;Sítio Belo Horizonte;66;Leopoldo Moraes Teixeira;43998379548;;;;;;;;;;;-23.899633,-50.033146
+20/03/2025;;Pinhalão;Lavrinha;Sítio São João;67;Josiane de Fátima Morais;43996045591;;;;;;;;;;;-23.899476,-50.033412
+20/03/2025;;Tomazina;Matão;Sítio São Francisco;71;Luiz Henrique Domiciano Gonçalves;43996034541;;;Luizinho;25062007;;;;;;;-23.882271,-50.039859
+24/03/2025;;Ibaiti;Carvãozinho;Chácara São Francisco;162;Leonel da Costa Ribeiro;43991017043;;;;;;;;;;;-23.863856,-50.322459
+20/03/2025;;Ibaiti;Bela Vista;Chácara Nossa Senhora de Lourdes;161;Sebastião Rodrigues de Pádua Junior;43999679288;;;;;;;;;;;-23.873655,-50.199028
+24/03/2025;;Ibaiti;Água da Limeira;Granja Pozzan;163;Marcelo de Almeida Lara;4991371950;;;;;;;;;;;-23.796754,-50.194574
+24/03/2025;;Ibaiti;Flamenguinho;Chácara Ribas Bergamo;164;Willian Ribas Silveira;41997228885;;;ALARME-DOM;Wil310785!;;;;;;;-23.823248,-50.208670
+28/03/2025;;Tomazina;São José do Barreiro;Sítio Recanto Feliz;TOM/Z 0074;João Vianei da Silva;43 99615-9275;;;;;;;;;;;-23.6346075,-49.9355730
+28/03/2025;;Tomazina;São José do Barreiro;Sítio Barra Mansa;TOM/Z 0075;Luiz Tibúrcio da Silva;43 99915-3334;;;;;;;;;;;-23.6343529,-49.9353984
+28/03/2025;;Tomazina;São José do Barreiro;Sítio Barra Mansa;TOM/Z 0076;Valdeci Aparecido da Silva;41 99910-4220;;;;;;;;;;;-23.6339244,-49.9322280
+28/03/2025;;Tomazina;São José do Barreiro;Sítio Três Irmãos;TOM-Z/0080;Renan Lucas Monteiro;43 99689-9709;;;Luan;sitio barra mansa;;;;;;;-23.6331387,-49.9323071
+28/03/2025;;Tomazina;Areião;Fazenda das Palmeiras;TOM-Z/0078;Leonildo Vale Bonardes (Dinho);43 99686-8733;;;fazenda1;18011972;;;;;;;-23.6228104,-49.9366821
+28/03/2025;;Tomazina;Areião;Fazenda das Palmeiras;TOM-Z/0078;Orlando Francisco Camargo (Morador);43 99976-6553;;;fazenda1;18011972;;;;;;;-23.6228104,-49.9366821
+29/03/2025;;Pinhalão;Campina;Chácara 3 irmãos;68;Maria Marta Fernandes de Oliveira;43998650878;;;;;;;;;;;-23.803433,-50.042215
+29/03/2025;;Pinhalão;Campina;Sítio nossa senhora Aparecida;70;Edelvan Teixeira;43996033066;;;Edelvan;trincaferro;;;;;;;-23.821981,-50.030679
+29/03/2025;;Pinhalão;Campina;Sítio são paulo;69;Paulo Roberto Fernandes;43998380154;;;;;;;;;;;-23.806956,-50.024386
+02/04/2025;;Pinhalão;Bonin;Sítio Ouro Fino;PIN-L/0071;Bruno Cezar de Oliveira;41984378802;;;aparecida;lcafibra22;;;;;;;-23.8189650,-50.0547235
+02/04/2025;;Pinhalão;Decol;Sítio Decol;PIN-L/0072;Melquisedeque Decol dos Santos Neto;43996499868;;;Mirian Decol;TMDECOL2016;;;;;;;-23.9519981,-50.0326506
+02/04/2025;;Tomazina;Matão;Sítio 1277;TOM-Z/0077;Márcia Cristina da Silva Costa;43984798955;;;;;;;;;;;-23.8852675,-50.0460465
+02/04/2025;;Tomazina;Matão;Sítio São Miguel;TOM-Z/0079;João Rinaldo de Morais;43996111916;;;João_Gabriel;85718326;;;;;;;-23.8816994,-50.0407337
+03/04/2025;;Ibaiti;Bela Vista;Sítio Ebenézer;IBA-I/0166;Elaine Cristina Ramos de Oliveira;43999235717;;;;;;;;;;;-23.914889,-50.202415
+03/04/2025;;Ibaiti;Flamenguinho;Estância Canaã;IBA-I/0167;Dejalma Soares Marques;43999790158;;;;;;;;;;;-23.827615,-50.214746
+03/04/2025;;Ibaiti;Serra dos Bionde;Sítio Nossa Senhora das Graças;IBA-I/0165;Viviane Chueiri;43991527995;;;;;;;;;;;-23.914889,-50.202415
+04/04/2025;;Ibaiti;Amorinha;Sítio J/R;IBA-I/0168;Marli Bueno de Amorim;41997002935;;;;;;;;;;;-23.919763,-50.260677
+04/04/2025;;Ibaiti;Ipiranguinha;Sítio Santa Terezinha;IBAI-I/0170;Odacir Natal da Silva Reis;43999697360;;;;;;;;;;;-23.900818,-50.145370
+04/04/2025;;Ibaiti;Patrimônio do Café;Sítio Nossa Senhora Aparecida;IBAI-I/0171;Odacir Natal da Silva Reis;43999697360;;;;;;;;;;;-23.907723,-50.167448
+04/04/2025;;Ibaiti;Patrimônio do Café;Sítio São Francisco;IBAI-I/0169;Odacir Natal da Silva Reis;43999697360;;;;;;;;;;;-23.898181,-50.156653
+04/04/2025;;Pinhalão;Campina;Chácara Três Irmãos;PIN-L/0074;Romildo Carlos Pereira;43999672771;;;;;;;;;;;-23.816051,-50.028000
+04/04/2025;;Pinhalão;Campina;Sítio São Domingos;PIN-L/0073;Vicente Donizete do Prado;4399144360;;;;;;;;;;;-23.816184,-50.028004
+04/04/2025;;Pinhalão;Campina;Sítio São Vicente;PIN-L/0005;Carlos Ricelle Leal;41996874887;;;;;;;;;;;-23.799164,-50.040375
+05/04/2025;;Pinhalão;Paloma 2;Sítio Nossa Senhora Aparecida;PIN-L/0075;Julio Aparecido Rodrigues;;;;;;;;;;;;-23.955304,-50.116411
+07/04/2025;;Ibaiti;Euzébio de Oliveira;Sítio Paradise;IBA-I/0152;José Carlos de Oliveira Ferreira;43991377329;;;;;;;;;;;-23.813414,-50.343287
+07/04/2025;;Ibaiti;Santa Laura;Sítio JC;IBA-I/0153;José Carlos de Oliveira Ferreira;43991377329;;;;;;;;;;;-23.813696,-50.343351
+07/04/2025;;Japira;Pagani, Rodovia BR 153.;Recanto dos Pássaros;JAP-R/0077;Willian Silva;43991641841;;;;;;;;;;;-23.729849,-50.178197
+14/04/2025;Charlie;Tomazina ;Serraria;NOSSA SENHORA APARECIDA ;81;Valdeli Reginaldo Bonini;43996716723;6362354-7;Sim;SNI TELECOM- Valdeli;19721612;Sim;6;2;Agricultura;2025475154;;-23.750175,-49.949744
+14/04/2025;Charlie;Tomazina;Sapê ;FAZENDA BARRA GRANDE;3;Marcelo Amadeu;43 9172-1202;;Sim;FAZENDA_B...A_GRANDE;FB1202EscR;Não;0;10;Agricultura;475977/2025;;-23.58432,-50.052405
+14/04/2025;Charlie;Tomazina ;Sapé ;Fazenda Santa Ângela ;82;Amarildo Theodoro de Souza;43999185613;;Não;;;Não;0;1;Pecuária;476421/2025;;-23.600601,-50.07113
+21/04/2025;Delta;Tomazina;Barra mansa;Fazenda Barra mansa;83;Édson bordgnon;43999340453;;Sim;Intelbras;;Não;0;3;Agricultura;506059;O telefone cadastrado é do funcionário ;-23.66374,-49.871236
+24/04/2025;Charlie;Tomazina ;Justinada;Chácara 3 Meninas;84;Orlei Roberto de Moraes ;43999189056;;Sim;Orlei;3meninas;Sim;2;2;;;;-23.653467,-49.940336
+24/04/2025;Charlie;Tomazina;Serrinha dos Martins;Recanto Verde Sol;85;Dalvino José da Cruz;43996654612;;Não;;;Não;0;8;;;;-23.706621,-49.959174
+28/04/2025;Charlie;Tomazina;Serrinha dos Martins;Sítio São José ;86;José Daldegan Neto ;43999291898;;Não;;;Não;0;2;Pecuária;;;-23.914883,-49.65087
+29/04/2025;Charlie;Pinhalão ;Campina;Sítio Bianchini;76;Deivid Bianchini Fusahe Ferreira ;43984351232;;Não;;;Não;0;3;Agricultura;;;-23.807769,-50.026224
+29/04/2025;Charlie;Pinhalão ;Decol;Sítio São Manoel ;78;Geazi Decol;43998703429;;Não;;;Não;0;4;Agricultura;;;-23.952312,-50.032462
+29/04/2025;Charlie;Pinhalão ;Banco da Terra Ouro Preto;Sítio Nossa Senhora das Graças ;79;Pedro Alves de Souza;43991285882;;Não;;;Não;0;3;Agricultura;;;-23.918514,-50.086952
+02/05/2025;Charlie;Japira ;Santa fé ;Sítio Santa Fé ;78;Jonas Luvizeto ;43999844317;;Sim;Valderi;Valderi;Não;0;2;Agricultura;;;-23.782874,-50.101002
+03/05/2025;Charlie;Ibaiti ;Patrimônio do café ;Sítio Ribeirão Grande ;172;Tadeu  de Jesus Salomão ;43991185643;;Não;;;Não;0;3;Agricultura;;;-23.89209,-50.157501
+08/05/2025;Charlie;Ibaiti ;Amorinha;Estância MJ;173;Márcio José Ribeiro ;43984370865;;Sim;Aclaer;vovorosa;Não;0;2;Agricultura;;;-23.92374,-50.259058
+08/05/2025;Charlie;Ibaiti ;Amorinha ;Sítio São José 2;174;José Godoy;43999190646;;Sim;JOSÉ GODOY;17171818jgg;Sim;1;8;Agricultura;;;-23.928779,-50.25347
+08/05/2025;Charlie;Japira;Ouro Verde ;Fazenda Cruz ;79;Carlos Augusto de Oliveira ;43991415081;;Sim;Fazenda Santa Cruz;Livre;Sim;0;2;Agricultura;;;-23.786193,-50.175686
+5/27/2025 10:24:00;Alpha 1;Jaboti ;Barra seca;Sítio Belo Horizonte ;50;Osvaldo Nespoli ;43996905671;;Não;;;Não;0;2;Pecuária;;;-23.738846,-50.08164
+5/27/2025 10:44:43;Alpha 1;Jaboti ;Barra Seca ;Chácara Novo Horizonte ;51;Nelson de Azevedo ;43 991437331;;Não;;;Não;0;2;;672325/2025;;-23.740834,-50.08929
+5/27/2025 11:00:22;Alpha 1;Jaboti ;Barra seca;Chácara Moacir;52;Moacir da Silveira ;41 996926117;;Não;;;Não;0;1;;672465/25;;-23.741126,-50.088727
+5/27/2025 11:08:12;Alpha 1;Jaboti;Barra Seca;Chácara Cristina ;53;Marzeli Cristina de Oliveira ;41 996926117;;Não;;;Não;0;1;;672539/25;;-23.741126,-50.088633
+5/27/2025 11:26:03;Alpha 1;Jaboti ;Barra Seca ;Sítio Santo Antônio ;54;Avelino Gonçalves da Silva;12 982613226;;Não;;;Não;0;2;Pecuária;672631/25;;-23.744361,-50.075642
+5/30/2025 10:48:19;Alpha 1;Tomazina ;Anta;Sítio Santos ;87;Valmir Aparecido dos Santos ;43999261113;;Sim;WS;3101958;Não;0;3;Agricultura;686232/2025;;-23.8848,-49.995479
+5/30/2025 11:09:28;Alpha 1;Tomazina ;Anta ;Sítio São Pedro ;88;Luiz Felipe Rodrigues ;43999261113;;Sim;Rodrigues ;Lucasandre3030;Não;0;7;Agricultura;2025/686370;;-23.882652,-49.997382
+5/30/2025 11:32:45;Alpha 1;Tomazina ;Anta ;Sítio São José ;89;Pedro Daniel Rodrigues ;43 920023798;;Sim;10203040;João Rodrigues ;Não;0;15;Agricultura;686523/2025;;-23.882782,-49.995631
+5/30/2025 12:27:22;Alpha 1;Tomazina ;Matãozinho;Sítio São Jorge;90;Francisco de Sales Gonçalves ;43996370854;;Sim;Home deley;1070919;Não;0;4;Agricultura;686762/2025;;-23.883383,-50.018157
+5/30/2025 12:52:08;Alpha 1;Tomazina;Mataozinho;Sítio São Carlos;91;Elivelton Carlos da Silva ;43998063968;;Não;;;Não;0;4;Agricultura;2025/686848;;-23.886363,-50.023896
+5/30/2025 13:01:41;Alpha 1;Tomazina ;Matãozinho ;Sítio Santa Maria;92;Elivelton Carlos da Silva;43998063968;;Não;;;Não;0;4;Agricultura;686889/2025;;-23.886391,-50.02393
+5/31/2025 17:28:19;Alpha 1;Ibaiti ;Campinho ;Sítio São João Batista ;175;Fabrício José Nogueira ;43998728604;;Não;;;Não;0;4;Agropecuária;691516/2025;;-23.773292,-50.277352
+6/9/2025 10:07:00;Alpha 1;Japira ;Estrelinha;Sítio São João ;80;Dirce Denobi salvalaggio;43998023956;;Não;;;Não;0;2;Agricultura;2025/727828;;-23.749657,-50.171638
+6/9/2025 11:10:24;Alpha 1;Ibaiti ;Guapé ;Chácara Santo Expedito ;81;Alicio Rodrigues ;43996382455;;Não;;;Não;0;4;Agricultura;728483/2025;;-23.712147,-50.149139
+6/9/2025 11:29:53;Alpha 1;Japira;Guapé ;Sítio São Pedro;82;José Nilson Xavier;43 996165105;;Não;;;Não;0;2;Agricultura;728650/2025;;-23.711872,-50.147746
+6/9/2025 11:49:51;Alpha 1;Japira ;Guapé ;Sítio São Pedro;83;Anilton Xavier;43 998285245;;Não;;;Não;0;3;Agricultura;728792/2025;;-23.711295,-50.147006
+6/9/2025 12:04:24;Alpha 1;Japira ;Guapé ;Sítio São Paulo;84;Ronaldo Benedito de Lima ;43 996205489;;Sim;Mlima;ronaldo101512;Não;0;4;Agricultura;728956/2025;Mercado e Lanchonete Lima ;-23.709343,-50.141672
+6/9/2025 12:30:19;Alpha 1;Japira ;Guapé ;Fazenda 3 Irmãos ;85;Paulo César de Alcântara ;43996038642;;Não;;;Não;0;4;Pecuária;729116/2025;Sebastião Justino (funcionário);-23.727461,-50.137313
+6/9/2025 13:28:58;Alpha 1;Japira ;Dos Gomes ;Sítio Santos Anjo da Guarda ;86;Custódio Eduardo Ananias Lopes da Silva;43 991076838;;Não;;;Não;0;2;Agricultura;729428/2025;;-23.754505,-50.139142
+6/10/2025 10:22:28;Alpha 1;Conselheiro Mairinck;Marcaria ;Sítio Rodrigues ;44;José Carlos Rodrigues ;43 999317417;;Não;;;Não;0;2;Pecuária;733509/2025;;-23.652483,-50.165491
+6/10/2025 10:47:09;Alpha 1;Conselheiro Mairinck ;Macaria ;Sítio Rodrigues ;45; Babiane Aparecida Rodrigues Merlim;43 999317417;;Não;;;Não;0;3;;733706/2025;;-23.652078,-50.165872
+6/10/2025 11:19:29;Alpha 1;Conselheiro Mairinck;Macaria ;Chácara 3 irmãos ;46;Inês dos Santos Gonçalves ;43996237024;;Não;;;Não;0;2;;733905/2025;;-23.643598,-50.161246
+6/10/2025 11:43:37;Alpha 1;Edson Macedo;Macaria ;Edson Macedo ;47;Edson Macedo ;43 998040291;;Não;;;Não;0;2;Pecuária;734058/2025;;-23.644503,-50.150976
+6/10/2025 12:03:05;Alpha 1;Conselheiro Mairinck ;Macaria;Sítio São Joaquim 2;48;José de Souta;43999373423;;Não;;;Não;0;2;;734156/2025;;-23.644478,-50.14964
+6/10/2025 12:19:13;Alpha 1;Conselheiro Mairinck ;Macaria ;Chácara Vó Cida ;49;Sidnei José Simões ;43 998109754;;Não;;;Não;0;2;Agropecuária;734266/2025;;-23.643073,-50.151008
+6/16/2025 14:00:54;Charlie;Tomazina ;Areião ;Sitio São José ;94;Tatiane Rodrigues Pondé ; 43 99915-6453;;Não;;;Não;0;3;Pecuária;;;-23.616713,-49.939238
+6/17/2025 11:08:14;Alpha 1;Ibaiti ;Fazenda Santa Cruz;Sítio Santa Rita;31;Maria dos Santos Quinto ;43999500484;;Não;;;Não;0;2;Agricultura;764922/2025;;-23.937865,-49.589507
+6/17/2025 14:08:37;Alpha 1;São José da Boa Vista ;Mangueirinha ;Agropecuária Scholze;32;Weslley Scholze ;43 99640-6292;;Sim;Scholze;;Sim;8;8;Pecuária;765895/2025;;-23.996855,-49.660416
+6/17/2025 14:51:34;Alpha 1;São José da Boa Vista ;Mangueirinha ;Fazenda Santa Rita;33;Wanderlei Borges de Paiva;43 996425661;;Sim;Fazenda Santa Rita;Volt1501;Sim;10;12;Agricultura;766257/2025;Adriano José Mascarenhas ADM;-24.031281,-49.664508
+6/18/2025 9:50:34;Alpha 1;Ibaiti ;Flamenguinho ;Sítio Bom Jesus;176;Angelino Felipe de oliveira;43998603735;;Não;;;Não;0;2;Agropecuária;769467/2025;;-23.815014,-50.212743
+7/7/2025 9:21:51;Charlie;Ibaiti;Ubirajara;AEGEA Estação de tratamento sanepar;178;José Carlos de Oliveira;42984199784;102102800;Não;;;Sim;9;1;;;;-23.830338,-50.176242
+7/7/2025 13:03:46;Charlie;Ibaiti;Britador;Sítio nossa senhora Aparecida;179;Adnilson aparecido albino;41998611644;69271430;Sim;Starlink;98611644Ad@;Sim;2;4;Pecuária;;;-23.911658,-50.209028

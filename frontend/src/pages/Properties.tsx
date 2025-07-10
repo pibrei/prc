@@ -4,7 +4,7 @@ import { Button } from '../components/ui/button'
 import { Input } from '../components/ui/input'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../contexts/AuthContext'
-import { Plus, Edit, Trash2, Search, Camera, Wifi, Upload } from 'lucide-react'
+import { Plus, Edit, Trash2, Search, Camera, Wifi, Upload, Package, MapPin } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import LocationInput from '../components/ui/location-input'
 import TeamSelector from '../components/ui/team-selector'
@@ -37,6 +37,7 @@ interface Property {
   contact_phone: string | null
   contact_observations: string | null
   property_type: 'rural' | 'urban' | 'mixed'
+  cadastro_date: string | null
   created_by: string
   created_at: string
   updated_at: string
@@ -51,6 +52,11 @@ const Properties: React.FC = () => {
   const [showForm, setShowForm] = useState(false)
   const [editingProperty, setEditingProperty] = useState<Property | null>(null)
   const [loading, setLoading] = useState(true)
+  const [hasSearched, setHasSearched] = useState(false)
+  
+  // Estados para filtros de visualização
+  const [selectedBatalhao, setSelectedBatalhao] = useState('')
+  const [selectedCia, setSelectedCia] = useState('')
 
   const [formData, setFormData] = useState({
     name: '',
@@ -78,12 +84,28 @@ const Properties: React.FC = () => {
     contact_name: '',
     contact_phone: '',
     contact_observations: '',
-    property_type: 'rural' as 'rural' | 'urban' | 'mixed'
+    property_type: 'rural' as 'rural' | 'urban' | 'mixed',
+    cadastro_date: new Date().toISOString().split('T')[0]
   })
 
   useEffect(() => {
-    fetchProperties()
-  }, [])
+    if (userProfile) {
+      // Definir filtros padrão baseados no perfil do usuário
+      setSelectedBatalhao(userProfile.batalhao || '')
+      setSelectedCia(userProfile.cia || '')
+    }
+  }, [userProfile])
+
+  // Carregamento quando os filtros mudarem
+  useEffect(() => {
+    if (selectedBatalhao !== undefined && selectedCia !== undefined) {
+      if (hasSearched) {
+        fetchAllProperties()
+      } else {
+        fetchPropertiesLimited()
+      }
+    }
+  }, [selectedBatalhao, selectedCia, hasSearched])
 
   // Auto-preenchimento com dados do usuário logado
   useEffect(() => {
@@ -97,30 +119,100 @@ const Properties: React.FC = () => {
   }, [userProfile, editingProperty])
 
   useEffect(() => {
-    const filtered = properties.filter(property =>
-      property.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      property.cidade.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      property.bairro?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      property.contact_name?.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-    setFilteredProperties(filtered)
+    if (searchTerm.trim()) {
+      setHasSearched(true)
+      // Se há busca, carrega todas as propriedades para filtrar
+      if (properties.length <= 5) {
+        fetchAllProperties()
+      }
+      const filtered = properties.filter(property =>
+        property.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        property.cidade.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        property.bairro?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        property.owner_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        property.contact_name?.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+      setFilteredProperties(filtered)
+    } else {
+      setHasSearched(false)
+      // Se não há busca, mostra apenas as primeiras 5
+      setFilteredProperties(properties.slice(0, 5))
+    }
   }, [properties, searchTerm])
 
-  const fetchProperties = async () => {
+  const fetchPropertiesLimited = async () => {
     try {
-      const { data, error } = await supabase
+      console.log('🏢 Fetching limited properties with filters:', { selectedBatalhao, selectedCia })
+      
+      // Se não há filtros definidos, não carregar nada
+      if (!selectedBatalhao && !selectedCia) {
+        console.log('⚠️ Nenhum filtro definido - aguardando configuração')
+        setLoading(false)
+        return
+      }
+      
+      let query = supabase
         .from('properties')
         .select('*')
         .order('created_at', { ascending: false })
 
+      // Filtrar por batalhão e CIA selecionados (padrão do usuário)
+      if (selectedBatalhao) {
+        console.log('📍 Aplicando filtro batalhao:', selectedBatalhao)
+        query = query.eq('batalhao', selectedBatalhao)
+      }
+      if (selectedCia) {
+        console.log('🏢 Aplicando filtro cia:', selectedCia)
+        query = query.eq('cia', selectedCia)
+      }
+
+      const { data, error } = await query.limit(5)
+
       if (error) throw error
       setProperties(data || [])
+      setFilteredProperties(data || [])
     } catch (error) {
       console.error('Erro ao buscar propriedades:', error)
     } finally {
       setLoading(false)
     }
   }
+
+  const fetchAllProperties = async () => {
+    try {
+      console.log('🏢 Fetching all properties with filters:', { selectedBatalhao, selectedCia })
+      
+      // Se não há filtros definidos, não carregar nada
+      if (!selectedBatalhao && !selectedCia) {
+        console.log('⚠️ Nenhum filtro definido - aguardando configuração')
+        return
+      }
+      
+      let query = supabase
+        .from('properties')
+        .select('*')
+        .order('created_at', { ascending: false })
+
+      // Filtrar por batalhão e CIA selecionados (padrão do usuário)
+      if (selectedBatalhao) {
+        console.log('📍 Aplicando filtro batalhao:', selectedBatalhao)
+        query = query.eq('batalhao', selectedBatalhao)
+      }
+      if (selectedCia) {
+        console.log('🏢 Aplicando filtro cia:', selectedCia)
+        query = query.eq('cia', selectedCia)
+      }
+
+      const { data, error } = await query
+
+      if (error) throw error
+      setProperties(data || [])
+    } catch (error) {
+      console.error('Erro ao buscar todas as propriedades:', error)
+    }
+  }
+
+  const fetchProperties = fetchAllProperties
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -172,7 +264,8 @@ const Properties: React.FC = () => {
             property_contact_name: formData.contact_name || null,
             property_contact_phone: formData.contact_phone || null,
             property_contact_observations: formData.contact_observations || null,
-            property_type: formData.property_type
+            property_type: formData.property_type,
+            property_cadastro_date: formData.cadastro_date
           })
 
         if (error) throw error
@@ -220,7 +313,8 @@ const Properties: React.FC = () => {
       contact_name: property.contact_name || '',
       contact_phone: property.contact_phone || '',
       contact_observations: property.contact_observations || '',
-      property_type: property.property_type
+      property_type: property.property_type,
+      cadastro_date: property.cadastro_date || new Date().toISOString().split('T')[0]
     })
     setShowForm(true)
   }
@@ -268,7 +362,8 @@ const Properties: React.FC = () => {
       contact_name: '',
       contact_phone: '',
       contact_observations: '',
-      property_type: 'rural'
+      property_type: 'rural',
+      cadastro_date: new Date().toISOString().split('T')[0]
     })
   }
 
@@ -293,17 +388,76 @@ const Properties: React.FC = () => {
             Nova Propriedade
           </Button>
           {(userProfile?.role === 'admin' || userProfile?.role === 'team_leader') && (
-            <Button 
-              onClick={() => navigate('/properties/import')} 
-              variant="outline"
-              className="w-full sm:w-auto"
-            >
-              <Upload className="h-4 w-4 mr-2" />
-              Importar
-            </Button>
+            <>
+              <Button 
+                onClick={() => navigate('/properties/import-single')} 
+                variant="outline"
+                className="w-full sm:w-auto"
+              >
+                <Upload className="h-4 w-4 mr-2" />
+                Importar
+              </Button>
+              <Button 
+                onClick={() => navigate('/properties/import-batch')} 
+                variant="outline"
+                className="w-full sm:w-auto bg-blue-50 hover:bg-blue-100 border-blue-200"
+              >
+                <Package className="h-4 w-4 mr-2" />
+                Importar em Lotes
+              </Button>
+            </>
           )}
         </div>
       </div>
+
+      {/* Filtros de Visualização */}
+      <Card className="p-4">
+        <div className="flex flex-col sm:flex-row gap-4">
+          <div className="flex items-center space-x-2">
+            <label className="text-sm font-medium text-gray-700 whitespace-nowrap">
+              Visualizar por:
+            </label>
+          </div>
+          <div className="flex flex-col sm:flex-row gap-4 flex-1">
+            <div className="flex items-center space-x-2">
+              <label className="text-sm font-medium text-gray-600 whitespace-nowrap">
+                Batalhão:
+              </label>
+              <select
+                value={selectedBatalhao}
+                onChange={(e) => setSelectedBatalhao(e.target.value)}
+                className="px-3 py-2 border border-gray-300 rounded-md text-sm min-w-32"
+              >
+                <option value="">Todos os Batalhões</option>
+                <option value="1º BPM">1º BPM</option>
+                <option value="2º BPM">2º BPM</option>
+                <option value="3º BPM">3º BPM</option>
+                <option value="4º BPM">4º BPM</option>
+              </select>
+            </div>
+            <div className="flex items-center space-x-2">
+              <label className="text-sm font-medium text-gray-600 whitespace-nowrap">
+                CIA:
+              </label>
+              <select
+                value={selectedCia}
+                onChange={(e) => setSelectedCia(e.target.value)}
+                className="px-3 py-2 border border-gray-300 rounded-md text-sm min-w-32"
+              >
+                <option value="">Todas as CIAs</option>
+                <option value="1ª CIA">1ª CIA</option>
+                <option value="2ª CIA">2ª CIA</option>
+                <option value="3ª CIA">3ª CIA</option>
+                <option value="4ª CIA">4ª CIA</option>
+                <option value="5ª CIA">5ª CIA</option>
+              </select>
+            </div>
+            <div className="text-xs text-gray-500 flex items-center">
+              Padrão: {userProfile?.batalhao} - {userProfile?.cia}
+            </div>
+          </div>
+        </div>
+      </Card>
 
       <div className="flex items-center space-x-2">
         <Search className="h-4 w-4 text-gray-400" />
@@ -328,12 +482,21 @@ const Properties: React.FC = () => {
               <div className="border-b pb-4">
                 <h3 className="text-lg font-medium mb-4">Informações da Propriedade</h3>
                 
-                <div className="mb-4">
+                <div className="grid grid-cols-2 gap-4 mb-4">
                   <div>
                     <label className="block text-sm font-medium mb-1">Nome da Propriedade *</label>
                     <Input
                       value={formData.name}
                       onChange={(e) => setFormData({...formData, name: e.target.value})}
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium mb-1">Data de Cadastro *</label>
+                    <Input
+                      type="date"
+                      value={formData.cadastro_date}
+                      onChange={(e) => setFormData({...formData, cadastro_date: e.target.value})}
                       required
                     />
                   </div>
@@ -624,6 +787,35 @@ const Properties: React.FC = () => {
         </Card>
       )}
 
+      {/* Mensagem informativa */}
+      {!hasSearched && (
+        <Card className="mb-4">
+          <CardContent className="p-4">
+            <div className="text-center text-gray-600">
+              <p className="mb-2">📋 Exibindo apenas as 5 propriedades mais recentes</p>
+              <p className="text-sm">Use a busca acima para encontrar propriedades específicas ou visualizar mais resultados</p>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {hasSearched && filteredProperties.length === 0 && (
+        <Card className="mb-4">
+          <CardContent className="p-4">
+            <div className="text-center text-gray-600">
+              <p>🔍 Nenhuma propriedade encontrada para "{searchTerm}"</p>
+              <p className="text-sm mt-1">Tente ajustar os termos de busca</p>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {hasSearched && filteredProperties.length > 0 && (
+        <div className="mb-4 text-sm text-gray-600 text-center">
+          ✅ {filteredProperties.length} propriedade(s) encontrada(s) para "{searchTerm}"
+        </div>
+      )}
+
       <div className="grid gap-4">
         {filteredProperties.map((property) => (
           <Card key={property.id}>
@@ -663,15 +855,21 @@ const Properties: React.FC = () => {
                       </div>
                     )}
                   </div>
-
+                  
                   <div className="grid grid-cols-2 gap-4 text-sm mb-3">
+                    <div>
+                      <span className="font-medium">Data Cadastro:</span> {property.cadastro_date ? new Date(property.cadastro_date).toLocaleDateString('pt-BR') : 'N/A'}
+                    </div>
+                    <div>
+                      <span className="font-medium">Coordenadas:</span> {property.latitude}, {property.longitude}
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 gap-4 text-sm mb-3">
                     <div>
                       <span className="font-medium">Responsável:</span> {property.batalhao}
                       {property.cia && ` - ${property.cia}`}
                       {property.equipe && ` - ${property.equipe}`}
-                    </div>
-                    <div>
-                      <span className="font-medium">Coordenadas:</span> {property.latitude}, {property.longitude}
                     </div>
                   </div>
 
@@ -705,7 +903,16 @@ const Properties: React.FC = () => {
                   <Button
                     variant="outline"
                     size="sm"
+                    onClick={() => navigate(`/map?property=${property.id}&lat=${property.latitude}&lng=${property.longitude}`)}
+                    title="Ver no Mapa"
+                  >
+                    <MapPin className="h-4 w-4" />
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
                     onClick={() => handleEdit(property)}
+                    title="Editar"
                   >
                     <Edit className="h-4 w-4" />
                   </Button>
@@ -714,6 +921,7 @@ const Properties: React.FC = () => {
                       variant="outline"
                       size="sm"
                       onClick={() => handleDelete(property.id)}
+                      title="Excluir"
                     >
                       <Trash2 className="h-4 w-4" />
                     </Button>

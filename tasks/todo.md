@@ -1,14 +1,81 @@
-# Plano de Implementação: Sistema de Importação de Propriedades
+# User Deletion Error Analysis and Solution Plan
 
-## Análise do Estado Atual
-- ✅ Sistema base implementado com database, frontend e backend
-- ✅ Tabela properties com estrutura atual funcional
-- ✅ RPC functions para gerenciamento de propriedades
-- ✅ Interface de cadastro manual de propriedades
-- ❌ Falta migração da tabela properties (adicionar contact_observations, remover address e contact_email)
-- ❌ Falta sistema de importação via planilhas Excel/CSV
+## Problem Analysis
 
-## Tarefas Prioritárias
+The user deletion functionality in the Rural Sistema project is failing due to a foreign key constraint violation. Here's what I found:
+
+### Current Implementation
+1. **Frontend**: Users.tsx file calls a `delete-user` edge function at line 313
+2. **Edge Function**: The `delete-user` edge function doesn't exist - it needs to be created
+3. **Database Schema**: 
+   - `audit_logs` table has a foreign key constraint on `user_id` referencing `users.id`
+   - Constraint: `audit_logs_user_id_fkey` with `DELETE RULE: NO ACTION`
+   - Current state: 318 users total, 2 users have audit logs
+
+### Foreign Key Relationships
+Multiple tables reference the users table:
+- `audit_logs.user_id` → `users.id` (NO ACTION)
+- `properties.created_by` → `users.id` (NO ACTION) 
+- `team_options.created_by` → `users.id` (NO ACTION)
+- `vehicles.created_by` → `users.id` (NO ACTION)
+
+## Todo List
+
+### ✅ Completed
+- [x] Find and analyze the delete-user edge function
+- [x] Examine Users.tsx file around line 313 for deletion handling
+- [x] Review database schema for audit_logs and users foreign key relationships
+
+### 🔄 In Progress
+- [ ] Identify the best solution for handling user deletion with audit logs
+
+### 📋 Pending
+- [ ] Check RLS policies and functions related to user deletion
+- [ ] Create the missing delete-user edge function
+- [ ] Implement proper user deletion strategy
+- [ ] Test the user deletion functionality
+
+## Solution Options
+
+### Option 1: Soft Delete (Recommended)
+- Add a `deleted_at` timestamp column to users table
+- Mark users as deleted instead of physically removing them
+- Preserve audit trail integrity
+- Filter out deleted users in queries
+
+### Option 2: Handle Foreign Key Dependencies
+- Delete/update audit logs to set user_id to NULL
+- Handle other dependent records (properties, team_options, vehicles)
+- Create a comprehensive deletion strategy
+
+### Option 3: Change Foreign Key Constraints
+- Modify constraints to CASCADE or SET NULL
+- Risk: May lose audit trail data
+- Not recommended for audit logs
+
+## Recommended Approach
+
+I recommend **Option 1 (Soft Delete)** because:
+1. Preserves audit trail integrity (critical for security compliance)
+2. Maintains referential integrity
+3. Allows for "undelete" functionality if needed
+4. Standard practice for systems with audit requirements
+
+## Implementation Steps
+
+1. Add `deleted_at` column to users table
+2. Create `delete-user` edge function with soft delete logic
+3. Update user queries to filter out deleted users
+4. Update RLS policies to handle deleted users
+5. Test deletion functionality
+
+## Next Steps
+
+Please confirm this approach before I proceed with implementation.
+
+---
+
+## Previous Tasks (Completed System)
 
 ### Fase 1: Correção da Estrutura Database (CRÍTICO)
 - [ ] **Task 1**: Aplicar migration SQL para modificar tabela properties

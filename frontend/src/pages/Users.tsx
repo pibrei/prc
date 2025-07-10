@@ -120,6 +120,7 @@ const Users: React.FC = () => {
       const { data, error } = await supabase
         .from('users')
         .select('*')
+        .is('deleted_at', null)
         .order('created_at', { ascending: false })
 
       if (error) throw error
@@ -136,9 +137,26 @@ const Users: React.FC = () => {
     
     try {
       if (editingUser) {
-        const { error } = await supabase
-          .from('users')
-          .update({
+        // For editing users, use Edge Function
+        const { data: { session } } = await supabase.auth.getSession()
+        
+        if (!session) {
+          throw new Error('Sessão não encontrada')
+        }
+        
+        // Call Edge Function to update user
+        const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
+        const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY
+        
+        const response = await fetch(`${supabaseUrl}/functions/v1/update-user`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${session.access_token}`,
+            'apikey': supabaseKey
+          },
+          body: JSON.stringify({
+            user_id: editingUser.id,
             email: formData.email,
             full_name: formData.full_name,
             nome_guerra: formData.nome_guerra,
@@ -148,13 +166,28 @@ const Users: React.FC = () => {
             batalhao: formData.batalhao,
             cia: formData.cia,
             equipe: formData.equipe,
-            role: formData.role,
-            badge_number: null,
-            department: null
+            role: formData.role
           })
-          .eq('id', editingUser.id)
-
-        if (error) throw error
+        })
+        
+        const result = await response.json()
+        
+        if (!response.ok) {
+          // Personalizar mensagens de erro
+          let errorMessage = result.error || 'Erro ao atualizar usuário'
+          
+          if (errorMessage.includes('permission denied')) {
+            errorMessage = 'Erro de permissão. Você não tem privilégios para editar este usuário.'
+          } else if (errorMessage.includes('only edit your own profile')) {
+            errorMessage = 'Você só pode editar seu próprio perfil ou precisa de acesso de administrador.'
+          } else if (errorMessage.includes('already been registered')) {
+            errorMessage = 'Este email já está registrado no sistema. Use um email diferente.'
+          }
+          
+          throw new Error(errorMessage)
+        }
+        
+        console.log('User updated successfully:', result)
       } else {
         // For new users, create using Edge Function
         const passwordToUse = formData.password || generateSimplePassword()
@@ -286,7 +319,7 @@ const Users: React.FC = () => {
             'apikey': supabaseKey
           },
           body: JSON.stringify({
-            user_id: id
+            userId: id
           })
         })
         
@@ -314,7 +347,7 @@ const Users: React.FC = () => {
         const deleteResult = JSON.parse(responseText)
         console.log('Delete result:', deleteResult)
         
-        if (deleteResult.success) {
+        if (deleteResult.message || deleteResult.success) {
           alert('✅ Usuário excluído com sucesso!')
           fetchUsers()
         } else {

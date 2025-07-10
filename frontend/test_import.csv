@@ -1,0 +1,4 @@
+data,nome,coordenadas,cidade,bairro,proprietario,telefone,rg,equipe,placa,descricao
+2025-01-09,Fazenda São João,"-25.4284,-49.2733",Curitiba,Centro,João Silva,41999999999,123456789,Alpha,ABC1234,Propriedade rural exemplo
+2025-01-09,Sítio dos Pinheiros,"-25.5000,-49.3000",São José dos Pinhais,Campina do Taquaral,Maria Santos,41888888888,987654321,Bravo,DEF5678,Sítio com produção orgânica
+2025-01-09,Chácara Bela Vista,"-25.4500,-49.2500",Araucária,Thomaz Coelho,Pedro Oliveira,41777777777,456789123,Charlie,GHI9012,Chácara de lazer

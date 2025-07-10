@@ -6,6 +6,8 @@ import Layout from './components/layout/Layout'
 import Dashboard from './pages/Dashboard'
 import Properties from './pages/Properties'
 import PropertyImport from './pages/PropertyImport'
+import PropertyImportBatch from './pages/PropertyImportBatch'
+import PropertyImportSingle from './pages/PropertyImportSingle'
 import Vehicles from './pages/Vehicles'
 import Map from './pages/Map'
 import Users from './pages/Users'
@@ -39,6 +41,20 @@ function App() {
             <ProtectedRoute requiredRole="team_leader">
               <Layout>
                 <PropertyImport />
+              </Layout>
+            </ProtectedRoute>
+          } />
+          <Route path="/properties/import-batch" element={
+            <ProtectedRoute requiredRole="team_leader">
+              <Layout>
+                <PropertyImportBatch />
+              </Layout>
+            </ProtectedRoute>
+          } />
+          <Route path="/properties/import-single" element={
+            <ProtectedRoute requiredRole="team_leader">
+              <Layout>
+                <PropertyImportSingle />
               </Layout>
             </ProtectedRoute>
           } />

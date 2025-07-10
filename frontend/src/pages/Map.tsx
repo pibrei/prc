@@ -7,8 +7,9 @@ import '../components/map/cluster-styles.css'
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card'
 import { Button } from '../components/ui/button'
 import { supabase } from '../lib/supabase'
-import { MapPin, Car, Eye, EyeOff, Filter, X } from 'lucide-react'
+import { MapPin, Car, Eye, EyeOff, Filter, X, Search, Navigation } from 'lucide-react'
 import { useGeolocation } from '../contexts/GeolocationContext'
+import { useAuth } from '../contexts/AuthContext'
 
 // Fix for default markers (icons imported for future use)
 
@@ -70,6 +71,11 @@ const Map: React.FC = () => {
   const [showVehicles, setShowVehicles] = useState(true)
   const [loading, setLoading] = useState(true)
   const { userLocation, hasLocationPermission } = useGeolocation()
+  const { userProfile } = useAuth()
+  
+  // Estados para filtros de visualização por perfil do usuário
+  const [selectedBatalhao, setSelectedBatalhao] = useState('')
+  const [selectedCia, setSelectedCia] = useState('')
   
   // Filter states
   const [propertyTypeFilter, setPropertyTypeFilter] = useState<string>('all')
@@ -79,6 +85,12 @@ const Map: React.FC = () => {
   const [battalionFilter, setBattalionFilter] = useState<string>('all')
   const [vehicleStatusFilter, setVehicleStatusFilter] = useState<string>('all')
   const [showFilters, setShowFilters] = useState(false)
+  
+  // Search states
+  const [searchTerm, setSearchTerm] = useState('')
+  const [selectedProperty, setSelectedProperty] = useState<Property | null>(null)
+  const [searchResults, setSearchResults] = useState<Property[]>([])
+  const [showSearchResults, setShowSearchResults] = useState(false)
 
   // Usar localização do usuário se disponível, senão usar Curitiba como padrão
   const getMapCenter = (): [number, number] => {
@@ -97,22 +109,109 @@ const Map: React.FC = () => {
     }
   }, [userLocation, hasLocationPermission])
 
+  // Definir filtros padrão baseados no perfil do usuário
   useEffect(() => {
-    fetchMapData()
-  }, [])
+    if (userProfile) {
+      console.log('👤 Perfil do usuário:', userProfile)
+      console.log('🏢 Definindo filtros:', { batalhao: userProfile.batalhao, cia: userProfile.cia })
+      setSelectedBatalhao(userProfile.batalhao || '')
+      setSelectedCia(userProfile.cia || '')
+    }
+  }, [userProfile])
+
+  // Carregamento quando os filtros mudarem
+  useEffect(() => {
+    if (selectedBatalhao !== undefined && selectedCia !== undefined) {
+      fetchMapData()
+    }
+  }, [selectedBatalhao, selectedCia])
+
+  // Effect to handle URL parameters for property selection
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search)
+    const propertyId = urlParams.get('property')
+    const lat = urlParams.get('lat')
+    const lng = urlParams.get('lng')
+    
+    if (propertyId && lat && lng && properties.length > 0) {
+      const property = properties.find(p => p.id === propertyId)
+      if (property) {
+        setSelectedProperty(property)
+        setMapCenter([parseFloat(lat), parseFloat(lng)])
+        setSearchTerm(property.name)
+        
+        // Clear URL parameters after processing
+        const newUrl = window.location.pathname
+        window.history.replaceState({}, '', newUrl)
+      }
+    }
+  }, [properties])
 
   const fetchMapData = async () => {
     try {
-      const [propertiesResult, vehiclesResult] = await Promise.all([
-        supabase.from('properties').select('*'),
-        supabase.from('vehicles').select('*').not('latitude', 'is', null).not('longitude', 'is', null)
-      ])
+      console.log('🗺️ Fetching properties for map with filters...')
+      console.log('🔍 Filtros aplicados:', { selectedBatalhao, selectedCia })
+      
+      // Se não há filtros definidos, não carregar nada
+      if (!selectedBatalhao && !selectedCia) {
+        console.log('⚠️ Nenhum filtro definido - aguardando configuração')
+        return
+      }
+      
+      // Buscar propriedades com filtros baseados no perfil do usuário
+      let allProperties: Property[] = []
+      let from = 0
+      const pageSize = 1000
+      
+      while (true) {
+        let query = supabase
+          .from('properties')
+          .select('*')
+          .range(from, from + pageSize - 1)
+          .order('created_at', { ascending: false })
 
-      if (propertiesResult.error) throw propertiesResult.error
-      if (vehiclesResult.error) throw vehiclesResult.error
+        // Filtrar por batalhão e CIA selecionados (padrão do usuário)
+        if (selectedBatalhao) {
+          console.log('📍 Aplicando filtro batalhao:', selectedBatalhao)
+          query = query.eq('batalhao', selectedBatalhao)
+        }
+        if (selectedCia) {
+          console.log('🏢 Aplicando filtro cia:', selectedCia)
+          query = query.eq('cia', selectedCia)
+        }
 
-      setProperties(propertiesResult.data || [])
-      setVehicles(vehiclesResult.data || [])
+        const { data, error } = await query
+
+        if (error) throw error
+        
+        if (data && data.length > 0) {
+          allProperties = [...allProperties, ...data]
+          console.log(`📊 Loaded ${allProperties.length} properties so far`)
+          
+          if (data.length < pageSize) {
+            // Última página
+            break
+          }
+          from += pageSize
+        } else {
+          break
+        }
+      }
+
+      // Buscar veículos
+      const { data: vehicles, error: vehiclesError } = await supabase
+        .from('vehicles')
+        .select('*')
+        .not('latitude', 'is', null)
+        .not('longitude', 'is', null)
+        .limit(5000)
+
+      if (vehiclesError) throw vehiclesError
+
+      console.log(`✅ Map data loaded: ${allProperties.length} properties, ${vehicles?.length || 0} vehicles`)
+      
+      setProperties(allProperties)
+      setVehicles(vehicles || [])
     } catch (error) {
       console.error('Erro ao buscar dados do mapa:', error)
     } finally {
@@ -145,7 +244,43 @@ const Map: React.FC = () => {
     return [...new Set(array.map(item => item[key]).filter(Boolean))].sort()
   }
 
+  // Search functions
+  const handleSearch = (term: string) => {
+    setSearchTerm(term)
+    if (term.trim()) {
+      const results = properties.filter(property =>
+        property.name.toLowerCase().includes(term.toLowerCase()) ||
+        property.owner_name.toLowerCase().includes(term.toLowerCase()) ||
+        property.cidade.toLowerCase().includes(term.toLowerCase()) ||
+        property.bairro?.toLowerCase().includes(term.toLowerCase())
+      )
+      setSearchResults(results)
+      setShowSearchResults(true)
+    } else {
+      setSearchResults([])
+      setShowSearchResults(false)
+      setSelectedProperty(null)
+    }
+  }
+
+  const selectProperty = (property: Property) => {
+    setSelectedProperty(property)
+    setMapCenter([property.latitude, property.longitude])
+    setShowSearchResults(false)
+    setSearchTerm(property.name)
+  }
+
+  const clearSearch = () => {
+    setSearchTerm('')
+    setSearchResults([])
+    setShowSearchResults(false)
+    setSelectedProperty(null)
+  }
+
   const clearAllFilters = () => {
+    // Resetar filtros para os valores padrão do usuário
+    setSelectedBatalhao(userProfile?.batalhao || '')
+    setSelectedCia(userProfile?.cia || '')
     setPropertyTypeFilter('all')
     setCamerasFilter('all')
     setWifiFilter('all')
@@ -181,8 +316,11 @@ const Map: React.FC = () => {
   }
 
   const createPropertyIcon = (property: Property) => {
-    const color = property.has_cameras ? '#DC2626' : '#3B82F6' // Red for cameras, blue for regular
+    const isSelected = selectedProperty?.id === property.id
+    const baseColor = property.has_cameras ? '#DC2626' : '#3B82F6' // Red for cameras, blue for regular
+    const color = isSelected ? '#F59E0B' : baseColor // Gold for selected
     const icon = property.has_cameras ? 'camera' : 'location'
+    const size = isSelected ? 35 : 25 // Larger for selected
     
     let iconSvg = ''
     if (icon === 'camera') {
@@ -193,15 +331,18 @@ const Map: React.FC = () => {
                  <circle cx="12" cy="10" r="3"/>`
     }
     
+    const borderStyle = isSelected ? '3px solid #F59E0B' : '2px solid white'
+    const shadowStyle = isSelected ? 'box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.3);' : ''
+    
     return L.divIcon({
-      html: `<div style="background-color: ${color}; width: 25px; height: 25px; border-radius: 50%; border: 2px solid white; display: flex; align-items: center; justify-content: center;">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+      html: `<div style="background-color: ${color}; width: ${size}px; height: ${size}px; border-radius: 50%; border: ${borderStyle}; display: flex; align-items: center; justify-content: center; ${shadowStyle}">
+        <svg width="${size * 0.5}" height="${size * 0.5}" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
           ${iconSvg}
         </svg>
       </div>`,
-      iconSize: [25, 25],
-      iconAnchor: [12, 25],
-      popupAnchor: [0, -25],
+      iconSize: [size, size],
+      iconAnchor: [size / 2, size],
+      popupAnchor: [0, -size],
       className: 'custom-marker'
     })
   }
@@ -211,69 +352,212 @@ const Map: React.FC = () => {
   }
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight">Mapa</h1>
-        <p className="text-muted-foreground">
+    <div className="space-y-4 sm:space-y-6 p-2 sm:p-0">
+      <div className="px-2 sm:px-0">
+        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold tracking-tight">Mapa</h1>
+        <p className="text-sm sm:text-base text-muted-foreground">
           Visualize propriedades e veículos suspeitos no mapa
         </p>
       </div>
 
+      {/* Filtros de Visualização por Perfil */}
+      <Card className="p-4">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+          <div className="flex items-center space-x-2">
+            <span className="text-sm font-medium text-gray-700">
+              Visualizando propriedades de:
+            </span>
+          </div>
+          <div className="flex flex-col sm:flex-row gap-2 text-sm">
+            <span className="font-medium text-blue-600">
+              {selectedBatalhao || 'Todos os Batalhões'}
+            </span>
+            {selectedCia && (
+              <>
+                <span className="text-gray-400 hidden sm:inline">•</span>
+                <span className="font-medium text-green-600">
+                  {selectedCia}
+                </span>
+              </>
+            )}
+            {userProfile && (selectedBatalhao !== userProfile.batalhao || selectedCia !== userProfile.cia) && (
+              <span className="text-xs text-orange-600 bg-orange-100 px-2 py-1 rounded">
+                Filtro personalizado
+              </span>
+            )}
+          </div>
+        </div>
+      </Card>
+
       <Card>
         <CardHeader>
-          <div className="flex justify-between items-center">
-            <CardTitle>Mapa Interativo</CardTitle>
-            <div className="flex space-x-2">
-              <Button
-                variant={showFilters ? "default" : "outline"}
-                size="sm"
-                onClick={() => setShowFilters(!showFilters)}
-              >
-                <Filter className="h-4 w-4 mr-1" />
-                Filtros
-              </Button>
-              <Button
-                variant={showProperties ? "default" : "outline"}
-                size="sm"
-                onClick={() => setShowProperties(!showProperties)}
-              >
-                {showProperties ? <Eye className="h-4 w-4 mr-1" /> : <EyeOff className="h-4 w-4 mr-1" />}
-                <MapPin className="h-4 w-4 mr-1" />
-                Propriedades ({getFilteredProperties().length})
-              </Button>
-              <Button
-                variant={showVehicles ? "default" : "outline"}
-                size="sm"
-                onClick={() => setShowVehicles(!showVehicles)}
-              >
-                {showVehicles ? <Eye className="h-4 w-4 mr-1" /> : <EyeOff className="h-4 w-4 mr-1" />}
-                <Car className="h-4 w-4 mr-1" />
-                Veículos ({getFilteredVehicles().length})
-              </Button>
+          <div className="flex flex-col space-y-4">
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center space-y-2 sm:space-y-0">
+              <CardTitle className="text-lg sm:text-xl">Mapa Interativo</CardTitle>
+              <div className="flex flex-wrap gap-2">
+                <Button
+                  variant={showFilters ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => setShowFilters(!showFilters)}
+                  className="text-xs sm:text-sm"
+                >
+                  <Filter className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
+                  <span className="hidden sm:inline">Filtros</span>
+                  <span className="sm:hidden">Filtros</span>
+                </Button>
+                <Button
+                  variant={showProperties ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => setShowProperties(!showProperties)}
+                  className="text-xs sm:text-sm"
+                >
+                  {showProperties ? <Eye className="h-3 w-3 sm:h-4 sm:w-4 mr-1" /> : <EyeOff className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />}
+                  <MapPin className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
+                  <span className="hidden sm:inline">Propriedades ({getFilteredProperties().length})</span>
+                  <span className="sm:hidden">Props ({getFilteredProperties().length})</span>
+                </Button>
+                <Button
+                  variant={showVehicles ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => setShowVehicles(!showVehicles)}
+                  className="text-xs sm:text-sm"
+                >
+                  {showVehicles ? <Eye className="h-3 w-3 sm:h-4 sm:w-4 mr-1" /> : <EyeOff className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />}
+                  <Car className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
+                  <span className="hidden sm:inline">Veículos ({getFilteredVehicles().length})</span>
+                  <span className="sm:hidden">Veíc ({getFilteredVehicles().length})</span>
+                </Button>
+              </div>
+            </div>
+            
+            {/* Search Bar */}
+            <div className="relative">
+              <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
+                <div className="relative flex-1">
+                  <Search className="h-4 w-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                  <input
+                    type="text"
+                    placeholder="Buscar propriedade..."
+                    value={searchTerm}
+                    onChange={(e) => handleSearch(e.target.value)}
+                    className="w-full pl-10 pr-10 py-2 sm:py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base"
+                  />
+                  {searchTerm && (
+                    <button
+                      onClick={clearSearch}
+                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                    >
+                      <X className="h-4 w-4" />
+                    </button>
+                  )}
+                </div>
+                {selectedProperty && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setMapCenter([selectedProperty.latitude, selectedProperty.longitude])}
+                    className="flex items-center justify-center space-x-1 text-xs sm:text-sm px-3 py-2 sm:px-4 sm:py-3"
+                  >
+                    <Navigation className="h-3 w-3 sm:h-4 sm:w-4" />
+                    <span className="hidden sm:inline">Centralizar</span>
+                    <span className="sm:hidden">Centro</span>
+                  </Button>
+                )}
+              </div>
+              
+              {/* Search Results Dropdown */}
+              {showSearchResults && searchResults.length > 0 && (
+                <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-md shadow-lg max-h-60 overflow-y-auto z-[9999]">
+                  {searchResults.map((property) => (
+                    <div
+                      key={property.id}
+                      onClick={() => selectProperty(property)}
+                      className="p-3 hover:bg-gray-50 cursor-pointer border-b border-gray-100 last:border-b-0"
+                    >
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="font-medium text-gray-900">{property.name}</p>
+                          <p className="text-sm text-gray-600">Proprietário: {property.owner_name}</p>
+                          <p className="text-xs text-gray-500">{property.cidade}{property.bairro && `, ${property.bairro}`}</p>
+                        </div>
+                        <div className="flex items-center space-x-1">
+                          {property.has_cameras && (
+                            <span className="text-blue-600 text-xs">📷</span>
+                          )}
+                          {property.has_wifi && (
+                            <span className="text-green-600 text-xs">📶</span>
+                          )}
+                          <MapPin className="h-4 w-4 text-gray-400" />
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+              
+              {/* No Results Message */}
+              {showSearchResults && searchResults.length === 0 && searchTerm.trim() && (
+                <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-md shadow-lg p-3 z-[9999]">
+                  <p className="text-gray-500 text-center">Nenhuma propriedade encontrada para "{searchTerm}"</p>
+                </div>
+              )}
             </div>
           </div>
           
           {showFilters && (
-            <div className="mt-4 p-4 bg-gray-50 rounded-lg">
-              <div className="flex justify-between items-center mb-4">
-                <h3 className="text-lg font-medium">Filtros</h3>
+            <div className="mt-4 p-3 sm:p-4 bg-gray-50 rounded-lg">
+              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 space-y-2 sm:space-y-0">
+                <h3 className="text-base sm:text-lg font-medium">Filtros</h3>
                 <Button
                   variant="outline"
                   size="sm"
                   onClick={clearAllFilters}
+                  className="text-xs sm:text-sm"
                 >
-                  <X className="h-4 w-4 mr-1" />
-                  Limpar Filtros
+                  <X className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
+                  <span className="hidden sm:inline">Limpar Filtros</span>
+                  <span className="sm:hidden">Limpar</span>
                 </Button>
               </div>
               
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-3 sm:gap-4">
                 <div>
-                  <label className="block text-sm font-medium mb-1">Tipo de Propriedade</label>
+                  <label className="block text-xs sm:text-sm font-medium mb-1">Batalhão</label>
+                  <select
+                    value={selectedBatalhao}
+                    onChange={(e) => setSelectedBatalhao(e.target.value)}
+                    className="w-full p-2 border rounded-md text-xs sm:text-sm"
+                  >
+                    <option value="">Todos os Batalhões</option>
+                    <option value="1º BPM">1º BPM</option>
+                    <option value="2º BPM">2º BPM</option>
+                    <option value="3º BPM">3º BPM</option>
+                    <option value="4º BPM">4º BPM</option>
+                  </select>
+                </div>
+                
+                <div>
+                  <label className="block text-xs sm:text-sm font-medium mb-1">CIA</label>
+                  <select
+                    value={selectedCia}
+                    onChange={(e) => setSelectedCia(e.target.value)}
+                    className="w-full p-2 border rounded-md text-xs sm:text-sm"
+                  >
+                    <option value="">Todas as CIAs</option>
+                    <option value="1ª CIA">1ª CIA</option>
+                    <option value="2ª CIA">2ª CIA</option>
+                    <option value="3ª CIA">3ª CIA</option>
+                    <option value="4ª CIA">4ª CIA</option>
+                    <option value="5ª CIA">5ª CIA</option>
+                  </select>
+                </div>
+                
+                <div>
+                  <label className="block text-xs sm:text-sm font-medium mb-1">Tipo</label>
                   <select
                     value={propertyTypeFilter}
                     onChange={(e) => setPropertyTypeFilter(e.target.value)}
-                    className="w-full p-2 border rounded-md text-sm"
+                    className="w-full p-2 border rounded-md text-xs sm:text-sm"
                   >
                     <option value="all">Todos</option>
                     <option value="rural">Rural</option>
@@ -283,11 +567,11 @@ const Map: React.FC = () => {
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium mb-1">Câmeras</label>
+                  <label className="block text-xs sm:text-sm font-medium mb-1">Câmeras</label>
                   <select
                     value={camerasFilter}
                     onChange={(e) => setCamerasFilter(e.target.value)}
-                    className="w-full p-2 border rounded-md text-sm"
+                    className="w-full p-2 border rounded-md text-xs sm:text-sm"
                   >
                     <option value="all">Todos</option>
                     <option value="with_cameras">Com Câmeras</option>
@@ -296,11 +580,11 @@ const Map: React.FC = () => {
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium mb-1">WiFi</label>
+                  <label className="block text-xs sm:text-sm font-medium mb-1">WiFi</label>
                   <select
                     value={wifiFilter}
                     onChange={(e) => setWifiFilter(e.target.value)}
-                    className="w-full p-2 border rounded-md text-sm"
+                    className="w-full p-2 border rounded-md text-xs sm:text-sm"
                   >
                     <option value="all">Todos</option>
                     <option value="with_wifi">Com WiFi</option>
@@ -309,11 +593,11 @@ const Map: React.FC = () => {
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium mb-1">CRPM</label>
+                  <label className="block text-xs sm:text-sm font-medium mb-1">CRPM</label>
                   <select
                     value={crpmFilter}
                     onChange={(e) => setCrpmFilter(e.target.value)}
-                    className="w-full p-2 border rounded-md text-sm"
+                    className="w-full p-2 border rounded-md text-xs sm:text-sm"
                   >
                     <option value="all">Todos</option>
                     {getUniqueValues(properties, 'crpm').map((crpm) => (
@@ -323,11 +607,11 @@ const Map: React.FC = () => {
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium mb-1">Batalhão</label>
+                  <label className="block text-xs sm:text-sm font-medium mb-1">Batalhão</label>
                   <select
                     value={battalionFilter}
                     onChange={(e) => setBattalionFilter(e.target.value)}
-                    className="w-full p-2 border rounded-md text-sm"
+                    className="w-full p-2 border rounded-md text-xs sm:text-sm"
                   >
                     <option value="all">Todos</option>
                     {getUniqueValues(properties, 'batalhao').map((batalhao) => (
@@ -337,11 +621,11 @@ const Map: React.FC = () => {
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium mb-1">Status do Veículo</label>
+                  <label className="block text-xs sm:text-sm font-medium mb-1">Status Veículo</label>
                   <select
                     value={vehicleStatusFilter}
                     onChange={(e) => setVehicleStatusFilter(e.target.value)}
-                    className="w-full p-2 border rounded-md text-sm"
+                    className="w-full p-2 border rounded-md text-xs sm:text-sm"
                   >
                     <option value="all">Todos</option>
                     <option value="active">Ativo</option>
@@ -353,8 +637,8 @@ const Map: React.FC = () => {
             </div>
           )}
         </CardHeader>
-        <CardContent>
-          <div className="h-96 w-full">
+        <CardContent className="p-2 sm:p-6">
+          <div className="h-80 sm:h-96 w-full">
             <MapContainer
               center={mapCenter}
               zoom={userLocation && hasLocationPermission ? 14 : 10}
@@ -467,68 +751,68 @@ const Map: React.FC = () => {
         </CardContent>
       </Card>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <Card>
-          <CardHeader>
-            <CardTitle className="text-lg">Legenda</CardTitle>
+          <CardHeader className="p-3 sm:p-6">
+            <CardTitle className="text-base sm:text-lg">Legenda</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="p-3 sm:p-6">
             <div className="space-y-2">
               <div className="flex items-center space-x-2">
-                <div className="w-4 h-4 bg-blue-500 rounded-full"></div>
-                <span className="text-sm">Propriedades</span>
+                <div className="w-3 h-3 sm:w-4 sm:h-4 bg-blue-500 rounded-full"></div>
+                <span className="text-xs sm:text-sm">Propriedades</span>
               </div>
               <div className="flex items-center space-x-2">
-                <div className="w-4 h-4 bg-red-600 rounded-full"></div>
-                <span className="text-sm">Propriedades com Câmeras</span>
+                <div className="w-3 h-3 sm:w-4 sm:h-4 bg-red-600 rounded-full"></div>
+                <span className="text-xs sm:text-sm">Propriedades com Câmeras</span>
               </div>
               <div className="flex items-center space-x-2">
-                <div className="w-4 h-4 bg-red-500 rounded-full"></div>
-                <span className="text-sm">Veículos Ativos</span>
+                <div className="w-3 h-3 sm:w-4 sm:h-4 bg-red-500 rounded-full"></div>
+                <span className="text-xs sm:text-sm">Veículos Ativos</span>
               </div>
               <div className="flex items-center space-x-2">
-                <div className="w-4 h-4 bg-green-500 rounded-full"></div>
-                <span className="text-sm">Veículos Resolvidos</span>
+                <div className="w-3 h-3 sm:w-4 sm:h-4 bg-green-500 rounded-full"></div>
+                <span className="text-xs sm:text-sm">Veículos Resolvidos</span>
               </div>
               <div className="flex items-center space-x-2">
-                <div className="w-4 h-4 bg-gray-500 rounded-full"></div>
-                <span className="text-sm">Falsos Alarmes</span>
+                <div className="w-3 h-3 sm:w-4 sm:h-4 bg-gray-500 rounded-full"></div>
+                <span className="text-xs sm:text-sm">Falsos Alarmes</span>
               </div>
             </div>
           </CardContent>
         </Card>
 
         <Card>
-          <CardHeader>
-            <CardTitle className="text-lg">Estatísticas</CardTitle>
+          <CardHeader className="p-3 sm:p-6">
+            <CardTitle className="text-base sm:text-lg">Estatísticas</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="p-3 sm:p-6">
             <div className="space-y-2">
               <div className="flex justify-between">
-                <span className="text-sm">Propriedades:</span>
-                <span className="text-sm font-medium">{getFilteredProperties().length}</span>
+                <span className="text-xs sm:text-sm">Propriedades:</span>
+                <span className="text-xs sm:text-sm font-medium">{getFilteredProperties().length}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-sm">Com Câmeras:</span>
-                <span className="text-sm font-medium text-red-600">
+                <span className="text-xs sm:text-sm">Com Câmeras:</span>
+                <span className="text-xs sm:text-sm font-medium text-red-600">
                   {getFilteredProperties().filter(p => p.has_cameras).length}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-sm">Veículos Ativos:</span>
-                <span className="text-sm font-medium text-red-600">
+                <span className="text-xs sm:text-sm">Veículos Ativos:</span>
+                <span className="text-xs sm:text-sm font-medium text-red-600">
                   {getFilteredVehicles().filter(v => v.status === 'active').length}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-sm">Veículos Resolvidos:</span>
-                <span className="text-sm font-medium text-green-600">
+                <span className="text-xs sm:text-sm">Veículos Resolvidos:</span>
+                <span className="text-xs sm:text-sm font-medium text-green-600">
                   {getFilteredVehicles().filter(v => v.status === 'resolved').length}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-sm">Falsos Alarmes:</span>
-                <span className="text-sm font-medium text-gray-600">
+                <span className="text-xs sm:text-sm">Falsos Alarmes:</span>
+                <span className="text-xs sm:text-sm font-medium text-gray-600">
                   {getFilteredVehicles().filter(v => v.status === 'false_alarm').length}
                 </span>
               </div>

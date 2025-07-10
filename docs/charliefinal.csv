@@ -1,0 +1,449 @@
+﻿Data;Equipe;Cidade;Bairro;Propriedade;Número da placa;Proprietário;Telefone;RG;WiFi;Nome WiFi;Senha WiFi;Câmeras;Qtd Câmeras;Moradores;Atividade;BOU;Observações;Latitude, longitude
+;;Ibaiti;;sítio São José;;WILSON JOSE DE CARVALHO;(43)99801-5299;;;;;;;;;;;-23.936193,-50.202373
+;;Japira;;Fazenda Itajubá;3;Antonio Azim;(41)99123-9995;;;;;;;;;;;-23.821633,-50.122383
+;;Japira;;Chácara São Sebastião;;VICENTE VIDAL DA SILVA;(43)99801-5299;;;;;;;;;;;-23.693641,-50.209561
+;;Japira;;chácara dois irmãos;;Jair José Vidal;(43)99163-0621;;;;;;;;;;;-23.751521,-50.15092
+;;Japira;;Talismã Leilões;1;Eneovaldo Abucarub junior;(43)99970-2561;;;;;;;;;;;-23.80417,-50.178175
+;;Japira;;chácara três irmas;;Janderson Carneiro Pinto;(43)99651-7289;;;;;;;;;;;-23.807161,-50.173801
+;;Japira;;Fazenda Três Marias;;João Daniel Moraes Alves;(43)99875-1801;;;;;;;;;;;-23.722015,-50.159688
+;;Japira;;JP Oliveira;;Osvaldo José Filho de Oliveira;(43)99151-6795;;;;;;;;;;;-23.726277,-50.170575
+;;Japira;;Fazenda Santa eliza;;jurandir cardozo;(43)99849-3067;;;;;;;;;;;-23.703228,-50.169081
+;;Japira;;estância velho pai;;Josineia Aparecida de Moraes;(43)98862-8028;;;;;;;;;;;-23.785558,-50.123365
+;;Japira;;Fazenda Morada do Sol;;Emerson Eloy Palmieri;(43)99165-3770;;;;;;;;;;;-23.809253,-50.151821
+;;Japira;;chácara Bom jesus;;Luiz Fernandes;(43)99926-0057;;;;;;;;;;;-23.722701,-50.175561
+;;Japira;;Sítio Tomazi;;Alekisson michel tomazi;(43)99639-9081;;;;;;;;;;;-23.740449,-50.183734
+;;Japira;;Fazenda São judas tadeu;;Bruno Henrique Lima da Cunha;(43)99857-2166;;;;;;;;;;;-23.665425,-50.215641
+;;Japira;;sítio santo expedito;;João Batista de oliveira;(43)99657-3704;;;;;;;;;;;-23.623094,-50.216862
+;;Japira;;Sítio Familia Rocha;;Marcos Pereira Rocha;(43)99979-1755;;;;;;;;;;;-23.622876,-50.216828
+;;Japira;;Fazenda Ouro Verde;;Jorge Donizete de Paula;(43)99929-9008;;;;;;;;;;;-23.796111,-50.169755
+;;Japira;;sítio paraíso;;ismail Maia da silva;(43)99628-8419;;;;;;;;;;;-23.751951,-50.202436
+;;Japira;;sítio Santa fé;;Jair Barsotti;(43)99179-9437;;;;;;;;;;;-23.78537,-50.094415
+;;Japira;;sítio São jose;;Gerson afonso;(43)99139-5487;;;;;;;;;;;-23.786403,-50.094411
+;;Japira;;sítio Bela Vista;;marcos Rodrigues de morais;(43)99615-3018;;;;;;;;;;;-23.711862,-50.139899
+;;Japira;;Fazenda nova japira;;Darci Bassi;(43)99920-2010;;;;;;;;;;;-23.787746,-50.110179
+;;Japira;;sítio santo Antônio;;Maria das graças de Souza Oliveira;(43)98861-6121;;;;;;;;;;;-23.831426,-50.10317
+;;Japira;;Fazenda Santa Isabel;;José Roberto Francisco ruas;(43)99922-9445;;;;;;;;;;;-23.781431,-50.159881
+;;Japira;;Sérgio Antônio Zafalon;;Sérgio Antônio Zafalon;(43)99965-1719;;;;;;;;;;;-23.738713,-50.184816
+;;Japira;;sítio São Francisco;;Francisco fermino da silva;(43)99665-3176;;;;;;;;;;;-23.783725,-50.091595
+;;Japira;;sítio São João;;João lautario da silva;(43)99169-2388;;;;;;;;;;;-23.779535,-50.096145
+;;Japira;;cerâmica três irmãos;;Fabiano Fonseca;(43)99168-7357;;;;;;;;;;;-23.776595,-50.09962
+;;Japira;;sítio boa vista;;Gilmar da silva;(43)99135-5824;;;;;;;;;;;-23.847728,-50.109558
+;;Japira;;sítio fadel;;Miguel Elias fadel neto;(43)99111-4545;;;;;;;;;;;-23.825715,-50.110208
+;;Japira;;Fazenda Itajubá 2;;Antônio Carlos azim;(41)99123-9995;;;;;;;;;;;-23.827466,-50.13474
+;;Japira;;sítio Santa Inês;;Roberto sabchuk filho;(43)99186-9626;;;;;;;;;;;-23.817103,-50.098601
+;;Japira;;sítio três irmãos;;Valdir Batista;(43)99118-4853;;;;;;;;;;;-23.817443,-50.098638
+;;Japira;;sítio jaboticabal 1;66;Elias José da silva;(43)99127-6901;;;;;;;;;;;-23.758478,-50.148513
+;;Japira;;Fazenda Monte Belo;65;genice souza de siqueira;(43)98414-1654;;;;;;;;;;;-23.77133,-50.157665
+;;Japira;;sítio recanto dos pássaros 2;64;Cândido Francisco da Silva;(43)99173-1342;;;;;;;;;;;-23.764493,-50.146961
+;;Japira;;recanto dos pássaros;63;Douglas Bedore de Alcantara;(43)99130-9738;;;;;;;;;;;-23.765281,-50.148206
+;;Japira;;sítio estrelinha;62;Osmar (polaco agropecuária);(43)99103-6947;;;;;;;;;;;-23.766238,-50.148048
+;;Japira;;sítio bela vista;61;José Marcelo Stecka;(43)99926-3099;;;;;;;;;;;-23.787318,-50.171613
+;;Japira;;Fazenda Santa Terezinha;60;Nelson César de Oliveira Weisheimer;não possui;;;;;;;;;;;-23.801257,-50.161071
+;;Japira;;RECANTO DA NATUREZA;59;Aparecida Reni Pagani Alves;(43)99960-4192;;;;;;;;;;;-23.749826,-50.184378
+;;Japira;;ESTÂNCIA PAGANI;58;Rose Cleire de Oliveira Pagani;(43)99618-8724;;;;;;;;;;;-23.750763,-50.184923
+;;Japira;;SÍTIO NOSSA SENHORA APARECIDA;57;Edegar Cândido;(43)99846-7055;;;;;;;;;;;-23.717745,-50.142696
+;;Japira;;CHACARA SÃO JOSÉ;56;José vigilato;(43)99802-6230;;;;;;;;;;;-23.722598,-50.151638
+;;Japira;;SÍTIO JACAR;55;Ademir vigilato da Paixão;(41)99906-2788;;;;;;;;;;;-23.722850,-50.151567
+;;Japira;;CHÁCARA SÃO JOSÉ;54;Hélio Antunes Tilivis;(43)99957-9409;;;;;;;;;;;-23.722766,-50.151681
+;;Japira;;SÍTIO TERRA DE SAMOA;53;Moacir de Oliveira Leite;(41)98835-0094;;;;;;;;;;;-23.722796,-50.1538
+;;Japira;;SÍTIO SÃO JOSÉ;52;Ildo de Lima Pugas;(43)99656-0644;;;;;;;;;;;-23.726235,-50.154945
+;;Japira;;SÍTIO SÃO JOÃO;51;João adeneis de Oliveira;(43)99617-5912;;;;;;;;;;;-23.722908,-50.152061
+;;Japira;;Sítio Paraíso;50;João Roberto Pinto;(43)98435-8085;;;;;;;;;;;-23.72294,-50.172573
+;;Japira;;SÍTIO TRÊS COQUEIROS;49;Ivone waiss braz da silva;(43)99985-6833;;;;;;;;;;;-23.741373,-50.191718
+;;Japira;;SÍTIO JT;48;iremar Carlos da silva;;;;;;;;;;;;-23.727325,-50.196984
+;;Japira;;SÍTIO LISBOA;47;sandrovaldo de souza durães;(43)99869-8152;;;;;;;;;;;-23.727173,-50.196886
+;;Japira;;SÍTIO TRÊS IRMÃOS;46;leonildo aparecido da Silva;(43)99133-3758;;;;;;;;;;;-23.802585,-50.110381
+;;Japira;;ESTÂNCIA VALE DA SERRA;45;Sandro Rene Rocha lopes;(43)98850-7160;;;;;;;;;;;-23.642186,-50.214199
+;;Japira;;sítio nossa senhora Aparecida;43;Mario Cesar Baum;(42)99954-6313;;;;;;;;;;;-23.784753,-50.138713
+;;Japira;;SÍTIO NOSSA SENHORA APARECIDA;;Pedro Galvão;;;;;;;;;;;;-23.722485,-50.199221
+;;Japira;;SÍTIO SANTO ANTÔNIO;42;Gilberto Zafalon;(43)99686-6901;;;;;;;;;;;-23.719279,-50.196377
+;;Japira;;CHÁCARA ELL SHADAY;41;Dirceu Garcia Fernandes;(43)99968-2053;;;;;;;;;;;-23.761485,-50.184857
+;;Japira;;chácara Ambiental;40;VANDA MARIA DA SILVA;(43)99621-3498;;;;;;;;;;;-23.761716,-50.183353
+;;Japira;;SÍTIO SÃO BENEDITO;20;Benedito aparecido de Morais;(43)99613-5165;;;;;;;;;;;-23.717166,-50.146133
+;;Japira;;SÍTIO NOSSA SENHORA APARECIDA;39;Roseli Alves Siqueira de Oliveira;(43)99905-8965;;;;;;;;;;;-23.710473,-50.177269
+;;Japira;;CHACARA LAGOA AZUL;;braz Antunes;;;;;;;;;;;;-23.703038,-50.14301
+;;Japira;;SÍTIO SANTO EXPEDITO;;Valdinei Queiroz Rodrigues;;;;;;;;;;;;-23.705868,-50.145108
+;;Japira;;RANCHO DOIS IRMÃOS;;Maria Rita Pires;(43)99106-4767;;;;;;;;;;;-23.82674,-50.12362
+;;Japira;;SÍTIO PEREIRA;37;Reginaldo Pereira;(43)99186-2141;;;;;;;;;;;-23.78725,-50.136685
+;;Japira;;chácara Bom sucesso;;CLODOALDO DA SILVA SANTOS;(41)99628-8456;;;;;;;;;;;-23.787756,-50.130602
+;;Japira;;SÍTIO NOSSA SENHORA APARECIDA;;Ana Claudia de Oliveira silva;(43)99615-6337;;;;;;;;;;;-23.730229,-50.187865
+;;Japira;;SÍTIO NOSSA SENHORA APARECIDA;36;Maria Aparecida ramos;(43)99685-9337;;;;;;;;;;;-23.731095,-50.196471
+;;Japira;;SÍTIO SANTA ELIZABETE;35;Jair bassi;(43)99173-6474;;;;;;;;;;;-23.825853,-50.160268
+;;Japira;;SÍTIO SÃO SEBASTIÃO;34;Vander toneto rocha;(43)99121-2075;;;;;;;;;;;-23.775338,-50.121165
+;;Japira;;SÍTIO NOVO HORIZONTE;33;Jaime Ferreira;(43)99842-3006;;;;;;;;;;;-23.778156,-50.176988
+;;Japira;;SÍTIO TRÊS IRMÃOS;32;marcos Antônio de Azevedo;(43)99809-5932;;;;;;;;;;;-23.762205,-50.186881
+;;Japira;;CHÁCARA SÃO JOSÉ;31;Evando José reimao de melo;(43)99697-3086;;;;;;;;;;;-23.758419,-50.169048
+;;Japira;;sítio São João;;Edinei Mariano;(43)99953-1863;;;;;;;;;;;-23.746633,-50.169995
+;;Japira;;SÍTIO PRIMAVERA;;Nilson Ruiz braga;(43)99819-8779;;;;;;;;;;;-23.759146,-50.175046
+;;Japira;;CHACARA SONHO MEU;30;Juarez aparecido miranda;(43)99938-4730;;;;;;;;;;;-23.760986,-50.178470
+;;Japira;;ESTÂNCIA TOCA DO BOI;29;Ronaldo Pereira de Oliveira;(43)99116-7714;;;;;;;;;;;-23.760982,-50.178455
+;;Japira;;SÍTIO SÃO FRANCISCO;;Luiz Antônio de Oliveira;(41)99144-9464;;;;;;;;;;;-23.761139,-50.178805
+;;Japira;;SÍTIO SÃO FERNANDO;28;Lucilena de Oliveira de lima;(41)99144-9464;;;;;;;;;;;-23.761173,-50.178843
+;;Japira;;CHÁCARA DO TONI;;Tony Luciano Michelis Antoniel;(43)99818-7996;;;;;;;;;;;-23.713840,-50.151245
+;;Japira;;SÍTIO NOSSA SENHORA DO CARMO;;Ismael de Queiroz Rodrigues;(43)99802-1300;;;;;;;;;;;-23.707556,-50.146106
+;;Japira;;SÍTIO SÃO JOAQUIM;;Joaquim donizete Francisco;(43)99193-5550;;;;;;;;;;;-23.743434,-50.074281
+;;Japira;;SÍTIO SÃO JOSÉ;;Edson Rodrigues de morais;(43)99665-8945;;;;;;;;;;;-23.743434,-50.074281
+;;Japira;;SÍTIO SÃO BENEDITO;;Benedito aparecido de morais;(43)99613-5165;;;;;;;;;;;-23.743434,-50.074281
+;;Japira;;CHÁCARA NOSSA SENHORA DAS GRAÇAS;26;lozimbo de Queiroz Rodrigues;(43)99933-8259;;;;;;;;;;;-23.743434,-50.074281
+;;Japira;;CHÁCARA BOM JESUS;25;Denis Henrique Fernandes;(43)99649-7670;;;;;;;;;;;-23.743434,-50.074281
+;;Japira;;SÍTIO OURO VERDE;24;Joel cândido da Silva;(43)99183-0144;;;;;;;;;;;-23.743434,-50.074281
+;;Japira;;Chácara São José;23;Silvana Caetano da Silva carvalho;;;;;;;;;;;;-23.743434,-50.074281
+;;Japira;;SÍTIO BERTUZZO;22;gicelio Rodrigues marques;(43)99125-8269;;;;;;;;;;;-23.81943,-50.086438
+;;Japira;;FAZENDA TRÊS IRMÃOS;;Luiz Eduardo de Castro vanzeli;(43)99866-3277;;;;;;;;;;;-23.795915,-50.090380
+;;Japira;;estância velha;;Aluísio Fernando drissen;(43)99815-4864;;;;;;;;;;;-23.744676,-50.129251
+;;Japira;;sítio Santa maria;;Benedito Morfinate;(43)99987-5782;;;;;;;;;;;-23.770358,-50.135166
+;;Pinhalão;;SÍTIO SÃO TOMÉ;32;Guilherme Henrique Nalin Benetti;(43)99916-8335;;;;;;;;;;;-23.776918,-50.049403
+;;Jaboti;;SÍTIO UMUARAMA;;José eurides stecca;(44)99924-2477;;;;;;;;;;;-23.772846,-50.07761
+;;Jaboti;;SÍTIO ARLINDO;30;Ezequiel do Carmo;(43)99836-1255;;;;;;;;;;;-23.768328,-50.085908
+;;Jaboti;;sítio paraíso;29;Tereza Matos Ferreira;(46)99931-4662;;;;;;;;;;;-23.7674,-50.089086
+;;Jaboti;;CHÁCARA RECANTO ROCHA;28;Acir Ribeiro Mendes;(43)98111-1678;;;;;;;;;;;-23.765586,-50.088528
+;;Jaboti;;CHACARA NOSSA SENHORA APARECIDA;27;Leonir Barbosa;(43)99621-4058;;;;;;;;;;;-23.776736,-50.078078
+;;Jaboti;;SÍTIO SÃO FRANCISCO;26;José Roberto chueire;(43)99831-8083;;;;;;;;;;;-23.702725,-50.069303
+;;Jaboti;;SÍTIO SANTOS;23;José Carlos dos Santos;(43)99645-0740;;;;;;;;;;;-23.70011,-50.053376
+;;Jaboti;;SÍTIO SANTA RITA;22;João Batista de Souza;(43)99806-0682;;;;;;;;;;;-23.69162,-50.080155
+;;Jaboti;;FAZENDA BOA ESPERANÇA;25;rosmarly Azevedo sanches;(43)99854-6963;;;;;;;;;;;-23.777996,-50.064566
+;;Jaboti;;SÍTIO BOM RETIRO;21;Joel Sebastião da silva;(43)99969-9512;;;;;;;;;;;-23.682548,-50.08375
+;;Jaboti;;sítio nova esperança;;Gabriel Henrique Santos da silva;(43)99864-0670;;;;;;;;;;;-23.696876,-50.072436
+;;Jaboti;;SÍTIO VOVÔ JORGE;;Jaqueline Maria da Silva Azevedo;(43)99924-4422;;;;;;;;;;;-23.690567,-50.061929
+;;Jaboti;;SÍTIO BOA VISTA;;Cícero Oliveira da silva;(43)99681-4553;;;;;;;;;;;-23.694694,-50.0616
+;;Jaboti;;SÍTIO FENIX;;Reinaldo Rodrigues de Oliveira;(43)98816-7115;;;;;;;;;;;-23.691906,-50.060283
+;;Jaboti;;SÍTIO NOSSA SENHORA APARECIDA;;Maria justina Calixto;(43)99835-6538;;;;;;;;;;;-23.691061,-50.060456
+;;Jaboti;;SITIO NOSSA SENHORA APARECIDA;;Sebastião donizette de Carvalho;(43)99925-8845;;;;;;;;;;;-23.690048,-50.059511
+;;Jaboti;;SÍTIO SÃO JORGE;;Marinho Ramos de paiva;;;;;;;;;;;;-23.688476,-50.057605
+;;Jaboti;;SÍTIO SANTO EXPEDITO;36;Gerson Antônio Afonso;(43)99662-4475;;;;;;;;;;;-23.804498,-50.073568
+;;Jaboti;;IRACEMA COMÉRCIO DE PRODUTOS NATURAIS;17;Fabiano Luiz dos Santos;(43)99661-5679;;;;;;;;;;;-23.748819,-50.071261
+;;Jaboti;;SÍTIO SÃO JOSÉ;16;José Ribeiro de Siqueira;(43)99912-3357;;;;;;;;;;;-23.711016,-50.035721
+;;Jaboti;;SITIO NOVA ESPERANÇA;14;José Aroldo de lima;(43)99829-5786;;;;;;;;;;;-23.754019,-50.034939
+;;Jaboti;;STAW AGRICULTURA;13;Antônio Benedito de Souza;(43)98456-3913;;;;;;;;;;;-23.743434,-50.074281
+;;Jaboti;;SÍTIO RIBEIRÃO GRANDE;12;Valdir barbosa;(43)98823-9282;;;;;;;;;;;-23.743434,-50.074281
+;;Jaboti;;SÍTIO SÃO SEBASTIÃO;11;Ademir de Siqueira;(43)99811-2915;;;;;;;;;;;-23.756206,-50.080107
+;;Jaboti;;SÍTIO SÃO JORGE;23;Elio Ferreira de melo;(43)99648-2151;;;;;;;;;;;-23.935663,-50.151377
+;;Jaboti;;CHÁCARA SÃO JOÃO;;vanderley de Siqueira e silva;(43)99911-1513;;;;;;;;;;;-23.744999,-50.059080
+;;Jaboti;;CHÁCARA ESPERANÇA;;Edgar bukalowski;(43)99936-1019;;;;;;;;;;;-23.748045,-50.058394
+;;Jaboti;;CHÁCARA SANTA ESMERALDA;;Osmar donisete da silva;(15)98170-4510;;;;;;;;;;;-23.748286,-50.059457
+;;Jaboti;;chácara azia menor;;Ivone Aparecida Lopes da Silva souza;(41)99995-7563;;;;;;;;;;;-23.748356,-50.059013
+;;Jaboti;;CHÁCARA SÃO SEBASTIÃO;;Claudinei Carvalho Vieira;(43)99691-9464;;;;;;;;;;;-23.744851,-50.067773
+;;Jaboti;;sítio estrela do norte;;EDER RIBEIRO DA ROSA;(43)99659-6865;;;;;;;;;;;-23.757871,-50.086923
+;;Jaboti;;Fazenda Estância CMG Agropastoril;;Celso Bueno de godoy;(43)98803-6839;;;;;;;;;;;-23.904880,-49.990478
+;;Jaboti;;chácara boa vista;;João Adair Alves;(43)99863-0324;;;;;;;;;;;-23.771805,-50.084705
+;;Jaboti;;chácara Santa Helena;;irani Miranda da silva;(43)99824-1633;;;;;;;;;;;-23.771631,-50.08487
+;;Jaboti;;chácara água viva;;elson da silva;(43)99141-0949;;;;;;;;;;;-23.772391,-50.08406
+;;Jaboti;;Fazenda ponte preta;;antenor de Araújo Bueno neto;(43)99664-2124;;;;;;;;;;;-23.677083,-50.080226
+;;Jaboti;;Sítio São Pedro;;Fabiano Roberto da Costa;(43)99837-4551;;;;;;;;;;;-23.707946,-50.024443
+;;Jaboti;;sítio boa esperança;;Juarez Lopes de souza;(43)99869-1244;;;;;;;;;;;-23.710116,-50.030811
+;;Jaboti;;chácara nossa senhora Aparecida;;Valdemar Teixeira pinto;(43)99109-8228;;;;;;;;;;;-23.71629,-50.028386
+;;Jaboti;;sítio água do boi;;marcos Pereira da silva;(43)99989-8738;;;;;;;;;;;-23.713736,-50.024736
+;;Jaboti;;nossa senhora Aparecida da água;;José Fernando de Almeida;(43)99686-6220;;;;;;;;;;;-23.721461,-50.022218
+;;Jaboti;;sítio São Francisco;;ELIAS ANTONIO DA SILVA;(43)98812-2929;;;;;;;;;;;-23.725813,-50.08763
+;;Jaboti;;Sítio França;;Mario França da Luz;(43)99983-4310;;;;;;;;;;;-23.706512,-50.122486
+;;Jaboti;;nossa senhora Aparecida;;DELSO DE OLIVEIRA PINTO;(43)99818-8095;;;;;;;;;;;-23.756806,-50.035006
+;;Jaboti;;sítio São Pedro;;Alex Sandro Rodrigues de souza;(43)98818-4262;;;;;;;;;;;-23.732928,-50.088845
+;;Jaboti;;estancia vô João Pedro;;Fernando Valério de Siqueira;(43)99983-4011;;;;;;;;;;;-23.714298,-50.076781
+;;Jaboti;;sítio São Francisco;;Elias Antônio da silva;(43)99918-7522;;;;;;;;;;;-23.7301,-50.084905
+;;Jaboti;;sítio belo horizonte;;jucelino Fernandes da costa;(43)99628-9012;;;;;;;;;;;-23.73422,-50.08568
+;;Jaboti;;Pesqueiro Beira Rio;;JOAQUIM BENEDITO SOUZA;(43)99657-2197;;;;;;;;;;;-23.707231,-50.072196
+;;Jaboti;;Granja Herval;;Pedro Alcântara Ribeiro Neto;(43)99842-2795;;;;;;;;;;;-23.772095,-50.048545
+;;Jaboti;;Sítio Neto;;Paulo César Mendes Porfilho;(43)99801-7270;;;;;;;;;;;-23.734632,-50.044397
+;;Jaboti;;sítio herval;;Dirceu Carlos rafael;(43)98862-3280;;;;;;;;;;;-23.756483,-50.050530
+;;Jaboti;;Sítio Ouro Fino;;João Francisco de Oliveira;(43)98811-6816;;;;;;;;;;;-23.759055,-50.054111
+;;Jaboti;;posto PR272;;Fábio Araújo gomes;(43)99919-9490;;;;;;;;;;;-23.785273,-50.079043
+;;Jaboti;;chácara nossa senhora Aparecida;;marcos Antônio de Moraes;(43)99694-9984;;;;;;;;;;;-23.742323,-50.080611
+;;Jaboti;;Fazenda Nossa Senhora de Fátima;;Agenor Antônio Dall Santo;(43)99102-7705;;;;;;;;;;;-23.678543,-50.137278
+;;Jaboti;;Sítio Arzélia;;natanaerte da silva;(43)99980-9369;;;;;;;;;;;-23.688430,-50.094258
+;;Jaboti;;sítio São bom jesus;;edivaldo Pereira de Oliveira;(43)99829-5071;;;;;;;;;;;-23.688455,-50.094201
+;;Jaboti;;sítio santo antonio;;José Sebastião de Siqueira;(43)99796-6734;;;;;;;;;;;-23.688376,-50.094321
+;;Jaboti;;sítio nagata;;Paulo shigueru nagata;(43)99869-5221;;;;;;;;;;;-23.688383,-50.094281
+;;Jaboti;;Bela Vista;;Donizete de Lima;(43)99687-8824;;;;;;;;;;;-23.708291,-50.076791
+;;Jaboti;;chácara nossa senhora de Fátima;;Sidnei lourenzoni;(43)36221-069;;;;;;;;;;;-23.715138,-50.067746
+;;Jaboti;;sítio nova esperança;;José aroldo de lima;(43)99829-5786;;;;;;;;;;;-23.754063,-50.034981
+;;Jaboti;;Sítio São Pedro;;Daniel Inácio Batista;(43)99696-6767;;;;;;;;;;;-23.760648,-50.056981
+;;Jaboti;;sítio três irmãs;;Juliana de Almeida Batista Souza;(43)98836-0633;;;;;;;;;;;-23.755548,-50.024071
+;;Jaboti;;sítio São Lourenço;;valdeli Pereira da Silva;(43)99812-2855;;;;;;;;;;;-23.729826,-50.045076
+;;Jaboti;;sítio santo Antônio;;Gilvan Bernardo da Silva;(43)99872-7710;;;;;;;;;;;-23.730408,-50.044553
+;;Jaboti;;sítio peroba;;Antônio Francisco dos santos;;;;;;;;;;;;-23.711493,-50.019416
+;;Tomazina;;FAZENDA RIBEIRÃO GRANDE;39;Emilio Lucas Mota do vale;(43)99864-9578;;;;;;;;;;;-23.828896,-50.005418
+;;Tomazina;;SITIO BOA VISTA;38;Vanderlei Mendes da silva;(43)98811-3187;;;;;;;;;;;-23.756281,-49.943268
+;;Tomazina;;SÍTIO PASSARELI;37;José Aparecido Afonso;(43)99984-5712;;;;;;;;;;;-23.697195,-49.99347
+;;Tomazina;;SÍTIO SANTO ANTÔNIO;36;Nelson Garcia Rodrigues;(43)99907-4673;;;;;;;;;;;-23.63871,-50.034595
+;;Tomazina;;SÍTIO VALE VERDE;35;Vagner Valdomiro Blanco;(43)99914-9200;;;;;;;;;;;-23.62645,-50.062443
+;;Tomazina;;FAZENDA BELA MANHÃ;34;Vagner Valdomiro Blanco;(43)99914-9200;;;;;;;;;;;-23.62891,-50.034915
+;;Tomazina;;SÍTIO BELA MANHÃ;33;Sonia Regina Rodrigues de Almeida;(43)99951-2135;;;;;;;;;;;-23.631361,-50.043053
+;;Tomazina;;FAZENDA ÁGUA LIMPA;32;Florian nick;(43)99979-0718;;;;;;;;;;;-23.602985,-50.062706
+;;Tomazina;;SÍTIO ESTEIO;31;Alexandre de melo;(43)99625-4096;;;;;;;;;;;-23.664603,-50.004396
+;;Tomazina;;ESTÂNCIA XANDÃO;30;Alexandre de melo;(43)99625-4096;;;;;;;;;;;-23.664603,-50.004396
+;;Tomazina;;CHÁCARA 3 NETOS;29;Dorival de camargo;(43)99625-4096;;;;;;;;;;;-23.664603,-50.004396
+;;Tomazina;;sítio São miguel;;Valdemar Cardozo;;;;;;;;;;;;-23.895991,-49.992225
+;;Tomazina;;Fazenda Boa vista;28;Eventuil Lopes de godoi;(43)99691-3142;;;;;;;;;;;-23.725461,-49.916941
+;;Tomazina;;Sítio Santo Inocêncio;27;Luiz Antônio Oliveira;(43)99617-6768;;;;;;;;;;;-23.724174,-49.917819
+;;Tomazina;;CHACARA SONHO MEU;;braz Antônio dias;(43)99628-0691;;;;;;;;;;;-23.723473,-49.917187
+;;Tomazina;;Chácara Santa Cecília;;Sidnei Pedro dos Reis;(43)99622-5695;;;;;;;;;;;-23.723471,-49.917184
+;;Tomazina;;SÍTIO BOA ESPERANÇA;26;Rogério pontes;(11)98074-5429;;;;;;;;;;;-23.715889,-49.918405
+;;Tomazina;;SÍTIO SÃO BENTO;25;edelson Carlos bento;(43)99613-2342;;;;;;;;;;;-23.714846,-49.918260
+;;Tomazina;;FAZENDA RETIRO;24;Elses Mendes do Nascimento;(43)98815-8268;;;;;;;;;;;-23.789876,-49.945021
+;;Tomazina;;Wagner Terra Planagem;22;Amadeu Teodoro Assis;(43)99806-3033;;;;;;;;;;;-23.770927,-49.948716
+;;Tomazina;;Sítio São João;;Amadeu Teodoro Assis;(43)99806-3033;;;;;;;;;;;-23.735908,-49.949762
+;;Tomazina;;FAZENDA BOA VISTA;20;francisca Fernandes de Carvalho Rodrigues;(43)99934-0016;;;;;;;;;;;-23.731851,-49.912213
+;;Tomazina;;fazenda paiol;;elcis Mendes do nascimento;(41)99960-4411;;;;;;;;;;;-23.79003,-49.944932
+;;Tomazina;;Sítio São Sebastião;;Luciano Cherubim Mocelin;(43)99609-3111;;;;;;;;;;;-23.61688,-50.008256
+;;Tomazina;;SÍTIO SÃO ROQUE;;Gustavo vilas boas barzebon;(43)99930-6864;;;;;;;;;;;-23.755251,-50.021186
+;;Tomazina;;SÍTIO BELA VISTA;17;Eriton Donaldo Siqueira;(43)99977-6273;;;;;;;;;;;-23.749313,-50.011266
+;;Tomazina;;SÍTIO SÃO JOSÉ;;Terezinha Conceição dos Santos;(43)99981-4721;;;;;;;;;;;-23.743434,-50.074281
+;;Tomazina;;Farias Agropecuária;15;luiz de farias;(43)98802-1518;;;;;;;;;;;-23.737565,-49.950533
+;;Tomazina;;chácara São José;;José Bueno de carvalho;(43)99912-1615;;;;;;;;;;;-23.646349,-49.876236
+;;Tomazina;;Chácara São Luiz;;Luiz Carlos de Gouveia;(43)99967-9173;;;;;;;;;;;-23.677565,-49.909953
+;;Tomazina;;Sítio Santa Carmem;;Irene Julia Valente da Silva;(43)99987-5341;;;;;;;;;;;-23.677521,-49.910083
+;;Tomazina;;Fazenda Boa Vista;;Antônio Fernando Rodrigues;(43)98803-5828;;;;;;;;;;;-23.732465,-49.911846
+;;Tomazina;;Estância Santhiago;;José Luiz Pereira da Silva;(43)99962-6909;;;;;;;;;;;-23.821691,-49.958026
+;;Tomazina;;Fazenda três irmãos;;Marlon bonilha;(43)98437-4492;;;;;;;;;;;-23.839248,-49.884058
+;;Tomazina;;chácara São João;;geremias da anunciação silva;(43)99842-3541;;;;;;;;;;;-23.815756,-49.961123
+;;Tomazina;;Fazenda Rancho Santa Mônica;;Fabiano Rodrigues Ferreira;(43)99871-5645;;;;;;;;;;;-23.801930,-49.953297
+;;Tomazina;;Carlão;;Carlos Eduardo Matias dias;(43)99963-7120;;;;;;;;;;;-23.817201,-49.959221
+;;Tomazina;;Eduardão;;Eduardo Matias dias;(43)99958-6923;;;;;;;;;;;-23.809808,-49.957002
+;;Tomazina;;Fazenda três fronteiras;;Paulo vilas boas furini;(43)99812-4446;;;;;;;;;;;-23.723688,-49.972118
+;;Tomazina;;Fazenda jauru;;Peter Alexander schweizer;(43)99140-1202;;;;;;;;;;;-23.608349,-50.061771
+;;Tomazina;;Sítio São José;;José de Oliveira;(43)99989-9474;;;;;;;;;;;-23.654691,-49.935491
+;;Tomazina;;Fazenda barra grande;;Peter Alexander schweizer;(43)99140-1202;;;;;;;;;;;-23.584393,-50.052285
+;;Tomazina;;HOTEL FAZENDA CARRO DE BOI;;MARIA APARECIDA DA SILVA;(41)99998-0603;;;;;;;;;;;-23.774142,-49.942144
+;;Tomazina;;sítio Santa Lúcia;;Rogério Lopes da Silva;(43)35462-318;;;;;;;;;;;-23.799803,-49.918375
+;;Tomazina;;sítio São joao;;Joaquim Machado Pereira;(43)98446-0534;;;;;;;;;;;-23.772791,-49.908323
+;;Tomazina;;CHÁCARA BELA VISTA;;RIVADAL CARNEIRO NUNES;(43)99903-5663;;;;;;;;;;;-23.787975,-49.929206
+;;Tomazina;;Fazenda três fronteiras;;Paulo vilas boas furini;(43)99814-4773;;;;;;;;;;;-23.7138,-49.97431
+;;Tomazina;;Agro Dellai;1;Charles José Dellai;(43)99152-507;;;;;;;;;;;-23.692982,-50.024373
+;;Conselheiro Mairinck;;Sítio São Geraldo;19;João Batista alves;(43)98825-3228;;;;;;;;;;;-23.670596,-50.16027
+;;Conselheiro Mairinck;;SÍTIO SANTA VERÔNICA;8;Clóvis noveli filho;(43)99912-3444;;;;;;;;;;;-23.553393,-50.168706
+;;Conselheiro Mairinck;;Chácara CONQUISTA;26;Otávio Célio Teixeira;(43)99954-4014;;;;;;;;;;;-23.640656,-50.167936
+;;Conselheiro Mairinck;;CHÁCARA TRÊS IRMÃS;25;Vitor Manuel da Silva;(43)99622-3965;;;;;;;;;;;-23.643406,-50.162893
+;;Conselheiro Mairinck;;CHÁCARA BOA ESPERANÇA;24;Adalberon Pinto Rocha;;;;;;;;;;;;-23.644338,-50.161171
+;;Conselheiro Mairinck;;SÍTIO NOSSA SENHORA APARECIDA;23;José Ferreira dos Santos;(43)98846-7300;;;;;;;;;;;-23.645473,-50.1609
+;;Conselheiro Mairinck;;FAZENDA PACHECO;22;orivaldo mantoan;(43)99936-0239;;;;;;;;;;;-23.595726,-50.14226
+;;Conselheiro Mairinck;;FAZENDA COIMBRA;21;orivaldo mantoan;(43)99926-0239;;;;;;;;;;;-23.595758,-50.142276
+;;Conselheiro Mairinck;;Fazenda Marimbondo;20;Noel schweizer;(43)99173-7227;;;;;;;;;;;-23.535489,-50.096157
+;;Conselheiro Mairinck;;SÍTIO SÃO JOSÉ;;Claudinei aparecido do Nascimento;(43)99914-2273;;;;;;;;;;;-23.681531,-50.139556
+;;Conselheiro Mairinck;;SÍTIO SÃO JOSÉ;;Sebastião Manoel Ribeiro;(41)92002-8326;;;;;;;;;;;-23.68153,-50.139571
+;;Conselheiro Mairinck;;ESTÂNCIA OURO BRANCO;;Luiz Ernesto ogg;(43)98811-5694;;;;;;;;;;;-23.633465,-50.167720
+;;Conselheiro Mairinck;;SÍTIO BELA MANHÃ;;vanilda hedwiges Teixeira;(43)98819-9093;;;;;;;;;;;-23.641601,-50.167877
+;;Conselheiro Mairinck;;SITIO SÃO FRANCISCO;;Edmar Ferreira lima;(43)99905-9080;;;;;;;;;;;-23.649823,-50.151613
+;;Conselheiro Mairinck;;AGROPECUÁRIA LIMA;15;Eduartt Pablo Vaz de Lima;(43)99685-0555;;;;;;;;;;;-23.670925,-50.165271
+;;Conselheiro Mairinck;;sítio nossa senhora;;Leandro Faustino da Silva;(43)99689-2611;;;;;;;;;;;-23.677520,-50.176686
+;;Conselheiro Mairinck;;sítio 2 irmãos;;Odete Elias Gonçalves;(43)99626-1944;;;;;;;;;;;-23.675126,-50.171455
+;;Conselheiro Mairinck;;sítio 3 irmãs;;Antônio Moacir da silva;(43)99971-5380;;;;;;;;;;;-23.674921,-50.171495
+;;Conselheiro Mairinck;;sítio nossa senhora;;Rogério Oliveira domingues;(43)99693-9478;;;;;;;;;;;-23.674188,-50.169916
+;;Conselheiro Mairinck;;sítio Califórnia;;Nivaldo de Azevedo fernandes;(43)99958-0441;;;;;;;;;;;-23.674848,-50.167998
+;;Conselheiro Mairinck;;sítio jerson;;jerson Afonso matos;(43)99631-5203;;;;;;;;;;;-23.672584,-50.166837
+;;Conselheiro Mairinck;;sítio Santa maria;;Nelson Nunes ferraz;(43)99934-2394;;;;;;;;;;;-23.671421,-50.164578
+;;Conselheiro Mairinck;;nossa senhora do carmo;;juvenir barreto;(41)99152-6957;;;;;;;;;;;-23.670035,-50.163555
+;;Conselheiro Mairinck;;sítio nossa senhora Aparecida;10;roberson Junior macena;(43)99662-1566;;;;;;;;;;;-23.668331,-50.162354
+;;Conselheiro Mairinck;;Fazenda Bela Vista;;Otaviano de Paula Vieira Neto;(14)99858-4924;;;;;;;;;;;-23.500421,-50.128018
+;;Conselheiro Mairinck;;Fazenda Cristo Rei;;Maria da Conceição Alves Serrano Dias;(43)99814-3813;;;;;;;;;;;-23.65501,-50.093680
+;;Conselheiro Mairinck;;sítio santíssimo nome de jesus;;Paulo Roberto Rodrigues Filho;(43)99917-7959;;;;;;;;;;;-23.668846,-50.146043
+;;Conselheiro Mairinck;;Estância das Palmeiras;;Sebastião Da Silva Ferreira;(43)99923-2348;;;;;;;;;;;-23.671466,-50.141398
+;;Conselheiro Mairinck;;ESTÂNCIA JOTHUR;;JOSÉ INÁCIO;(41)99958-7378;;;;;;;;;;;-23.556961,-50.16922
+;;Conselheiro Mairinck;;SÍTIO CANAÃ;;GERVÁSIO LUIZ ESPANHOL;;;;;;;;;;;;-23.546235,-50.163235
+;;Conselheiro Mairinck;;FAZENDA JERIVÁ;;RICARDO GUIMARÃES PEREIRA;(43)99640-8475;;;;;;;;;;;-23.545544,-50.127933
+;;Conselheiro Mairinck;;Fazenda Mármore;;Vicente Farah de Lemos;(43)99613-3998;;;;;;;;;;;-23.590370,-50.204305
+;;Conselheiro Mairinck;;Fazenda Bom Jardim;;Adalberto Veloso;(43)99837-4482;;;;;;;;;;;-23.569528,-50.220655
+;;Pinhalão;;SÍTIO SÃO JOSÉ;52;José Rodrigues Neto;;;;;;;;;;;;-23.818653,-50.064616
+;;Pinhalão;;SÍTIO SANTA MARIA;51;Cleber Vinicius Ferreira da Silva;(43)99110-3496;;;;;;;;;;;-23.812606,-50.070438
+;;Pinhalão;;SÍTIO SÃO JOSÉ;50;Dionísio Aparecido da Silva;(43)99624-9565;;;;;;;;;;;-23.817113,-50.06084
+;;Pinhalão;;SITIO SENE;49;Gisely de Paula Sene;(43)99693-5005;;;;;;;;;;;-23.816313,-50.061355
+;;Pinhalão;;SÍTIO 4 IRMÃOS;48;Elias Pereira da Cunha;(43)98447-7952;;;;;;;;;;;-23.814676,-50.061981
+;;Pinhalão;;SANTA HELENA;47;Elza Maria De Siqueira;;;;;;;;;;;;-23.813301,-50.06081
+;;Pinhalão;;SÍTIO SÃO JOSÉ;46;José Ailton da silva;(43)99615-2077;;;;;;;;;;;-23.812666,-50.059633
+;;Pinhalão;;SÍTIO SÃO JOSÉ;45;Antônio Baum;;;;;;;;;;;;-23.812358,-50.059376
+;;Pinhalão;;SÍTIO SÃO JOSÉ;44;Sandra Bonim Baum;(43)99988-8026;;;;;;;;;;;-23.811873,-50.059835
+;;Pinhalão;;ESTÂNCIA VILELA;43;Elaine Teodoro Machado;(43)99672-9414;;;;;;;;;;;-23.811264,-50.059917
+;;Pinhalão;;sítio nossa senhora Aparecida;41;Vicente Batista de lima;(43)99843-9478;;;;;;;;;;;-23.919868,-50.144278
+;;Pinhalão;;chácara São José;40;José Hamilton Gomes;(43)99142-0585;;;;;;;;;;;-23.933298,-50.161255
+;;Pinhalão;;Fazenda São Pedro;39;Haroldo regazzo;(43)99920-1330;;;;;;;;;;;-23.900318,-50.101501
+;;Pinhalão;;SÍTIO MARIA CRISTINA;38;Antônio Carlos Delmonico;(43)99984-6494;;;;;;;;;;;-23.896010,-50.057438
+;;Pinhalão;;Sítio Santa Edwiges;34;Reinaldo Takegima;(43)99840-4905;;;;;;;;;;;-23.904072,-50.052722
+;;Pinhalão;;SÍTIO ROSIMARY;37;Amilton Baptista Filho;(43)99623-9629;;;;;;;;;;;-23.828916,-50.08106
+;;Pinhalão;;CHÁCARA BALE DAS ÁGUAS;;Clóvis Luiz tessaro;(47)99141-4160;;;;;;;;;;;-23.810374,-50.075467
+;;Pinhalão;;SÍTIO DAS PITAIAS;31;Francisco de Sales Batista;(43)99934-6730;;;;;;;;;;;-23.744337,-50.009622
+;;Pinhalão;;ÁREA DE DESENVOLVIMENTO AGROPECUÁRIA RODRIGUES;30;João Adolfo Inácio Rodrigues;(43)98437-1603;;;;;;;;;;;-23.783248,-50.069053
+;;Pinhalão;;AGROPECUÁRIA RODRIGUES;29;João Adolfo Inácio Rodrigues;(43)98437-1603;;;;;;;;;;;-23.786693,-50.082668
+;;Pinhalão;;CHÁCARA PARAÍSO;28;Juliano Munhoz Caetano;(43)99685-5344;;;;;;;;;;;-23.787075,-50.065190
+;;Pinhalão;;SÍTIO PARAÍSO;;Roberto olímpico da Silva;(43)99126-6521;;;;;;;;;;;-23.844701,-50.080151
+;;Pinhalão;;SÍTIO SÃO LUCAS;26;vandemilce reger baum;(43)99927-3566;;;;;;;;;;;-23.816643,-50.080638
+;;Pinhalão;;SÍTIO SANTO ANTÔNIO;;Carlos Silvério da costa;(43)99919-2453;;;;;;;;;;;-23.801061,-50.041638
+;;Pinhalão;;CHÁCARA BELA VISTA;25;Edgar José Magalhães Siqueira;(43)98452-3204;;;;;;;;;;;-23.798583,-50.048065
+;;Pinhalão;;Maria Helena Cristiano;;Maria Helena Cristiano;(41)99928-7560;;;;;;;;;;;-23.797583,-50.048481
+;;Pinhalão;;FAZENDA SÃO JOSÉ;24;Nivaldo antunes;(43)99106-1528;;;;;;;;;;;-23.93049,-50.150075
+;;Pinhalão;;SÍTIO ALVORADA;;wellita giglieli mota baun;(43)99159-1646;;;;;;;;;;;-23.811432,-50.032094
+;;Pinhalão;;Sítios N. S. da Gloria e Junqueira;;Angela Maria Mota;(43)99960-2986;;;;;;;;;;;-23.813115,-50.031081
+;;Pinhalão;;Rancho FS;;FLAVIO BATISTA DE LIMA;(43)99624-6647;;;;;;;;;;;-23.796367,-50.048984
+;;Pinhalão;;sítio São Sebastião;;Roberto Perecini;(43)99840-7581;;;;;;;;;;;-23.948934,-50.094788
+;;Pinhalão;;Fazenda Ribeirão Grande;;deuselindo moreto;(43)99901-7291;;;;;;;;;;;-23.951293,-49.978925
+;;Pinhalão;;Fazenda jonaju;;Osmar Antônio zmijevski;(43)99823-9415;;;;;;;;;;;-23.961453,-50.010123
+;;Pinhalão;;Fazenda lírios do vale;;leopercio cossari;(43)99623-4225;;;;;;;;;;;-23.86049,-50.087036
+;;Pinhalão;;chácara São José;;Evandro aparecido machado;(43)99668-1513;;;;;;;;;;;-23.800093,-50.074155
+;;Pinhalão;;sítio nossa senhora Aparecida;;Mario César Inocêncio dos Santos baum;(42)99945-6313;;;;;;;;;;;-23.80806,-50.0657783
+;;Pinhalão;;sítio água boa;;nivia Maria Teixeira;(43)99612-2308;;;;;;;;;;;-23.8070377,-50.0357559
+;;Pinhalão;;Agro Baum;;OSNI INOCENCIO BAUM DE SOUZA;(43)98413-1526;;;;;;;;;;;-23.782092,-50.071475
+;;Pinhalão;;chácara São Miguel;;Odair Lourenço da Silva;(43)98824-5252;;;;;;;;;;;-23.792752,-50.051113
+;;Pinhalão;;sítio crispim;;Valter Messias crispim;(43)99916-5428;;;;;;;;;;;-23.958191,-50.085688
+;;Pinhalão;;sítio boa esperança;;Carlos Inácio de freitas;(43)35463-962;;;;;;;;;;;-23.956683,-50.110266
+;;Pinhalão;;sítio menino de ouro;;Maria de Lourdes Souza cezare;(11)97123-4083;;;;;;;;;;;-23.956171,-50.109983
+;;Pinhalão;;sítio Canaã;;José cordeiro de Oliveira filho;(41)99751-5340;;;;;;;;;;;-23.953708,-50.111015
+;;Pinhalão;;sítio 4 irmãos;;Valdir de Oliveira;(43)99638-0054;;;;;;;;;;;-23.953298,-50.110947
+;;Pinhalão;;sítio mondial;;rozalina dos Santos goulart;(43)99683-3879;;;;;;;;;;;-23.949581,-50.108080
+;;Pinhalão;;estância Deodato;;José deodato Arantes;(43)99860-6236;;;;;;;;;;;-23.948063,-50.108006
+;;Pinhalão;;estância rainha das colinas;;berica carreteiro;(43)99834-4898;;;;;;;;;;;-23.905995,-50.101605
+;;Pinhalão;;sítio Macedo Oliveira;;dant Danilo de Oliveira macedo;(41)98529-7996;;;;;;;;;;;-23.799338,-50.040388
+;;Pinhalão;;sítio Jardim Alegre;;Pedro Nunes de barro;(43)99831-0768;;;;;;;;;;;-23.965116,-50.033256
+;;Pinhalão;;cafeeira soardi;;Fernando de Oliveira soardi;(43)99627-4697;;;;;;;;;;;-23.878758,-50.064778
+;;Pinhalão;;Fazenda paraíso;;Amarildo Gabriel Filho;(43)99104-7705;;;;;;;;;;;-23.916821,-50.11289
+;;Pinhalão;;Fazenda Silva Reis;1;Dario da Silva Reis;(43)99979-0198;;;;;;;;;;;-23.905863,-50.138131
+;;Pinhalão;;chácara água Branca;;rosimeire de Oliveira Tenório;(41)99832-2208;;;;;;;;;;;-23.788442,-50.082753
+;;Pinhalão;;sítio São Manoel;;Graziela Decol;(43)99870-3429;;;;;;;;;;;-23.952058,-50.032089
+;;Pinhalão;;sítio vista Alegre;;Angelina Decol Rodrigues;(43)99860-2478;;;;;;;;;;;-23.970253,-50.034108
+;;Ibaiti;;CTCA CLUBE DE TIRO;142;Carlos Diego Vigilato da Rocha;(43)99636-5147;;;;;;;;;;;-23.858836,-50.200905
+;;Ibaiti;;ESTÂNCIA EF;140;Ezequiel Felipe;(43)99111-3686;;;;;;;;;;;-23.886413,-50.22611
+;;Ibaiti;;SÍTIO TRÊS COQUEIROS;139;Rosana Maria de Araújo;(43)99988-0118;;;;;;;;;;;-23.688431,-50.353715
+;;Ibaiti;;SÍTIO BOA VISTA;138;Gilmar Domingos Ferreira;(43)99630-9550;;;;;;;;;;;-23.689981,-50.348538
+;;Ibaiti;;SÍTIO SANTO ANTÔNIO;137;Mauro Antônio Santa Rosa;(43)99643-5867;;;;;;;;;;;-23.706573,-50.241334
+;;Ibaiti;;SÍTIO SANTOMÉ;136;Rafael Sanroman da Silva;(43)98818-2480;;;;;;;;;;;-23.919051,-50.282495
+;;Ibaiti;;SÍTIO SÃO PEDRO;135;Vicente Ortega Sanroman;(43)99682-7753;;;;;;;;;;;-23.914151,-50.27459
+;;Ibaiti;;CHÁCARA GADOL ELOHAI SOIS;134;Dorival Rodrigues Alves;(43)99627-7285;;;;;;;;;;;-23.913585,-50.27301
+;;Ibaiti;;CHÁCARA CANAÃ;133;Edson Rodrigues da Silva;(43)99631-4093;;;;;;;;;;;-23.885128,-50.230115
+;;Ibaiti;;SÍTIO NOSSA SENHORA APARECIDA;132;Marcelo Lopes;(43)99908-7544;;;;;;;;;;;-23.882805,-50.25394
+;;Ibaiti;;SÍTIO NOSSA SENHORA APARECIDA;131;José Alves dias;(43)99621-4960;;;;;;;;;;;-23.888985,-50.251263
+;;Ibaiti;;MD MÁQUINAS AGRÍCOLA;130;Maurício Cezar Leonel Morales;(43)99926-9801;;;;;;;;;;;-23.815096,-50.179091
+;;Ibaiti;;CHÁCARA BOM JESUS;129;valdinei Alves dias;(43)99916-6546;;;;;;;;;;;-23.699474,-50.230051
+;;Ibaiti;;FAZENDA JOIA;128;Sandro menossi;(43)99655-3338;;;;;;;;;;;-23.795836,-50.374836
+;;Ibaiti;;SÍTIO SANTOS REIS;115;vitório Carvalho;(43)99653-6780;;;;;;;;;;;-23.692046,-50.330091
+;;Ibaiti;;SÍTIO BOA ESPERANÇA;127;Sebastião Fernandes da Silva;(43)99616-7846;;;;;;;;;;;-23.715716,-50.34798
+;;Ibaiti;;SÍTIO DOIS IRMÃOS;126;ozeias Brito silva;(43)99874-4695;;;;;;;;;;;-23.720486,-50.337485
+;;Ibaiti;;CHÁCARA SÃO FRANCISCO;122;José aparecido reimao de melo;(43)99924-0357;;;;;;;;;;;-23.893738,-50.159613
+;;Ibaiti;;SÍTIO RECANTO MINEIRO;123;Maria da Penha Oliveira Pascoal;(43)99904-5626;;;;;;;;;;;-23.902826,-50.161708
+;;Ibaiti;;sítio 3 meninas;;Mário Peres;(43)99931-5586;;;;;;;;;;;-23.902965,-50.16016
+;;Ibaiti;;Fazenda São José;119;NAGIB DOS SANTOS FERREIRA;(43)99969-9936;;;;;;;;;;;-23.606015,-50.327971
+;;Ibaiti;;Fazenda Realeza;118;Fazenda Realeza;(43)99603-9086;;;;;;;;;;;-23.638371,-50.300056
+;;Ibaiti;;Fazenda São José;117;José Lopes de Almeida;(43)99920-2466;;;;;;;;;;;-23.680845,-50.266248
+;;Ibaiti;;sítio nossa senhora Aparecida;;Ana lucia domingues bonini;(43)99810-2755;;;;;;;;;;;-23.739206,-50.216718
+;;Ibaiti;;Sitio Água da Limeira;;Valdeci Ferreira Ruiz;(43)99117-9232;;;;;;;;;;;-23.791569,-50.194550
+;;Ibaiti;;sítio boa esperança;114;Jarbas Umberlino de Oliveira;(41)99908-1868;;;;;;;;;;;-23.751026,-50.256891
+;;Ibaiti;;sítio boa esperança;;Rogério José da Silva;(43)99635-5893;;;;;;;;;;;-23.726651,-50.331350
+;;Ibaiti;;sítio São marcos;;adenilson de lima alvarenga;(43)99957-0916;;;;;;;;;;;-23.725693,-50.334176
+;;Ibaiti;;sítio menino deus;;Helena Pereira de souza;(43)99839-8651;;;;;;;;;;;-23.69501,-50.333448
+;;Ibaiti;;sítio Santa helena;;Maria elena pontes de camargo;(43)98421-8790;;;;;;;;;;;-23.687794,-50.344705
+;;Ibaiti;;SÍTIO PITOLISCO;112;Anderson de Moura Bueno;(43)99829-3723;;;;;;;;;;;-23.895001,-50.200498
+;;Ibaiti;;CHÁCARA GOLD;;Marcelo Antônio cunha;(43)99990-5209;;;;;;;;;;;-23.838106,-50.254778
+;;Ibaiti;;CHACARA NOSSA SENHORA APARECIDA;;Ana Afonso rosário dos Santos;(43)99607-3679;;;;;;;;;;;-23.838535,-50.254260
+;;Ibaiti;;SÍTIO BOA ESPERANÇA;;Genesio Vieira Machado;(43)99865-6613;;;;;;;;;;;-23.746343,-50.254376
+;;Ibaiti;;SÍTIO SÃO JOSÉ;;Lourdes Maria da Silva Fernandes;;;;;;;;;;;;-23.763403,-50.239003
+;;Ibaiti;;SÍTIO SÃO JORGE;;Valdir do Paraizo Gomes;(43)99684-9656;;;;;;;;;;;-23.764275,-50.23762
+;;Ibaiti;;ESTÂNCIA NOSSA SENHORA DE FÁTIMA;;natascha Miguel de Oliveira;(43)99127-3087;;;;;;;;;;;-23.765133,-50.242791
+;;Ibaiti;;CHÁCARA PEDACINHO DO CÉU;;CHÁCARA PEDACINHO DO CÉU;(43)99913-6290;;;;;;;;;;;-23.769409,-50.233309
+;;Ibaiti;;SÃO MIGUEL;;José Miguel da silva;(13)99788-5568;;;;;;;;;;;-23.770519,-50.233527
+;;Ibaiti;;SÍTIO NOSSA SENHORA DE LOURDES;;jurandir da silva;(43)99159-5565;;;;;;;;;;;-23.771363,-50.233177
+;;Ibaiti;;SÍTIO SÃO JOÃO;110;Valdir do Paraízo Gomes;(43)99684-9656;;;;;;;;;;;-23.776913,-50.230992
+;;Ibaiti;;SÍTIO SÃO BERNARDO;109;Ângela Cristina ravazi mansano gomes;(44)99992-5031;;;;;;;;;;;-23.757484,-50.209427
+;;Ibaiti;;SÍTIO SÃO JOSÉ;108;Maria sidor de Oliveira;(43)99950-9140;;;;;;;;;;;-23.890681,-50.238551
+;;Ibaiti;;SÍTIO NOSSA SENHORA DAS GRAÇAS;;Alexandre jacomini;(43)99969-9959;;;;;;;;;;;-23.822018,-50.226166
+;;Ibaiti;;SÍTIO NOVA ESPERANÇA;;Cláudio wrobliwski;(43)99134-6958;;;;;;;;;;;-23.819045,-50.22786
+;;Ibaiti;;SÍTIO TRINDADE;;ardival aparecido tambolo;(43)99643-5875;;;;;;;;;;;-23.822331,-50.229363
+;;Ibaiti;;Fazenda Nossa Senhora Aparecida;107;Marcelo Pinto de Carvalho;(43)99915-1931;;;;;;;;;;;-23.645916,-50.310280
+;;Ibaiti;;Chácara Nossa Senhora Aparecida;106;Arildo Germano de Queiroz;(43)99617-1268;;;;;;;;;;;-23.873686,-50.200164
+;;Ibaiti;;FAZENDA VALE VERDE;105;João Ferreira dos Santos;(43)99672-0324;;;;;;;;;;;-23.606008,-50.325783
+;;Ibaiti;;CHÁCARA ILHA BELA;104;Teodomiro olímpico Rodrigues de Carvalho;(41)99598-1396;;;;;;;;;;;-23.92395,-50.19099
+;;Ibaiti;;Sítio São Benedito;93;Claudinei Dorival da Silva;(43)99873-0837;;;;;;;;;;;-23.907978,-50.257393
+;;Ibaiti;;sítio jericó;92;Claudinei Dorival da Silva;(43)99873-0837;;;;;;;;;;;-23.907978,-50.257393
+;;Ibaiti;;FAZENDA IRACEMA;103;Marcelo Jorge fadel;(43)99872-0218;;;;;;;;;;;-23.844838,-50.231485
+;;Ibaiti;;CABANHA DO JOAB 2;71;José Carlos de Araújo Bueno de Camargo;(43)99925-7143;;;;;;;;;;;-23.913021,-50.255143
+;;Ibaiti;;CHÁCARA 5 ARANTES;101;José deodato Arantes;(43)99860-6236;;;;;;;;;;;-23.845108,-50.196317
+;;Ibaiti;;Chácara Mingote;100;Ulisses Ferreira de Melo Neto;(43)99194-3475;;;;;;;;;;;-23.920652,-50.19215
+;;Ibaiti;;Sítio Torres;89;Tiago Batista Cândido;(43)99965-7613;;;;;;;;;;;-23.80918,-50.185973
+;;Ibaiti;;RECANTO DAS SIRIEMAS;99;Roni hammershlag;(43)98812-7722;;;;;;;;;;;-23.92829,-50.189575
+;;Ibaiti;;SÍTIO FONTE DAS ÁGUAS;;Reinaldo braz da Silva;(43)99155-4210;;;;;;;;;;;-23.928583,-50.18933
+;;Ibaiti;;SÍTIO ARIZO;97;José Alfredo da Silva Filho;(41)99624-9702;;;;;;;;;;;-23.917008,-50.2172
+;;Ibaiti;;Sítio Bom Sucesso;96;José da Silva;(43)99111-2069;;;;;;;;;;;-23.835545,-50.163211
+;;Ibaiti;;ESTÂNCIA ANITA;95;Maria Beatriz Lopes da Silva Castro;(43)99606-9059;;;;;;;;;;;-23.605662,-50.326693
+;;Ibaiti;;VINHOS BATAER;94;Thiago Bataer;(43)35469-001;;;;;;;;;;;-23.912480,-50.254082
+;;Ibaiti;;CHÁCARA DOIS IRMÃOS;;Claudinei Dorival da Silva;(43)99873-0837;;;;;;;;;;;-23.907716,-50.257159
+;;Ibaiti;;CHÁCARA NOSSA SENHORA APARECIDA;;Sebastião Inácio Ferreira Filho;(43)99185-3728;;;;;;;;;;;-23.855274,-50.337771
+;;Ibaiti;;FAZENDA DG;90;Deleuza Aparecida Galvão okada;(43)99190-6562;;;;;;;;;;;-23.855839,-50.337105
+;;Ibaiti;;FAZENDA NOSSA SENHORA APARECIDA;88;Mariane Fadel Fraiz Vanzeli;(43)98447-2152;;;;;;;;;;;-23.903383,-50.208115
+;;Ibaiti;;chácara tijolo;;reciel Laurindo ramalho;(43)99173-4577;;;;;;;;;;;-23.808588,-50.185988
+;;Ibaiti;;CHÁCARA BOM SUCESSO;;Luiz Carlos da silva;(43)99869-1976;;;;;;;;;;;-23.834619,-50.159417
+;;Ibaiti;;CHÁCARA SÃO CARLOS;88;Carlos schuenck;(43)99131-0466;;;;;;;;;;;-23.830312,-50.163061
+;;Ibaiti;;SÍTIO AMORA PRETA;87;marly ytsuko fukushima;(43)99171-9688;;;;;;;;;;;-23.743434,-50.074281
+;;Ibaiti;;RECANTO VALE VERDE;;Vilmar marondin;(43)99106-9911;;;;;;;;;;;-23.824126,-50.221173
+;;Ibaiti;;ESTÂNCIA RIO BARREIRO;84;VALDINEI CASTILHO PINTO;(41)99661-4885;;;;;;;;;;;-23.750450,-50.334790
+;;Ibaiti;;CHÁCARA SÃO JOSÉ;;jovanice José de azevedo;(43)99927-1983;;;;;;;;;;;-23.854753,-50.232185
+;;Ibaiti;;SITIO ADEMIR FERREIRA DE MELO;83;Célia Maria Ferreira de Melo;(43)99822-3113;;;;;;;;;;;-23.91945,-50.193671
+;;Ibaiti;;Fazenda São Gabriel;;antonely de Cássio Alves Carvalho;(43)99971-5407;;;;;;;;;;;-23.910913,-50.237095
+;;Ibaiti;;CHÁCARA NOSSA SENHORA APARECIDA;;Ari de Jesus boachaq;(43)99921-8694;;;;;;;;;;;-23.924680,-50.144286
+;;Ibaiti;;FAZENDA ESPANHA;82;geiel Heidegger Ferreira;(43)99837-8434;;;;;;;;;;;-23.940011,-50.158246
+;;Ibaiti;;FAZENDA CANAÃ FIGUEIRA BRANCA;;Celso Bueno de godoy;(43)98803-6839;;;;;;;;;;;-23.944261,-50.16471
+;;Ibaiti;;SÍTIO FIGUEIRA BRANCA;;Alex fernando Pereira;(43)99979-0324;;;;;;;;;;;-23.925612,-50.170765
+;;Ibaiti;;NOSSA SENHORA APARECIDA;;João Pedro Nunes;(43)99696-3055;;;;;;;;;;;-23.814683,-50.358998
+;;Ibaiti;;NOSSA SENHORA DO CARMO;;Alberto Luis trevisani Borges;(43)99117-6101;;;;;;;;;;;-23.814586,-50.358256
+;;Ibaiti;;Sítio Boa Esperança;;Fernando Aparecida Gomes;(43) 9915-84632;;;;;;;;;;;-23.882207,-50.262817
+;;Ibaiti;;Sitio Amora Preta;;Henrique cabette Xavier;(43)99136-9928;;;;;;;;;;;-23.913555,-50.301539
+;;Ibaiti;;sítio nossa senhora Aparecida;;Marilza de Fátima Faria Pereira;(43)99175-7095;;;;;;;;;;;-23.917361,-50.30309
+;;Ibaiti;;sítio nova esperança;;wedson José alves;(43)99669-3583;;;;;;;;;;;-23.727363,-50.336481
+;;Ibaiti;;Paraíso das Águas;;Sérgio Negrão Palason;(43)99813-5079;;;;;;;;;;;-23.770595,-50.277921
+;;Ibaiti;;sítio São José;;WILSON JOSE DE CARVALHO;(43)99608-2931;;;;;;;;;;;-23.936193,-50.202373
+;;Ibaiti;;Fazenda Manah;;Paulo Cezar de moura bueno;(43)99613-4972;;;;;;;;;;;-23.709426,-50.216406
+;;Ibaiti;;sítio cabanha do joab;;José Carlos de Araújo Bueno de Camargo;(43)99925-7143;;;;;;;;;;;-23.877658,-50.26076
+;;Ibaiti;;Sítio São Sebastião;;Carlos José Ferreira;(43)99145-7385;;;;;;;;;;;-23.925805,-50.313573
+;;Ibaiti;;Rancho Fundo;;Reginaldo Aparecido Schmidt;(43)99902-0225;;;;;;;;;;;-23.932901,-50.314895
+;;Ibaiti;;sítio São Benedito;;Sidnei robs;(43)99111-2628;;;;;;;;;;;-23.865563,-50.260573
+;;Ibaiti;;Sítio 3 Meninas;;ANDRE INFANTE VIEIRA DE ASSIS;(41)99849-8888;;;;;;;;;;;-23.885915,-50.232138
+;;Ibaiti;;Chácara São Pedro e São Paulo;;Gerson Prado;(43)99846-7524;;;;;;;;;;;-23.90583,-50.205171
+;;Ibaiti;;JFI Silvicultura;;JFI Silvicultura LTDA;(15)98157-3350;;;;;;;;;;;-23.844501,-50.191900
+;;Ibaiti;;Fazenda senhor bom jesus;;Jonyere Vida de Lima;(43)99686-2706;;;;;;;;;;;-23.660756,-50.217428
+;;Ibaiti;;Fazenda Bonfim;;Arnon André Assis;(41)99849-8888;;;;;;;;;;;-23.841325,-50.204916
+;;Ibaiti;;Sítio Nascimento Almeida;;Marcos do Nascimento;(43)99658-6285;;;;;;;;;;;-23.775966,-50.209841
+;;Ibaiti;;sítios karioka e paraíso;;Luiz Carlos da Silva Alberto;(43)99653-6602;;;;;;;;;;;-23.77541,-50.204338
+;;Ibaiti;;sítio Bueno;;Alysson jordino de Araújo bueno;(43)99102-6166;;;;;;;;;;;-23.798370,-50.191643
+;;Ibaiti;;sítio santo Antônio;;Antônio José da cruz;(43)99863-1095;;;;;;;;;;;-23.654201,-50.267373
+;;Ibaiti;;Fazenda Jussara;;Jarbas Afonso de Oliveira pedroza;(43)99139-3111;;;;;;;;;;;-23.633596,-50.256673
+;;Ibaiti;;Fazenda Efraim;;José Aparecido da Cruz;(43)99863-1095;;;;;;;;;;;-23.637121,-50.252081
+;;Ibaiti;;Estância JG;;Fábio Fraiz Vanzeli;(43)98447-2151;;;;;;;;;;;-23.870493,-50.182278
+;;Ibaiti;;estância ferst;;Lidiane Albina krubniki Ferst;(43)99628-0300;;;;;;;;;;;-23.864736,-50.187529
+;;Ibaiti;;sítio São José;;Maria de Lourdes wroblewski pena;(43)99974-9288;;;;;;;;;;;-23.958998,-50.234006
+;;Ibaiti;;Estância São Miguel Arcanjo;;Ariane Ruiz Iegler;(43)99125-1668;;;;;;;;;;;-23.873354,-50.193243
+;;Ibaiti;;sítio estância são José;;Jeferson José de Oliveira;(43)99933-8813;;;;;;;;;;;-23.749218,-50.225388
+;;Ibaiti;;chácara Teófilo Siqueira;;José Luiz Siqueira;(43)99602-7667;;;;;;;;;;;-23.933748,-50.22106
+;;Ibaiti;;sítio sonho meu;;Osmar da Silva Reis;(43)99103-1002;;;;;;;;;;;-23.931856,-50.222466
+;;Ibaiti;;estância Letícia;;erário donizete de Azevedo;(43)99185-7900;;;;;;;;;;;-23.926721,-50.220396
+;;Ibaiti;;sítio três irmãs;;Lázaro aparecido de souza;(43)99950-9253;;;;;;;;;;;-23.71994,-50.222858
+;;Ibaiti;;sítio pé de cedro;;eva de Jesus da Silva;;;;;;;;;;;;-23.71699,-50.223793
+;;Ibaiti;;sítio joara;;João alves Moreira;(43)99954-9220;;;;;;;;;;;-23.724,-50.22399
+;;Ibaiti;;sítio nossa senhora Aparecida;;Paulo Cesar Borges;(43)99828-8844;;;;;;;;;;;-23.728251,-50.221123
+;;Ibaiti;;estância reino encantado;;Carlos Antônio da rocha;(43)99907-3546;;;;;;;;;;;-23.911170,-50.224635
+;;Ibaiti;;sítio fortaleza;;Jeremias Gonçalves shiomi;(43)99612-3817;;;;;;;;;;;-23.899585,-50.313571
+;;Ibaiti;;Fazenda Santa Fé;;Wilson Francisco Landgraf;(43)99979-0063;;;;;;;;;;;-23.654851,-50.400991
+;;Ibaiti;;Fazenda ibaiti agro florestal;;Antônio Luiz de Figueiredo Ferraz;(43)99137-6885;;;;;;;;;;;-23.762745,-50.360683
+;;Ibaiti;;chácara nossa senhora Aparecida;;José Luiz de Oliveira;(43)99607-1165;;;;;;;;;;;-23.89042,-50.185806
+;;Ibaiti;;sítio pedacinho do céu;;cleverson hilgenberg;(43)99965-6700;;;;;;;;;;;-23.957281,-50.23574
+;;Ibaiti;;chácara nossa senhora Aparecida;;José Fernando de Almeida;(43)99686-6220;;;;;;;;;;;-23.888916,-50.201603
+;;Ibaiti;;sítio São joaquim;;Manoel valle;;;;;;;;;;;;-23.91392,-50.182291
+;;Ibaiti;;sítio primavera;;narcizo roza guiomar;(43)99172-0313;;;;;;;;;;;-23.929688,-50.217546
+;;Ibaiti;;sítio nova esperança;;Ana Carolina mocarzel;(43)98846-3967;;;;;;;;;;;-23.926658,-50.215628
+;;Ibaiti;;Fazenda gadolandia;;heberton Gonçalves Dias Rodrigues;(43)99148-7736;;;;;;;;;;;-23.951365,-50.278661
+;;Ibaiti;;sítio santo Antônio;;Pedro Mazili neto;(43)99628-3485;;;;;;;;;;;-23.789156,-50.190625
+;;Ibaiti;;estância 2 E;;Reinaldo gefer de lara;(43)99686-3000;;;;;;;;;;;-23.914605,-50.245071
+;;Ibaiti;;sítio São José;;Julio Reinaldo ribas;(43)99979-7121;;;;;;;;;;;-23.919091,-50.244045
+;;Ibaiti;;integrada;;Alex Fernando da Silva;(43)99650-7357;;;;;;;;;;;-23.814131,-50.180180
+;;Ibaiti;;estância da figueira;;marco Antônio de Andrade Vieira filho;(43)99166-2324;;;;;;;;;;;-23.856370,-50.383992
+;;Ibaiti;;Fazenda Adelaide;;berica carretero;(43)99834-4898;;;;;;;;;;;-23.888528,-50.167105
+;;Ibaiti;;sítio melo;;Cesar Augusto de mello;(43)99187-0252;;;;;;;;;;;-23.959243,-50.282701
+;;Ibaiti;;chácara recanto feliz;;José ottilio carneiro;(43)99125-1920;;;;;;;;;;;-23.817438,-50.203601
+;;Ibaiti;;sítio santo Antônio;;Fernando Antônio de moura Coelho;(43)99602-1829;;;;;;;;;;;-23.818953,-50.20133
+;;Ibaiti;;sítio Marques;;edison Morais de Medeiros;(43)99919-2792;;;;;;;;;;;-23.857338,-50.16651
+;;Ibaiti;;sítio Santa luzia;;José Maria de Oliveira;(43)99912-1965;;;;;;;;;;;-23.793268,-50.303661
+;;Ibaiti;;Fazenda bileia;;Luiz Antônio Moreira Martins sobrinho;(43)99150-2955;;;;;;;;;;;-23.785619,-50.235437
+;;Ibaiti;;sítio dois irmãos;;oimisac bento subtil;(43)99112-9285;;;;;;;;;;;-23.872136,-50.30383
+;;Ibaiti;;Rancho esperança;;edie Jairo alarcon;(43)98403-6457;;;;;;;;;;;-23.889821,-50.26362
+;;Ibaiti;;chácara sonho meu;;Wilson Bueno de Oliveira;(43)99983-1964;;;;;;;;;;;-23.898031,-50.24601
+;;Ibaiti;;Fazenda Virgínia;;Wilson Landgraf;(49)39997-9009;;;;;;;;;;;-23.623815,-50.380565
+;;Ibaiti;;sítio boa sorte;;Fernando aparecido gomes;(43)99158-4632;;;;;;;;;;;-23.882145,-50.262881
+;;Ibaiti;;sítio boa esperança;;Dirceu Maria carvalho da silva;(43)99125-8373;;;;;;;;;;;-23.88399,-50.262941
+;;Ibaiti;;sítio ipiranga;;Maria Aparecida da Silva;(43)99965-5271;;;;;;;;;;;-23.779921,-50.195406
+;;Ibaiti;;sítio Rio do peixe;;José benedito bernardino;(43)99131-4079;;;;;;;;;;;-23.901521,-50.341964
+;;Ibaiti;;sítio santo Antônio;;Sérgio dos Reis faria;(43)99163-9917;;;;;;;;;;;-23.899011,-50.292893
+;;Ibaiti;;sítio Godoi;;elpideo Barbosa de godoy;(43)99906-3225;;;;;;;;;;;-23.887121,-50.178683
+;;Ibaiti;;Fazenda Santa eliza;;Eugenio de lima braga;(41)99975-4313;;;;;;;;;;;-23.927848,-50.279252

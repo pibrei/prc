@@ -23,7 +23,22 @@
       "mcp__supabase__get_logs",
       "mcp__supabase__deploy_edge_function",
       "mcp__supabase__list_edge_functions",
-      "Bash(sed:*)"
+      "Bash(sed:*)",
+      "Bash(mkdir:*)",
+      "Bash(cd:*)",
+      "Bash(mv:*)",
+      "Bash(cp:*)",
+      "Bash(cd:*)",
+      "Bash(touch:*)",
+      "Bash(grep:*)",
+      "Bash(cd:*)",
+      "Bash(cd:*)",
+      "Bash(cd:*)",
+      "Bash(cd:*)",
+      "Bash(cd:*)",
+      "mcp__supabase__search_docs",
+      "Bash(awk:*)",
+      "Bash(npx supabase functions deploy:*)"
     ]
   },
   "enableAllProjectMcpServers": true,
