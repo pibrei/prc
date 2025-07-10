@@ -407,12 +407,12 @@ const Properties: React.FC = () => {
               <Button 
                 onClick={() => navigate('/properties/import-batch')} 
                 variant="outline"
-                className="w-full sm:w-auto bg-blue-50 hover:bg-blue-100 border-blue-200"
+                className="h-12 bg-blue-50 hover:bg-blue-100 border-blue-200"
               >
                 <Package className="h-4 w-4 mr-2" />
                 Importar em Lotes
               </Button>
-            </>
+            </div>
           )}
         </div>
       </div>
