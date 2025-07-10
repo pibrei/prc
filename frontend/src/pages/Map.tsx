@@ -7,7 +7,7 @@ import '../components/map/cluster-styles.css'
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card'
 import { Button } from '../components/ui/button'
 import { supabase } from '../lib/supabase'
-import { MapPin, Car, Eye, EyeOff, Filter, X, Search, Navigation } from 'lucide-react'
+import { MapPin, Car, Eye, EyeOff, Filter, X, Search, Navigation, Camera, Wifi } from 'lucide-react'
 import { useGeolocation } from '../contexts/GeolocationContext'
 import { useAuth } from '../contexts/AuthContext'
 
