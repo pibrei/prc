@@ -770,16 +770,51 @@ const Map: React.FC = () => {
                           </button>
                           
                           <button
-                            onClick={() => {
-                              if (navigator.share) {
-                                navigator.share({
+                            onClick={async () => {
+                              try {
+                                const shareData = {
                                   title: property.name,
                                   text: `${property.name} - ${property.cidade}${property.bairro ? `, ${property.bairro}` : ''}`,
                                   url: `https://www.google.com/maps/place/${property.latitude},${property.longitude}`
-                                });
-                              } else {
-                                navigator.clipboard.writeText(`${property.name}: https://www.google.com/maps/place/${property.latitude},${property.longitude}`);
-                                alert('Link copiado para a área de transferência!');
+                                };
+                                
+                                // Check if Web Share API is supported and available
+                                if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
+                                  await navigator.share(shareData);
+                                } else if (navigator.clipboard && navigator.clipboard.writeText) {
+                                  // Fallback to clipboard API
+                                  const textToShare = `${property.name}: https://www.google.com/maps/place/${property.latitude},${property.longitude}`;
+                                  await navigator.clipboard.writeText(textToShare);
+                                  alert('Link copiado para a área de transferência!');
+                                } else {
+                                  // Final fallback - create a temporary input element
+                                  const textToShare = `${property.name}: https://www.google.com/maps/place/${property.latitude},${property.longitude}`;
+                                  const tempInput = document.createElement('input');
+                                  tempInput.value = textToShare;
+                                  document.body.appendChild(tempInput);
+                                  tempInput.select();
+                                  tempInput.setSelectionRange(0, 99999); // For mobile devices
+                                  document.execCommand('copy');
+                                  document.body.removeChild(tempInput);
+                                  alert('Link copiado para a área de transferência!');
+                                }
+                              } catch (error) {
+                                console.log('Erro ao compartilhar:', error);
+                                // Fallback quando tudo mais falha
+                                const textToShare = `${property.name}: https://www.google.com/maps/place/${property.latitude},${property.longitude}`;
+                                try {
+                                  const tempInput = document.createElement('input');
+                                  tempInput.value = textToShare;
+                                  document.body.appendChild(tempInput);
+                                  tempInput.select();
+                                  tempInput.setSelectionRange(0, 99999);
+                                  document.execCommand('copy');
+                                  document.body.removeChild(tempInput);
+                                  alert('Link copiado para a área de transferência!');
+                                } catch (fallbackError) {
+                                  console.log('Fallback também falhou:', fallbackError);
+                                  alert(`Link: https://www.google.com/maps/place/${property.latitude},${property.longitude}`);
+                                }
                               }
                             }}
                             className="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-2 rounded-md text-sm font-medium flex items-center justify-center transition-colors"
@@ -789,17 +824,19 @@ const Map: React.FC = () => {
                           </button>
                         </div>
                         
-                        {(property.has_cameras || property.residents_count || property.activity) && (
-                          <p className="text-xs text-red-600">🎥 Câmeras: {property.cameras_count}</p>
-                        )}
-                        {property.has_wifi && (
-                          <p className="text-xs text-green-600">📶 WiFi disponível</p>
-                        )}
-                        {property.contact_name && (
-                          <p className="text-xs text-gray-500">Contato Adicional: {property.contact_name}</p>
-                        )}
-                        {property.contact_phone && (
-                          <p className="text-xs text-gray-500">Tel. Contato: {property.contact_phone}</p>
+                        {/* Additional Contact Info */}
+                        {(property.contact_name || property.contact_phone) && (
+                          <div className="pt-3 border-t space-y-1">
+                            <div className="text-xs font-medium text-gray-500 uppercase tracking-wide">Contato Adicional</div>
+                            {property.contact_name && (
+                              <div className="text-xs text-gray-700">{property.contact_name}</div>
+                            )}
+                            {property.contact_phone && (
+                              <a href={`tel:${property.contact_phone}`} className="text-xs text-blue-600 hover:underline">
+                                {property.contact_phone}
+                              </a>
+                            )}
+                          </div>
                         )}
                       </div>
                     </Popup>

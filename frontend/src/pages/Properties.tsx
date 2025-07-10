@@ -6,8 +6,7 @@ import { supabase } from '../lib/supabase'
 import { useAuth } from '../contexts/AuthContext'
 import { Plus, Edit, Trash2, Search, Camera, Wifi, Upload, Package, MapPin, Filter } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
-import LocationInput from '../components/ui/location-input'
-import TeamSelector from '../components/ui/team-selector'
+import PropertyFormModal from '../components/property/PropertyFormModal'
 
 interface Property {
   id: string
@@ -49,7 +48,7 @@ const Properties: React.FC = () => {
   const [properties, setProperties] = useState<Property[]>([])
   const [filteredProperties, setFilteredProperties] = useState<Property[]>([])
   const [searchTerm, setSearchTerm] = useState('')
-  const [showForm, setShowForm] = useState(false)
+  const [showFormModal, setShowFormModal] = useState(false)
   const [editingProperty, setEditingProperty] = useState<Property | null>(null)
   const [loading, setLoading] = useState(true)
   const [hasSearched, setHasSearched] = useState(false)
@@ -57,36 +56,6 @@ const Properties: React.FC = () => {
   // Estados para filtros de visualização
   const [selectedBatalhao, setSelectedBatalhao] = useState('')
   const [selectedCia, setSelectedCia] = useState('')
-
-  const [formData, setFormData] = useState({
-    name: '',
-    description: '',
-    latitude: '',
-    longitude: '',
-    cidade: '',
-    bairro: '',
-    numero_placa: '',
-    crpm: '',
-    batalhao: '',
-    cia: '',
-    equipe: '',
-    owner_name: '',
-    owner_phone: '',
-    owner_rg: '',
-    has_wifi: false,
-    wifi_password: '',
-    has_cameras: false,
-    cameras_count: 0,
-    residents_count: '',
-    activity: '',
-    bou: '',
-    observations: '',
-    contact_name: '',
-    contact_phone: '',
-    contact_observations: '',
-    property_type: 'rural' as 'rural' | 'urban' | 'mixed',
-    cadastro_date: new Date().toISOString().split('T')[0]
-  })
 
   useEffect(() => {
     if (userProfile) {
@@ -107,16 +76,6 @@ const Properties: React.FC = () => {
     }
   }, [selectedBatalhao, selectedCia, hasSearched])
 
-  // Auto-preenchimento com dados do usuário logado
-  useEffect(() => {
-    if (userProfile && !editingProperty) {
-      setFormData(prev => ({
-        ...prev,
-        crpm: userProfile.crpm || '',
-        batalhao: userProfile.batalhao || ''
-      }))
-    }
-  }, [userProfile, editingProperty])
 
   useEffect(() => {
     if (searchTerm.trim()) {
@@ -214,18 +173,38 @@ const Properties: React.FC = () => {
 
   const fetchProperties = fetchAllProperties
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    
+  const handleSubmit = async (formData: any) => {
     try {
       if (editingProperty) {
         // Para edição, usar update direto
         const propertyData = {
-          ...formData,
+          name: formData.name,
+          description: formData.description || null,
           latitude: parseFloat(formData.latitude),
           longitude: parseFloat(formData.longitude),
+          cidade: formData.cidade,
+          bairro: formData.bairro || null,
+          numero_placa: formData.numero_placa || null,
+          crpm: formData.crpm,
+          batalhao: formData.batalhao,
+          cia: formData.cia || null,
+          equipe: formData.equipe || null,
+          owner_name: formData.owner_name,
+          owner_phone: formData.owner_phone || null,
+          owner_rg: formData.owner_rg || null,
+          has_wifi: formData.has_wifi,
+          wifi_password: formData.wifi_password || null,
+          has_cameras: formData.has_cameras,
           cameras_count: parseInt(formData.cameras_count.toString()) || 0,
-          residents_count: formData.residents_count ? parseInt(formData.residents_count.toString()) : null
+          residents_count: formData.residents_count ? parseInt(formData.residents_count.toString()) : null,
+          activity: formData.activity || null,
+          bou: formData.bou || null,
+          observations: formData.observations || null,
+          contact_name: formData.contact_name || null,
+          contact_phone: formData.contact_phone || null,
+          contact_observations: formData.contact_observations || null,
+          property_type: formData.property_type,
+          cadastro_date: formData.cadastro_date
         }
 
         const { error } = await supabase
@@ -275,9 +254,8 @@ const Properties: React.FC = () => {
         }
       }
 
-      setShowForm(false)
+      setShowFormModal(false)
       setEditingProperty(null)
-      resetForm()
       fetchProperties()
     } catch (error) {
       console.error('Erro ao salvar propriedade:', error)
@@ -287,36 +265,12 @@ const Properties: React.FC = () => {
 
   const handleEdit = (property: Property) => {
     setEditingProperty(property)
-    setFormData({
-      name: property.name,
-      description: property.description || '',
-      latitude: property.latitude.toString(),
-      longitude: property.longitude.toString(),
-      cidade: property.cidade || '',
-      bairro: property.bairro || '',
-      numero_placa: property.numero_placa || '',
-      crpm: property.crpm || '',
-      batalhao: property.batalhao || '',
-      cia: property.cia || '',
-      equipe: property.equipe || '',
-      owner_name: property.owner_name || '',
-      owner_phone: property.owner_phone || '',
-      owner_rg: property.owner_rg || '',
-      has_wifi: property.has_wifi || false,
-      wifi_password: property.wifi_password || '',
-      has_cameras: property.has_cameras || false,
-      cameras_count: property.cameras_count || 0,
-      residents_count: property.residents_count?.toString() || '',
-      activity: property.activity || '',
-      bou: property.bou || '',
-      observations: property.observations || '',
-      contact_name: property.contact_name || '',
-      contact_phone: property.contact_phone || '',
-      contact_observations: property.contact_observations || '',
-      property_type: property.property_type,
-      cadastro_date: property.cadastro_date || new Date().toISOString().split('T')[0]
-    })
-    setShowForm(true)
+    setShowFormModal(true)
+  }
+
+  const handleCloseModal = () => {
+    setShowFormModal(false)
+    setEditingProperty(null)
   }
 
   const handleDelete = async (id: string) => {
@@ -335,37 +289,6 @@ const Properties: React.FC = () => {
     }
   }
 
-  const resetForm = () => {
-    setFormData({
-      name: '',
-      description: '',
-      latitude: '',
-      longitude: '',
-      cidade: '',
-      bairro: '',
-      numero_placa: '',
-      crpm: userProfile?.crpm || '',
-      batalhao: userProfile?.batalhao || '',
-      cia: '',
-      equipe: '',
-      owner_name: '',
-      owner_phone: '',
-      owner_rg: '',
-      has_wifi: false,
-      wifi_password: '',
-      has_cameras: false,
-      cameras_count: 0,
-      residents_count: '',
-      activity: '',
-      bou: '',
-      observations: '',
-      contact_name: '',
-      contact_phone: '',
-      contact_observations: '',
-      property_type: 'rural',
-      cadastro_date: new Date().toISOString().split('T')[0]
-    })
-  }
 
   const canDelete = userProfile?.role === 'admin'
 
@@ -387,7 +310,7 @@ const Properties: React.FC = () => {
         {/* Mobile Action Buttons */}
         <div className="flex flex-col gap-2">
           <Button 
-            onClick={() => setShowForm(true)} 
+            onClick={() => setShowFormModal(true)} 
             className="w-full h-12 text-base font-medium"
           >
             <Plus className="h-5 w-5 mr-2" />
@@ -479,323 +402,6 @@ const Properties: React.FC = () => {
         />
       </div>
 
-      {showForm && (
-        <Card>
-          <CardHeader>
-            <CardTitle>
-              {editingProperty ? 'Editar Propriedade' : 'Nova Propriedade'}
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-6">
-              {/* Seção: Informações da Propriedade */}
-              <div className="border-b pb-4">
-                <h3 className="text-lg font-medium mb-4">Informações da Propriedade</h3>
-                
-                <div className="grid grid-cols-2 gap-4 mb-4">
-                  <div>
-                    <label className="block text-sm font-medium mb-1">Nome da Propriedade *</label>
-                    <Input
-                      value={formData.name}
-                      onChange={(e) => setFormData({...formData, name: e.target.value})}
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium mb-1">Data de Cadastro *</label>
-                    <Input
-                      type="date"
-                      value={formData.cadastro_date}
-                      onChange={(e) => setFormData({...formData, cadastro_date: e.target.value})}
-                      required
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-3 gap-4 mb-4">
-                  <div>
-                    <label className="block text-sm font-medium mb-1">Cidade *</label>
-                    <Input
-                      value={formData.cidade}
-                      onChange={(e) => setFormData({...formData, cidade: e.target.value})}
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium mb-1">Bairro</label>
-                    <Input
-                      value={formData.bairro}
-                      onChange={(e) => setFormData({...formData, bairro: e.target.value})}
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium mb-1">Número da Placa</label>
-                    <Input
-                      value={formData.numero_placa}
-                      onChange={(e) => setFormData({...formData, numero_placa: e.target.value})}
-                    />
-                  </div>
-                </div>
-
-
-                <div className="mt-4">
-                  <LocationInput
-                    latitude={parseFloat(formData.latitude) || -25.4284}
-                    longitude={parseFloat(formData.longitude) || -49.2733}
-                    onLocationChange={(lat, lng) => {
-                      setFormData({
-                        ...formData,
-                        latitude: lat.toString(),
-                        longitude: lng.toString()
-                      })
-                    }}
-                    label="Coordenadas Geográficas"
-                    required
-                  />
-                </div>
-              </div>
-
-              {/* Seção: Informações do Proprietário */}
-              <div className="border-b pb-4">
-                <h3 className="text-lg font-medium mb-4">Informações do Proprietário</h3>
-                
-                <div className="grid grid-cols-3 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium mb-1">Nome do Proprietário *</label>
-                    <Input
-                      value={formData.owner_name}
-                      onChange={(e) => setFormData({...formData, owner_name: e.target.value})}
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium mb-1">Telefone</label>
-                    <Input
-                      value={formData.owner_phone}
-                      onChange={(e) => setFormData({...formData, owner_phone: e.target.value})}
-                      placeholder="(00) 00000-0000"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium mb-1">RG</label>
-                    <Input
-                      value={formData.owner_rg}
-                      onChange={(e) => setFormData({...formData, owner_rg: e.target.value})}
-                    />
-                  </div>
-                </div>
-              </div>
-
-              {/* Seção: Responsabilidade Militar */}
-              <div className="border-b pb-4">
-                <h3 className="text-lg font-medium mb-4">Responsabilidade Militar</h3>
-                
-                <div className="grid grid-cols-2 gap-4 mb-4">
-                  <div>
-                    <label className="block text-sm font-medium mb-1">CRPM</label>
-                    <Input
-                      value={formData.crpm}
-                      onChange={(e) => setFormData({...formData, crpm: e.target.value})}
-                      disabled
-                      className="bg-gray-100"
-                    />
-                    <p className="text-xs text-gray-500 mt-1">Preenchido automaticamente</p>
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium mb-1">Batalhão</label>
-                    <Input
-                      value={formData.batalhao}
-                      onChange={(e) => setFormData({...formData, batalhao: e.target.value})}
-                      disabled
-                      className="bg-gray-100"
-                    />
-                    <p className="text-xs text-gray-500 mt-1">Preenchido automaticamente</p>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium mb-1">Companhia</label>
-                    <select
-                      value={formData.cia}
-                      onChange={(e) => setFormData({...formData, cia: e.target.value})}
-                      className="w-full p-2 border rounded-md"
-                    >
-                      <option value="">Selecione a Companhia</option>
-                      <option value="1ª CIA">1ª CIA</option>
-                      <option value="2ª CIA">2ª CIA</option>
-                      <option value="3ª CIA">3ª CIA</option>
-                      <option value="4ª CIA">4ª CIA</option>
-                      <option value="5ª CIA">5ª CIA</option>
-                      <option value="Coordenadoria">Coordenadoria</option>
-                    </select>
-                  </div>
-                  <div>
-                    <TeamSelector
-                      batalhao={formData.batalhao}
-                      selectedTeam={formData.equipe}
-                      onTeamChange={(team) => setFormData({...formData, equipe: team})}
-                    />
-                  </div>
-                </div>
-              </div>
-
-              {/* Seção: Infraestrutura */}
-              <div className="border-b pb-4">
-                <h3 className="text-lg font-medium mb-4">Infraestrutura</h3>
-                
-                <div className="grid grid-cols-2 gap-4 mb-4">
-                  <div className="flex items-center space-x-2">
-                    <input
-                      type="checkbox"
-                      id="has_wifi"
-                      checked={formData.has_wifi}
-                      onChange={(e) => setFormData({...formData, has_wifi: e.target.checked})}
-                      className="rounded border-gray-300"
-                    />
-                    <label htmlFor="has_wifi" className="text-sm font-medium flex items-center">
-                      <Wifi className="h-4 w-4 mr-1" />
-                      Possui WiFi
-                    </label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <input
-                      type="checkbox"
-                      id="has_cameras"
-                      checked={formData.has_cameras}
-                      onChange={(e) => setFormData({...formData, has_cameras: e.target.checked})}
-                      className="rounded border-gray-300"
-                    />
-                    <label htmlFor="has_cameras" className="text-sm font-medium flex items-center">
-                      <Camera className="h-4 w-4 mr-1" />
-                      Possui Câmeras de Segurança
-                    </label>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  {formData.has_wifi && (
-                    <div>
-                      <label className="block text-sm font-medium mb-1">Senha do WiFi</label>
-                      <Input
-                        type="password"
-                        value={formData.wifi_password}
-                        onChange={(e) => setFormData({...formData, wifi_password: e.target.value})}
-                      />
-                    </div>
-                  )}
-                  {formData.has_cameras && (
-                    <div>
-                      <label className="block text-sm font-medium mb-1">Quantidade de Câmeras</label>
-                      <Input
-                        type="number"
-                        min="0"
-                        value={formData.cameras_count}
-                        onChange={(e) => setFormData({...formData, cameras_count: parseInt(e.target.value) || 0})}
-                      />
-                    </div>
-                  )}
-                </div>
-
-                <div className="grid grid-cols-2 gap-4 mt-4">
-                  <div>
-                    <label className="block text-sm font-medium mb-1">Quantidade de Moradores</label>
-                    <Input
-                      type="number"
-                      min="0"
-                      value={formData.residents_count}
-                      onChange={(e) => setFormData({...formData, residents_count: e.target.value})}
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium mb-1">Atividade Desenvolvida</label>
-                    <Input
-                      value={formData.activity}
-                      onChange={(e) => setFormData({...formData, activity: e.target.value})}
-                      placeholder="Ex: Agricultura, Pecuária, Comércio"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              {/* Seção: Informações Extras */}
-              <div className="border-b pb-4">
-                <h3 className="text-lg font-medium mb-4">Informações Extras</h3>
-                
-                <div className="grid grid-cols-2 gap-4 mb-4">
-                  <div>
-                    <label className="block text-sm font-medium mb-1">BOU (Opcional)</label>
-                    <Input
-                      value={formData.bou}
-                      onChange={(e) => setFormData({...formData, bou: e.target.value})}
-                      placeholder="Boletim de Ocorrência Unificado"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium mb-1">Descrição/Observações</label>
-                    <textarea
-                      value={formData.observations}
-                      onChange={(e) => setFormData({...formData, observations: e.target.value})}
-                      className="w-full p-2 border rounded-md"
-                      rows={3}
-                      placeholder="Observações adicionais sobre a propriedade"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              {/* Seção: Contato (Opcional) */}
-              <div className="border-b pb-4">
-                <h3 className="text-lg font-medium mb-4">Contato Adicional (Opcional)</h3>
-                
-                <div className="grid grid-cols-3 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium mb-1">Nome do Contato</label>
-                    <Input
-                      value={formData.contact_name}
-                      onChange={(e) => setFormData({...formData, contact_name: e.target.value})}
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium mb-1">Telefone</label>
-                    <Input
-                      value={formData.contact_phone}
-                      onChange={(e) => setFormData({...formData, contact_phone: e.target.value})}
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium mb-1">Observação</label>
-                    <textarea
-                      value={formData.contact_observations || ''}
-                      onChange={(e) => setFormData({...formData, contact_observations: e.target.value})}
-                      className="w-full p-2 border rounded-md"
-                      rows={3}
-                      placeholder="Observações sobre o contato adicional"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex justify-end space-x-2">
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => {
-                    setShowForm(false)
-                    setEditingProperty(null)
-                    resetForm()
-                  }}
-                >
-                  Cancelar
-                </Button>
-                <Button type="submit">
-                  {editingProperty ? 'Atualizar' : 'Salvar'}
-                </Button>
-              </div>
-            </form>
-          </CardContent>
-        </Card>
-      )}
 
       {/* Mensagem informativa */}
       {!hasSearched && (
@@ -875,20 +481,8 @@ const Properties: React.FC = () => {
                   )}
                 </div>
                 
-                {/* Property Details Grid */}
+                {/* Property Details Grid - Simplified */}
                 <div className="grid grid-cols-2 gap-3">
-                  <div className="bg-gray-50 p-3 rounded-lg">
-                    <div className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">Tipo</div>
-                    <div className="font-medium capitalize">{property.property_type}</div>
-                  </div>
-                  
-                  {property.residents_count && (
-                    <div className="bg-gray-50 p-3 rounded-lg">
-                      <div className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">Moradores</div>
-                      <div className="font-medium">{property.residents_count}</div>
-                    </div>
-                  )}
-                  
                   <div className="bg-gray-50 p-3 rounded-lg">
                     <div className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">Cadastro</div>
                     <div className="font-medium">{property.cadastro_date ? new Date(property.cadastro_date).toLocaleDateString('pt-BR') : 'N/A'}</div>
@@ -899,24 +493,6 @@ const Properties: React.FC = () => {
                     <div className="font-medium text-xs">{property.latitude.toFixed(6)}, {property.longitude.toFixed(6)}</div>
                   </div>
                 </div>
-                
-                {/* Responsibility */}
-                <div className="bg-blue-50 p-3 rounded-lg">
-                  <div className="text-xs font-medium text-blue-600 uppercase tracking-wide mb-1">Responsabilidade</div>
-                  <div className="font-medium text-blue-900">
-                    {property.batalhao}
-                    {property.cia && ` - ${property.cia}`}
-                    {property.equipe && ` - ${property.equipe}`}
-                  </div>
-                </div>
-
-                {/* Activity */}
-                {property.activity && (
-                  <div className="bg-green-50 p-3 rounded-lg">
-                    <div className="text-xs font-medium text-green-600 uppercase tracking-wide mb-1">Atividade</div>
-                    <div className="font-medium text-green-900">{property.activity}</div>
-                  </div>
-                )}
                 
                 {/* Observations */}
                 {property.observations && (
@@ -970,6 +546,14 @@ const Properties: React.FC = () => {
           <p className="text-gray-500">Nenhuma propriedade encontrada</p>
         </div>
       )}
+
+      {/* Property Form Modal */}
+      <PropertyFormModal
+        isOpen={showFormModal}
+        onClose={handleCloseModal}
+        editingProperty={editingProperty}
+        onSubmit={handleSubmit}
+      />
     </div>
   )
 }

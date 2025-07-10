@@ -69,24 +69,27 @@ const LocationInput: React.FC<LocationInputProps> = ({
       
       <div className="space-y-2">
         {/* Main input display */}
-        <div className="flex gap-2">
+        <div className="space-y-3">
           <Input
             value={latitude && longitude ? formatCoordinates(latitude, longitude) : ''}
-            placeholder={placeholder}
+            placeholder="Coordenadas serão preenchidas após coleta"
             readOnly
             disabled={disabled}
-            className="flex-1 text-sm"
+            className="w-full h-12 text-base text-center"
           />
+          
+          {/* Botão GPS destacado e chamativo */}
           <Button
             type="button"
-            variant="outline"
-            size="sm"
             onClick={handleOpenPicker}
             disabled={disabled}
-            className="shrink-0 px-3"
+            className="w-full h-14 bg-green-600 hover:bg-green-700 text-white font-bold text-base shadow-lg transform hover:scale-[1.02] transition-all duration-200"
           >
-            <MapPin className="w-4 h-4" />
-            <span className="hidden sm:inline sm:ml-2">Selecionar</span>
+            <MapPin className="w-6 h-6 mr-3 animate-pulse" />
+            <div className="flex flex-col items-start">
+              <span className="text-white">📍 Coletar Coordenadas GPS</span>
+              <span className="text-green-100 text-sm font-normal">Toque aqui para marcar a localização</span>
+            </div>
           </Button>
         </div>
 
