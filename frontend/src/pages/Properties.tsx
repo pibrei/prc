@@ -375,27 +375,34 @@ const Properties: React.FC = () => {
 
   return (
     <div className="space-y-4 lg:space-y-6 pb-20 lg:pb-0">
-      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
-        <div>
-          <h1 className="text-xl lg:text-3xl font-bold tracking-tight">Propriedades</h1>
-          <p className="text-sm lg:text-base text-muted-foreground">
-            Gerencie as propriedades cadastradas no sistema
+      {/* Mobile-First Header */}
+      <div className="space-y-4">
+        <div className="flex flex-col space-y-2">
+          <h1 className="text-2xl lg:text-3xl font-bold tracking-tight">Propriedades</h1>
+          <p className="text-sm text-muted-foreground">
+            {hasSearched ? `${filteredProperties.length} encontradas` : `${filteredProperties.length} na sua área`}
           </p>
         </div>
-        <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
-          <Button onClick={() => setShowForm(true)} className="w-full sm:w-auto">
-            <Plus className="h-4 w-4 mr-2" />
+        
+        {/* Mobile Action Buttons */}
+        <div className="flex flex-col gap-2">
+          <Button 
+            onClick={() => setShowForm(true)} 
+            className="w-full h-12 text-base font-medium"
+          >
+            <Plus className="h-5 w-5 mr-2" />
             Nova Propriedade
           </Button>
+          
           {(userProfile?.role === 'admin' || userProfile?.role === 'team_leader') && (
-            <>
+            <div className="grid grid-cols-2 gap-2">
               <Button 
                 onClick={() => navigate('/properties/import-single')} 
                 variant="outline"
-                className="w-full sm:w-auto"
+                className="h-12 bg-green-50 hover:bg-green-100 border-green-200"
               >
                 <Upload className="h-4 w-4 mr-2" />
-                Importar
+                <span className="text-sm">Importar</span>
               </Button>
               <Button 
                 onClick={() => navigate('/properties/import-batch')} 
@@ -410,23 +417,23 @@ const Properties: React.FC = () => {
         </div>
       </div>
 
-      {/* Filtros de Visualização */}
+      {/* Mobile-Optimized Filters */}
       <Card className="p-4">
-        <div className="flex flex-col sm:flex-row gap-4">
+        <div className="space-y-4">
           <div className="flex items-center space-x-2">
-            <label className="text-sm font-medium text-gray-700 whitespace-nowrap">
-              Visualizar por:
-            </label>
+            <Filter className="h-4 w-4 text-gray-500" />
+            <span className="text-sm font-medium text-gray-700">Filtros</span>
           </div>
-          <div className="flex flex-col sm:flex-row gap-4 flex-1">
-            <div className="flex items-center space-x-2">
-              <label className="text-sm font-medium text-gray-600 whitespace-nowrap">
-                Batalhão:
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <label className="text-xs font-medium text-gray-600 uppercase tracking-wide">
+                Batalhão
               </label>
               <select
                 value={selectedBatalhao}
                 onChange={(e) => setSelectedBatalhao(e.target.value)}
-                className="px-3 py-2 border border-gray-300 rounded-md text-sm min-w-32"
+                className="w-full h-12 px-4 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               >
                 <option value="">Todos os Batalhões</option>
                 <option value="1º BPM">1º BPM</option>
@@ -435,14 +442,15 @@ const Properties: React.FC = () => {
                 <option value="4º BPM">4º BPM</option>
               </select>
             </div>
-            <div className="flex items-center space-x-2">
-              <label className="text-sm font-medium text-gray-600 whitespace-nowrap">
-                CIA:
+            
+            <div className="space-y-2">
+              <label className="text-xs font-medium text-gray-600 uppercase tracking-wide">
+                Companhia
               </label>
               <select
                 value={selectedCia}
                 onChange={(e) => setSelectedCia(e.target.value)}
-                className="px-3 py-2 border border-gray-300 rounded-md text-sm min-w-32"
+                className="w-full h-12 px-4 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               >
                 <option value="">Todas as CIAs</option>
                 <option value="1ª CIA">1ª CIA</option>
@@ -452,20 +460,22 @@ const Properties: React.FC = () => {
                 <option value="5ª CIA">5ª CIA</option>
               </select>
             </div>
-            <div className="text-xs text-gray-500 flex items-center">
-              Padrão: {userProfile?.batalhao} - {userProfile?.cia}
-            </div>
+          </div>
+          
+          <div className="text-xs text-gray-500 bg-gray-50 p-3 rounded-lg">
+            <strong>Área padrão:</strong> {userProfile?.batalhao} - {userProfile?.cia}
           </div>
         </div>
       </Card>
 
-      <div className="flex items-center space-x-2">
-        <Search className="h-4 w-4 text-gray-400" />
+      {/* Mobile-First Search Bar */}
+      <div className="relative">
+        <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
         <Input
           placeholder="Pesquisar propriedades..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="max-w-sm"
+          className="w-full h-12 pl-12 pr-4 text-base border-2 border-gray-200 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
         />
       </div>
 
@@ -816,114 +826,136 @@ const Properties: React.FC = () => {
         </div>
       )}
 
-      <div className="grid gap-4">
+      {/* Mobile-Optimized Property Cards */}
+      <div className="space-y-4">
         {filteredProperties.map((property) => (
-          <Card key={property.id}>
-            <CardContent className="p-6">
-              <div className="flex justify-between items-start">
-                <div className="flex-1">
-                  <div className="flex items-center space-x-2 mb-2">
-                    <h3 className="text-lg font-semibold">{property.name}</h3>
-                    {property.has_cameras && (
-                      <span className="flex items-center text-blue-600">
-                        <Camera className="h-4 w-4 mr-1" />
-                        <span className="text-xs">Câmeras</span>
-                      </span>
-                    )}
-                    {property.has_wifi && (
-                      <span className="flex items-center text-green-600">
-                        <Wifi className="h-4 w-4 mr-1" />
-                        <span className="text-xs">WiFi</span>
-                      </span>
-                    )}
+          <Card key={property.id} className="overflow-hidden hover:shadow-lg transition-shadow">
+            <CardContent className="p-0">
+              {/* Header with Title and Icons */}
+              <div className="p-4 bg-gradient-to-r from-blue-50 to-green-50 border-b">
+                <div className="flex items-start justify-between">
+                  <div className="flex-1">
+                    <h3 className="text-lg font-bold text-gray-900 mb-1">{property.name}</h3>
+                    <div className="flex items-center text-sm text-gray-600">
+                      <MapPin className="h-4 w-4 mr-1" />
+                      {property.cidade}{property.bairro && `, ${property.bairro}`}
+                    </div>
                   </div>
                   
-                  <div className="grid grid-cols-2 gap-4 text-sm mb-3">
-                    <div>
-                      <span className="font-medium">Localização:</span> {property.cidade}
-                      {property.bairro && `, ${property.bairro}`}
-                    </div>
-                    <div>
-                      <span className="font-medium">Tipo:</span> {property.property_type}
-                    </div>
-                    <div>
-                      <span className="font-medium">Proprietário:</span> {property.owner_name}
-                    </div>
-                    {property.owner_phone && (
-                      <div>
-                        <span className="font-medium">Tel. Proprietário:</span> {property.owner_phone}
+                  {/* Status Icons */}
+                  <div className="flex space-x-2">
+                    {property.has_cameras && (
+                      <div className="flex items-center bg-blue-100 text-blue-700 px-2 py-1 rounded-full text-xs">
+                        <Camera className="h-3 w-3 mr-1" />
+                        {property.cameras_count}
+                      </div>
+                    )}
+                    {property.has_wifi && (
+                      <div className="flex items-center bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs">
+                        <Wifi className="h-3 w-3 mr-1" />
+                        WiFi
                       </div>
                     )}
                   </div>
-                  
-                  <div className="grid grid-cols-2 gap-4 text-sm mb-3">
-                    <div>
-                      <span className="font-medium">Data Cadastro:</span> {property.cadastro_date ? new Date(property.cadastro_date).toLocaleDateString('pt-BR') : 'N/A'}
-                    </div>
-                    <div>
-                      <span className="font-medium">Coordenadas:</span> {property.latitude}, {property.longitude}
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 gap-4 text-sm mb-3">
-                    <div>
-                      <span className="font-medium">Responsável:</span> {property.batalhao}
-                      {property.cia && ` - ${property.cia}`}
-                      {property.equipe && ` - ${property.equipe}`}
-                    </div>
-                  </div>
-
-                  {(property.has_cameras || property.residents_count || property.activity) && (
-                    <div className="grid grid-cols-3 gap-4 text-sm mb-3">
-                      {property.has_cameras && (
-                        <div>
-                          <span className="font-medium">Câmeras:</span> {property.cameras_count}
-                        </div>
-                      )}
-                      {property.residents_count && (
-                        <div>
-                          <span className="font-medium">Moradores:</span> {property.residents_count}
-                        </div>
-                      )}
-                      {property.activity && (
-                        <div>
-                          <span className="font-medium">Atividade:</span> {property.activity}
-                        </div>
-                      )}
-                    </div>
-                  )}
-
-                  {property.observations && (
-                    <div className="text-sm text-gray-600 bg-gray-50 p-2 rounded mt-2">
-                      <span className="font-medium">Observações:</span> {property.observations}
+                </div>
+              </div>
+              
+              {/* Main Content */}
+              <div className="p-4 space-y-4">
+                {/* Property Owner */}
+                <div className="bg-gray-50 p-3 rounded-lg">
+                  <div className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">Proprietário</div>
+                  <div className="font-medium text-gray-900">{property.owner_name}</div>
+                  {property.owner_phone && (
+                    <div className="text-sm text-gray-600 mt-1">
+                      <a href={`tel:${property.owner_phone}`} className="text-blue-600 hover:underline">
+                        {property.owner_phone}
+                      </a>
                     </div>
                   )}
                 </div>
-                <div className="flex space-x-2">
+                
+                {/* Property Details Grid */}
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="bg-gray-50 p-3 rounded-lg">
+                    <div className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">Tipo</div>
+                    <div className="font-medium capitalize">{property.property_type}</div>
+                  </div>
+                  
+                  {property.residents_count && (
+                    <div className="bg-gray-50 p-3 rounded-lg">
+                      <div className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">Moradores</div>
+                      <div className="font-medium">{property.residents_count}</div>
+                    </div>
+                  )}
+                  
+                  <div className="bg-gray-50 p-3 rounded-lg">
+                    <div className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">Cadastro</div>
+                    <div className="font-medium">{property.cadastro_date ? new Date(property.cadastro_date).toLocaleDateString('pt-BR') : 'N/A'}</div>
+                  </div>
+                  
+                  <div className="bg-gray-50 p-3 rounded-lg">
+                    <div className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">Coordenadas</div>
+                    <div className="font-medium text-xs">{property.latitude.toFixed(6)}, {property.longitude.toFixed(6)}</div>
+                  </div>
+                </div>
+                
+                {/* Responsibility */}
+                <div className="bg-blue-50 p-3 rounded-lg">
+                  <div className="text-xs font-medium text-blue-600 uppercase tracking-wide mb-1">Responsabilidade</div>
+                  <div className="font-medium text-blue-900">
+                    {property.batalhao}
+                    {property.cia && ` - ${property.cia}`}
+                    {property.equipe && ` - ${property.equipe}`}
+                  </div>
+                </div>
+
+                {/* Activity */}
+                {property.activity && (
+                  <div className="bg-green-50 p-3 rounded-lg">
+                    <div className="text-xs font-medium text-green-600 uppercase tracking-wide mb-1">Atividade</div>
+                    <div className="font-medium text-green-900">{property.activity}</div>
+                  </div>
+                )}
+                
+                {/* Observations */}
+                {property.observations && (
+                  <div className="bg-yellow-50 p-3 rounded-lg">
+                    <div className="text-xs font-medium text-yellow-600 uppercase tracking-wide mb-1">Observações</div>
+                    <div className="text-sm text-yellow-800">{property.observations}</div>
+                  </div>
+                )}
+              </div>
+              
+              {/* Mobile Action Buttons */}
+              <div className="p-4 bg-gray-50 border-t">
+                <div className="grid grid-cols-3 gap-2">
                   <Button
                     variant="outline"
-                    size="sm"
                     onClick={() => navigate(`/map?property=${property.id}&lat=${property.latitude}&lng=${property.longitude}`)}
-                    title="Ver no Mapa"
+                    className="h-12 flex flex-col items-center justify-center text-xs"
                   >
-                    <MapPin className="h-4 w-4" />
+                    <MapPin className="h-4 w-4 mb-1" />
+                    Ver no Mapa
                   </Button>
+                  
                   <Button
                     variant="outline"
-                    size="sm"
                     onClick={() => handleEdit(property)}
-                    title="Editar"
+                    className="h-12 flex flex-col items-center justify-center text-xs"
                   >
-                    <Edit className="h-4 w-4" />
+                    <Edit className="h-4 w-4 mb-1" />
+                    Editar
                   </Button>
+                  
                   {canDelete && (
                     <Button
                       variant="outline"
-                      size="sm"
                       onClick={() => handleDelete(property.id)}
-                      title="Excluir"
+                      className="h-12 flex flex-col items-center justify-center text-xs text-red-600 hover:bg-red-50 hover:border-red-300"
                     >
-                      <Trash2 className="h-4 w-4" />
+                      <Trash2 className="h-4 w-4 mb-1" />
+                      Excluir
                     </Button>
                   )}
                 </div>

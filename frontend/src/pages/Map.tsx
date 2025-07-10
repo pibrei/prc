@@ -352,38 +352,46 @@ const Map: React.FC = () => {
   }
 
   return (
-    <div className="space-y-4 sm:space-y-6 p-2 sm:p-0">
-      <div className="px-2 sm:px-0">
-        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold tracking-tight">Mapa</h1>
-        <p className="text-sm sm:text-base text-muted-foreground">
-          Visualize propriedades e veículos suspeitos no mapa
-        </p>
+    <div className="space-y-4 pb-20 lg:pb-0">
+      {/* Mobile-First Header */}
+      <div className="space-y-3">
+        <div>
+          <h1 className="text-2xl lg:text-3xl font-bold tracking-tight">Mapa Interativo</h1>
+          <p className="text-sm text-muted-foreground">
+            {getFilteredProperties().length} propriedades • {getFilteredVehicles().length} veículos
+          </p>
+        </div>
       </div>
 
-      {/* Filtros de Visualização por Perfil */}
-      <Card className="p-4">
-        <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+      {/* Mobile-Optimized Area Filter */}
+      <Card className="p-4 bg-gradient-to-r from-blue-50 to-green-50">
+        <div className="space-y-3">
           <div className="flex items-center space-x-2">
-            <span className="text-sm font-medium text-gray-700">
-              Visualizando propriedades de:
-            </span>
+            <MapPin className="h-4 w-4 text-blue-600" />
+            <span className="text-sm font-medium text-gray-700">Área de Visualização</span>
           </div>
-          <div className="flex flex-col sm:flex-row gap-2 text-sm">
-            <span className="font-medium text-blue-600">
-              {selectedBatalhao || 'Todos os Batalhões'}
-            </span>
+          
+          <div className="flex flex-wrap gap-2">
+            <div className="bg-white px-3 py-1 rounded-full border border-blue-200">
+              <span className="text-sm font-medium text-blue-700">
+                {selectedBatalhao || 'Todos os Batalhões'}
+              </span>
+            </div>
+            
             {selectedCia && (
-              <>
-                <span className="text-gray-400 hidden sm:inline">•</span>
-                <span className="font-medium text-green-600">
+              <div className="bg-white px-3 py-1 rounded-full border border-green-200">
+                <span className="text-sm font-medium text-green-700">
                   {selectedCia}
                 </span>
-              </>
+              </div>
             )}
+            
             {userProfile && (selectedBatalhao !== userProfile.batalhao || selectedCia !== userProfile.cia) && (
-              <span className="text-xs text-orange-600 bg-orange-100 px-2 py-1 rounded">
-                Filtro personalizado
-              </span>
+              <div className="bg-orange-100 px-3 py-1 rounded-full border border-orange-200">
+                <span className="text-xs font-medium text-orange-700">
+                  Filtro personalizado
+                </span>
+              </div>
             )}
           </div>
         </div>
@@ -391,76 +399,73 @@ const Map: React.FC = () => {
 
       <Card>
         <CardHeader>
-          <div className="flex flex-col space-y-4">
-            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center space-y-2 sm:space-y-0">
-              <CardTitle className="text-lg sm:text-xl">Mapa Interativo</CardTitle>
-              <div className="flex flex-wrap gap-2">
-                <Button
-                  variant={showFilters ? "default" : "outline"}
-                  size="sm"
-                  onClick={() => setShowFilters(!showFilters)}
-                  className="text-xs sm:text-sm"
-                >
-                  <Filter className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
-                  <span className="hidden sm:inline">Filtros</span>
-                  <span className="sm:hidden">Filtros</span>
-                </Button>
-                <Button
-                  variant={showProperties ? "default" : "outline"}
-                  size="sm"
-                  onClick={() => setShowProperties(!showProperties)}
-                  className="text-xs sm:text-sm"
-                >
-                  {showProperties ? <Eye className="h-3 w-3 sm:h-4 sm:w-4 mr-1" /> : <EyeOff className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />}
-                  <MapPin className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
-                  <span className="hidden sm:inline">Propriedades ({getFilteredProperties().length})</span>
-                  <span className="sm:hidden">Props ({getFilteredProperties().length})</span>
-                </Button>
-                <Button
-                  variant={showVehicles ? "default" : "outline"}
-                  size="sm"
-                  onClick={() => setShowVehicles(!showVehicles)}
-                  className="text-xs sm:text-sm"
-                >
-                  {showVehicles ? <Eye className="h-3 w-3 sm:h-4 sm:w-4 mr-1" /> : <EyeOff className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />}
-                  <Car className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
-                  <span className="hidden sm:inline">Veículos ({getFilteredVehicles().length})</span>
-                  <span className="sm:hidden">Veíc ({getFilteredVehicles().length})</span>
-                </Button>
-              </div>
+          <div className="space-y-4">
+            {/* Mobile Control Buttons */}
+            <div className="grid grid-cols-3 gap-2">
+              <Button
+                variant={showFilters ? "default" : "outline"}
+                onClick={() => setShowFilters(!showFilters)}
+                className="h-14 flex flex-col items-center justify-center text-xs"
+              >
+                <Filter className="h-4 w-4 mb-1" />
+                Filtros
+              </Button>
+              
+              <Button
+                variant={showProperties ? "default" : "outline"}
+                onClick={() => setShowProperties(!showProperties)}
+                className="h-14 flex flex-col items-center justify-center text-xs"
+              >
+                <div className="flex items-center mb-1">
+                  {showProperties ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
+                  <MapPin className="h-3 w-3 ml-1" />
+                </div>
+                <span>Props ({getFilteredProperties().length})</span>
+              </Button>
+              
+              <Button
+                variant={showVehicles ? "default" : "outline"}
+                onClick={() => setShowVehicles(!showVehicles)}
+                className="h-14 flex flex-col items-center justify-center text-xs"
+              >
+                <div className="flex items-center mb-1">
+                  {showVehicles ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
+                  <Car className="h-3 w-3 ml-1" />
+                </div>
+                <span>Veíc ({getFilteredVehicles().length})</span>
+              </Button>
             </div>
             
-            {/* Search Bar */}
+            {/* Mobile-Optimized Search Bar */}
             <div className="relative">
-              <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
-                <div className="relative flex-1">
-                  <Search className="h-4 w-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+              <div className="space-y-2">
+                <div className="relative">
+                  <Search className="h-5 w-5 absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" />
                   <input
                     type="text"
                     placeholder="Buscar propriedade..."
                     value={searchTerm}
                     onChange={(e) => handleSearch(e.target.value)}
-                    className="w-full pl-10 pr-10 py-2 sm:py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base"
+                    className="w-full h-12 pl-12 pr-12 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-base"
                   />
                   {searchTerm && (
                     <button
                       onClick={clearSearch}
-                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                      className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
                     >
-                      <X className="h-4 w-4" />
+                      <X className="h-5 w-5" />
                     </button>
                   )}
                 </div>
+                
                 {selectedProperty && (
                   <Button
                     variant="outline"
-                    size="sm"
                     onClick={() => setMapCenter([selectedProperty.latitude, selectedProperty.longitude])}
-                    className="flex items-center justify-center space-x-1 text-xs sm:text-sm px-3 py-2 sm:px-4 sm:py-3"
+                    className="w-full h-12 flex items-center justify-center text-sm"
                   >
-                    <Navigation className="h-3 w-3 sm:h-4 sm:w-4" />
-                    <span className="hidden sm:inline">Centralizar</span>
-                    <span className="sm:hidden">Centro</span>
+                    <Navigation className="h-4 w-4 mr-2" />
+                    Centralizar no Mapa
                   </Button>
                 )}
               </div>
@@ -637,8 +642,9 @@ const Map: React.FC = () => {
             </div>
           )}
         </CardHeader>
-        <CardContent className="p-2 sm:p-6">
-          <div className="h-80 sm:h-96 w-full">
+        <CardContent className="p-0 sm:p-6">
+          {/* Mobile-Optimized Map Container */}
+          <div className="h-[60vh] sm:h-96 w-full rounded-lg overflow-hidden">
             <MapContainer
               center={mapCenter}
               zoom={userLocation && hasLocationPermission ? 14 : 10}
@@ -680,23 +686,110 @@ const Map: React.FC = () => {
                     position={[property.latitude, property.longitude]}
                     icon={createPropertyIcon(property)}
                   >
-                    <Popup>
-                      <div className="p-2">
-                        <h3 className="font-semibold">{property.name}</h3>
-                        <p className="text-sm text-gray-600">{property.cidade}{property.bairro ? `, ${property.bairro}` : ''}</p>
-                        <p className="text-xs text-gray-500">Tipo: {property.property_type}</p>
-                        <p className="text-xs text-gray-500">Proprietário: {property.owner_name}</p>
-                        {property.owner_phone && (
-                          <p className="text-xs text-gray-500">Tel. Proprietário: {property.owner_phone}</p>
+                    <Popup maxWidth={300} minWidth={250}>
+                      <div className="p-3 space-y-3">
+                        {/* Header */}
+                        <div className="border-b pb-2">
+                          <h3 className="font-bold text-lg text-gray-900">{property.name}</h3>
+                          <div className="flex items-center text-sm text-gray-600 mt-1">
+                            <MapPin className="h-3 w-3 mr-1" />
+                            {property.cidade}{property.bairro ? `, ${property.bairro}` : ''}
+                          </div>
+                        </div>
+                        
+                        {/* Property Details */}
+                        <div className="space-y-2">
+                          <div className="flex justify-between">
+                            <span className="text-xs font-medium text-gray-500">TIPO:</span>
+                            <span className="text-xs font-bold capitalize">{property.property_type}</span>
+                          </div>
+                          
+                          <div className="flex justify-between">
+                            <span className="text-xs font-medium text-gray-500">PROPRIETÁRIO:</span>
+                            <span className="text-xs font-bold">{property.owner_name}</span>
+                          </div>
+                          
+                          {property.owner_phone && (
+                            <div className="flex justify-between">
+                              <span className="text-xs font-medium text-gray-500">TELEFONE:</span>
+                              <a href={`tel:${property.owner_phone}`} className="text-xs font-bold text-blue-600 hover:underline">
+                                {property.owner_phone}
+                              </a>
+                            </div>
+                          )}
+                          
+                          <div className="flex justify-between">
+                            <span className="text-xs font-medium text-gray-500">RESPONSÁVEL:</span>
+                            <span className="text-xs font-bold">{property.batalhao}</span>
+                          </div>
+                          
+                          {property.cia && (
+                            <div className="flex justify-between">
+                              <span className="text-xs font-medium text-gray-500">CIA:</span>
+                              <span className="text-xs font-bold">{property.cia}</span>
+                            </div>
+                          )}
+                          
+                          {property.equipe && (
+                            <div className="flex justify-between">
+                              <span className="text-xs font-medium text-gray-500">EQUIPE:</span>
+                              <span className="text-xs font-bold">{property.equipe}</span>
+                            </div>
+                          )}
+                        </div>
+                        
+                        {/* Status Badges */}
+                        {(property.has_cameras || property.has_wifi) && (
+                          <div className="flex space-x-2 pt-2">
+                            {property.has_cameras && (
+                              <div className="flex items-center bg-blue-100 text-blue-700 px-2 py-1 rounded-full text-xs">
+                                <Camera className="h-3 w-3 mr-1" />
+                                {property.cameras_count} câmera(s)
+                              </div>
+                            )}
+                            {property.has_wifi && (
+                              <div className="flex items-center bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs">
+                                <Wifi className="h-3 w-3 mr-1" />
+                                WiFi
+                              </div>
+                            )}
+                          </div>
                         )}
-                        <p className="text-xs text-gray-500">Responsável: {property.batalhao}</p>
-                        {property.cia && (
-                          <p className="text-xs text-gray-500">CIA: {property.cia}</p>
-                        )}
-                        {property.equipe && (
-                          <p className="text-xs text-gray-500">Equipe: {property.equipe}</p>
-                        )}
-                        {property.has_cameras && (
+                        
+                        {/* Action Buttons */}
+                        <div className="pt-3 border-t space-y-2">
+                          <button
+                            onClick={() => {
+                              const url = `https://www.google.com/maps/dir/?api=1&destination=${property.latitude},${property.longitude}&travelmode=driving`;
+                              window.open(url, '_blank');
+                            }}
+                            className="w-full bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-md text-sm font-medium flex items-center justify-center transition-colors"
+                          >
+                            <Navigation className="h-4 w-4 mr-2" />
+                            Abrir no Google Maps
+                          </button>
+                          
+                          <button
+                            onClick={() => {
+                              if (navigator.share) {
+                                navigator.share({
+                                  title: property.name,
+                                  text: `${property.name} - ${property.cidade}${property.bairro ? `, ${property.bairro}` : ''}`,
+                                  url: `https://www.google.com/maps/place/${property.latitude},${property.longitude}`
+                                });
+                              } else {
+                                navigator.clipboard.writeText(`${property.name}: https://www.google.com/maps/place/${property.latitude},${property.longitude}`);
+                                alert('Link copiado para a área de transferência!');
+                              }
+                            }}
+                            className="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-2 rounded-md text-sm font-medium flex items-center justify-center transition-colors"
+                          >
+                            <MapPin className="h-4 w-4 mr-2" />
+                            Compartilhar Localização
+                          </button>
+                        </div>
+                        
+                        {(property.has_cameras || property.residents_count || property.activity) && (
                           <p className="text-xs text-red-600">🎥 Câmeras: {property.cameras_count}</p>
                         )}
                         {property.has_wifi && (
