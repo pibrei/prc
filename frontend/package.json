@@ -9,6 +9,12 @@
     "lint": "eslint .",
     "preview": "vite preview"
   },
+  "overrides": {
+    "react-leaflet-cluster": {
+      "react": "$react",
+      "react-dom": "$react-dom"
+    }
+  },
   "dependencies": {
     "@react-pdf/renderer": "^4.3.0",
     "@supabase/supabase-js": "^2.50.3",
