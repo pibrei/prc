@@ -162,6 +162,17 @@ const LoginPage: React.FC = () => {
                   </span>
                 </Button>
               </form>
+              
+              <div className="mt-6 text-center">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => window.location.href = '/register'}
+                  className="w-full h-12 bg-white/10 border-2 border-emerald-400/30 hover:bg-emerald-500/20 hover:border-emerald-400 text-emerald-200 hover:text-white font-semibold backdrop-blur-sm transition-all duration-300 transform hover:scale-[1.02]"
+                >
+                  Solicitar Acesso
+                </Button>
+              </div>
             </CardContent>
           </Card>
         </div>
