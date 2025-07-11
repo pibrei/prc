@@ -443,4 +443,31 @@ const selectProperty = (property: Property) => {
 **Integração**: ✅ **TOTAL** com sistema existente
 **Mobile**: ✅ **100% COMPATÍVEL** após correção Navigator API
 **Properties**: ✅ **PERFEITAMENTE OTIMIZADO** para cadastros mobile em campo
-**Map**: ✅ **TOTALMENTE FUNCIONAL** - estável, sem piscamento, busca operacional
+**Map**: ✅ **TOTALMENTE FUNCIONAL** - estável, sem piscamento, busca operacional, popup automático implementado
+
+## Sistema de Popup Automático para Busca de Propriedades ✅
+
+### Implementação Finalizada:
+- **ControlledMarker Component**: Componente personalizado que permite controle programático de popups
+- **Automação de Popup**: Quando uma propriedade é selecionada na busca, o popup abre automaticamente
+- **Integração com Busca**: Sistema completo que centraliza no mapa E abre as informações da propriedade
+- **Cleanup Automático**: Timer de 1 segundo para limpar o estado forceOpenPopup e evitar loops
+
+### Funcionalidades:
+- ✅ **Busca por nome**: Digite e encontre propriedades instantaneamente
+- ✅ **Clique para selecionar**: Ao clicar na propriedade na lista de busca
+- ✅ **Centralização automática**: Mapa centraliza na propriedade selecionada
+- ✅ **Popup automático**: Informações da propriedade abrem automaticamente
+- ✅ **Indicador visual**: Propriedade selecionada destacada em dourado com borda especial
+
+### Componentes Técnicos:
+- **ControlledMarker**: React component with useEffect para controle de popup
+- **forceOpenPopup**: Estado que identifica qual propriedade deve abrir popup
+- **selectProperty**: Função que coordena centralização + popup automático
+- **setTimeout cleanup**: Previne loops e estados inválidos
+
+### Resultado:
+- **Experiência UX**: Busca → Clique → Visualização automática em uma ação fluida
+- **Performance**: Zero re-renderizações desnecessárias
+- **Compatibilidade**: Funciona em desktop e mobile perfeitamente
+- **Build**: ✅ Sem erros confirmado

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react'
+import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react'
 import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from 'react-leaflet'
 import MarkerClusterGroup from 'react-leaflet-cluster'
 import L from 'leaflet'
@@ -74,6 +74,173 @@ const MapInteractionDetector: React.FC<{ onUserInteraction: () => void }> = ({ o
   return null
 }
 
+// Componente de marcador controlável
+const ControlledMarker: React.FC<{
+  property: Property
+  icon: L.DivIcon
+  shouldOpenPopup: boolean
+  onPopupOpen?: () => void
+}> = ({ property, icon, shouldOpenPopup, onPopupOpen }) => {
+  const markerRef = useRef<L.Marker>(null)
+
+  useEffect(() => {
+    if (shouldOpenPopup && markerRef.current) {
+      // Abre o popup programaticamente
+      markerRef.current.openPopup()
+      onPopupOpen?.()
+    }
+  }, [shouldOpenPopup, onPopupOpen])
+
+  return (
+    <Marker
+      ref={markerRef}
+      position={[property.latitude, property.longitude]}
+      icon={icon}
+    >
+      <Popup maxWidth={300} minWidth={250}>
+        <div className="p-3 space-y-3">
+          {/* Header */}
+          <div className="border-b pb-2">
+            <h3 className="font-bold text-lg text-gray-900">{property.name}</h3>
+            <div className="flex items-center text-sm text-gray-600 mt-1">
+              <MapPin className="h-3 w-3 mr-1" />
+              {property.cidade}{property.bairro ? `, ${property.bairro}` : ''}
+            </div>
+          </div>
+          
+          {/* Property Details */}
+          <div className="space-y-2">
+            <div className="flex justify-between">
+              <span className="text-xs font-medium text-gray-500">TIPO:</span>
+              <span className="text-xs font-bold capitalize">{property.property_type}</span>
+            </div>
+            
+            <div className="flex justify-between">
+              <span className="text-xs font-medium text-gray-500">PROPRIETÁRIO:</span>
+              <span className="text-xs font-bold">{property.owner_name}</span>
+            </div>
+            
+            {property.owner_phone && (
+              <div className="flex justify-between">
+                <span className="text-xs font-medium text-gray-500">TELEFONE:</span>
+                <a href={`tel:${property.owner_phone}`} className="text-xs font-bold text-blue-600 hover:underline">
+                  {property.owner_phone}
+                </a>
+              </div>
+            )}
+            
+            <div className="flex justify-between">
+              <span className="text-xs font-medium text-gray-500">COORDENADAS:</span>
+              <span className="text-xs font-mono">{property.latitude.toFixed(6)}, {property.longitude.toFixed(6)}</span>
+            </div>
+          </div>
+          
+          {/* Infrastructure Icons */}
+          {(property.has_cameras || property.has_wifi) && (
+            <div className="flex space-x-2 pt-2 border-t">
+              {property.has_cameras && (
+                <div className="flex items-center bg-blue-100 text-blue-700 px-2 py-1 rounded-full text-xs">
+                  <Camera className="h-3 w-3 mr-1" />
+                  {property.cameras_count}
+                </div>
+              )}
+              {property.has_wifi && (
+                <div className="flex items-center bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs">
+                  <Wifi className="h-3 w-3 mr-1" />
+                  WiFi
+                </div>
+              )}
+            </div>
+          )}
+          
+          {/* Action Buttons */}
+          <div className="pt-3 border-t space-y-2">
+            <button
+              onClick={() => {
+                const url = `https://www.google.com/maps/dir/?api=1&destination=${property.latitude},${property.longitude}&travelmode=driving`;
+                window.open(url, '_blank');
+              }}
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-md text-sm font-medium flex items-center justify-center transition-colors"
+            >
+              <Navigation className="h-4 w-4 mr-2" />
+              Abrir no Google Maps
+            </button>
+            
+            <button
+              onClick={async () => {
+                try {
+                  const shareData = {
+                    title: property.name,
+                    text: `${property.name} - ${property.cidade}${property.bairro ? `, ${property.bairro}` : ''}`,
+                    url: `https://www.google.com/maps/place/${property.latitude},${property.longitude}`
+                  };
+                  
+                  // Check if Web Share API is supported and available
+                  if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
+                    await navigator.share(shareData);
+                  } else if (navigator.clipboard && navigator.clipboard.writeText) {
+                    // Fallback to clipboard API
+                    const textToShare = `${property.name}: https://www.google.com/maps/place/${property.latitude},${property.longitude}`;
+                    await navigator.clipboard.writeText(textToShare);
+                    alert('Link copiado para a área de transferência!');
+                  } else {
+                    // Final fallback - create a temporary input element
+                    const textToShare = `${property.name}: https://www.google.com/maps/place/${property.latitude},${property.longitude}`;
+                    const tempInput = document.createElement('input');
+                    tempInput.value = textToShare;
+                    document.body.appendChild(tempInput);
+                    tempInput.select();
+                    tempInput.setSelectionRange(0, 99999); // For mobile devices
+                    document.execCommand('copy');
+                    document.body.removeChild(tempInput);
+                    alert('Link copiado para a área de transferência!');
+                  }
+                } catch (error) {
+                  console.log('Erro ao compartilhar:', error);
+                  // Fallback quando tudo mais falha
+                  const textToShare = `${property.name}: https://www.google.com/maps/place/${property.latitude},${property.longitude}`;
+                  try {
+                    const tempInput = document.createElement('input');
+                    tempInput.value = textToShare;
+                    document.body.appendChild(tempInput);
+                    tempInput.select();
+                    tempInput.setSelectionRange(0, 99999);
+                    document.execCommand('copy');
+                    document.body.removeChild(tempInput);
+                    alert('Link copiado para a área de transferência!');
+                  } catch (fallbackError) {
+                    console.log('Fallback também falhou:', fallbackError);
+                    alert(`Link: https://www.google.com/maps/place/${property.latitude},${property.longitude}`);
+                  }
+                }
+              }}
+              className="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-2 rounded-md text-sm font-medium flex items-center justify-center transition-colors"
+            >
+              <MapPin className="h-4 w-4 mr-2" />
+              Compartilhar Localização
+            </button>
+          </div>
+          
+          {/* Additional Contact Info */}
+          {(property.contact_name || property.contact_phone) && (
+            <div className="pt-3 border-t space-y-1">
+              <div className="text-xs font-medium text-gray-500 uppercase tracking-wide">Contato Adicional</div>
+              {property.contact_name && (
+                <div className="text-xs text-gray-700">{property.contact_name}</div>
+              )}
+              {property.contact_phone && (
+                <a href={`tel:${property.contact_phone}`} className="text-xs text-blue-600 hover:underline">
+                  {property.contact_phone}
+                </a>
+              )}
+            </div>
+          )}
+        </div>
+      </Popup>
+    </Marker>
+  )
+}
+
 const Map: React.FC = () => {
   const [properties, setProperties] = useState<Property[]>([])
   const [vehicles, setVehicles] = useState<Vehicle[]>([])
@@ -107,6 +274,7 @@ const Map: React.FC = () => {
   const [isInitialCenterSet, setIsInitialCenterSet] = useState(false)
   const [manualMapCenter, setManualMapCenter] = useState<[number, number] | null>(null)
   const [userHasInteracted, setUserHasInteracted] = useState(false)
+  const [forceOpenPopup, setForceOpenPopup] = useState<string | null>(null)
 
   // Definir centro inicial apenas uma vez quando a localização estiver disponível
   useEffect(() => {
@@ -265,6 +433,10 @@ const Map: React.FC = () => {
     setUserHasInteracted(true) // Marcar como interação do usuário
     setShowSearchResults(false)
     setSearchTerm(property.name)
+    setForceOpenPopup(property.id) // Forçar abertura do popup
+    
+    // Limpar o forceOpenPopup após um tempo para evitar loops
+    setTimeout(() => setForceOpenPopup(null), 1000)
   }
 
   const clearSearch = () => {
@@ -687,166 +859,13 @@ const Map: React.FC = () => {
                 }}
               >
                 {showProperties && getFilteredProperties.map((property) => (
-                  <Marker
+                  <ControlledMarker
                     key={property.id}
-                    position={[property.latitude, property.longitude]}
+                    property={property}
                     icon={createPropertyIcon(property)}
-                  >
-                    <Popup maxWidth={300} minWidth={250}>
-                      <div className="p-3 space-y-3">
-                        {/* Header */}
-                        <div className="border-b pb-2">
-                          <h3 className="font-bold text-lg text-gray-900">{property.name}</h3>
-                          <div className="flex items-center text-sm text-gray-600 mt-1">
-                            <MapPin className="h-3 w-3 mr-1" />
-                            {property.cidade}{property.bairro ? `, ${property.bairro}` : ''}
-                          </div>
-                        </div>
-                        
-                        {/* Property Details */}
-                        <div className="space-y-2">
-                          <div className="flex justify-between">
-                            <span className="text-xs font-medium text-gray-500">TIPO:</span>
-                            <span className="text-xs font-bold capitalize">{property.property_type}</span>
-                          </div>
-                          
-                          <div className="flex justify-between">
-                            <span className="text-xs font-medium text-gray-500">PROPRIETÁRIO:</span>
-                            <span className="text-xs font-bold">{property.owner_name}</span>
-                          </div>
-                          
-                          {property.owner_phone && (
-                            <div className="flex justify-between">
-                              <span className="text-xs font-medium text-gray-500">TELEFONE:</span>
-                              <a href={`tel:${property.owner_phone}`} className="text-xs font-bold text-blue-600 hover:underline">
-                                {property.owner_phone}
-                              </a>
-                            </div>
-                          )}
-                          
-                          <div className="flex justify-between">
-                            <span className="text-xs font-medium text-gray-500">RESPONSÁVEL:</span>
-                            <span className="text-xs font-bold">{property.batalhao}</span>
-                          </div>
-                          
-                          {property.cia && (
-                            <div className="flex justify-between">
-                              <span className="text-xs font-medium text-gray-500">CIA:</span>
-                              <span className="text-xs font-bold">{property.cia}</span>
-                            </div>
-                          )}
-                          
-                          {property.equipe && (
-                            <div className="flex justify-between">
-                              <span className="text-xs font-medium text-gray-500">EQUIPE:</span>
-                              <span className="text-xs font-bold">{property.equipe}</span>
-                            </div>
-                          )}
-                        </div>
-                        
-                        {/* Status Badges */}
-                        {(property.has_cameras || property.has_wifi) && (
-                          <div className="flex space-x-2 pt-2">
-                            {property.has_cameras && (
-                              <div className="flex items-center bg-blue-100 text-blue-700 px-2 py-1 rounded-full text-xs">
-                                <Camera className="h-3 w-3 mr-1" />
-                                {property.cameras_count} câmera(s)
-                              </div>
-                            )}
-                            {property.has_wifi && (
-                              <div className="flex items-center bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs">
-                                <Wifi className="h-3 w-3 mr-1" />
-                                WiFi
-                              </div>
-                            )}
-                          </div>
-                        )}
-                        
-                        {/* Action Buttons */}
-                        <div className="pt-3 border-t space-y-2">
-                          <button
-                            onClick={() => {
-                              const url = `https://www.google.com/maps/dir/?api=1&destination=${property.latitude},${property.longitude}&travelmode=driving`;
-                              window.open(url, '_blank');
-                            }}
-                            className="w-full bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-md text-sm font-medium flex items-center justify-center transition-colors"
-                          >
-                            <Navigation className="h-4 w-4 mr-2" />
-                            Abrir no Google Maps
-                          </button>
-                          
-                          <button
-                            onClick={async () => {
-                              try {
-                                const shareData = {
-                                  title: property.name,
-                                  text: `${property.name} - ${property.cidade}${property.bairro ? `, ${property.bairro}` : ''}`,
-                                  url: `https://www.google.com/maps/place/${property.latitude},${property.longitude}`
-                                };
-                                
-                                // Check if Web Share API is supported and available
-                                if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
-                                  await navigator.share(shareData);
-                                } else if (navigator.clipboard && navigator.clipboard.writeText) {
-                                  // Fallback to clipboard API
-                                  const textToShare = `${property.name}: https://www.google.com/maps/place/${property.latitude},${property.longitude}`;
-                                  await navigator.clipboard.writeText(textToShare);
-                                  alert('Link copiado para a área de transferência!');
-                                } else {
-                                  // Final fallback - create a temporary input element
-                                  const textToShare = `${property.name}: https://www.google.com/maps/place/${property.latitude},${property.longitude}`;
-                                  const tempInput = document.createElement('input');
-                                  tempInput.value = textToShare;
-                                  document.body.appendChild(tempInput);
-                                  tempInput.select();
-                                  tempInput.setSelectionRange(0, 99999); // For mobile devices
-                                  document.execCommand('copy');
-                                  document.body.removeChild(tempInput);
-                                  alert('Link copiado para a área de transferência!');
-                                }
-                              } catch (error) {
-                                console.log('Erro ao compartilhar:', error);
-                                // Fallback quando tudo mais falha
-                                const textToShare = `${property.name}: https://www.google.com/maps/place/${property.latitude},${property.longitude}`;
-                                try {
-                                  const tempInput = document.createElement('input');
-                                  tempInput.value = textToShare;
-                                  document.body.appendChild(tempInput);
-                                  tempInput.select();
-                                  tempInput.setSelectionRange(0, 99999);
-                                  document.execCommand('copy');
-                                  document.body.removeChild(tempInput);
-                                  alert('Link copiado para a área de transferência!');
-                                } catch (fallbackError) {
-                                  console.log('Fallback também falhou:', fallbackError);
-                                  alert(`Link: https://www.google.com/maps/place/${property.latitude},${property.longitude}`);
-                                }
-                              }
-                            }}
-                            className="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-2 rounded-md text-sm font-medium flex items-center justify-center transition-colors"
-                          >
-                            <MapPin className="h-4 w-4 mr-2" />
-                            Compartilhar Localização
-                          </button>
-                        </div>
-                        
-                        {/* Additional Contact Info */}
-                        {(property.contact_name || property.contact_phone) && (
-                          <div className="pt-3 border-t space-y-1">
-                            <div className="text-xs font-medium text-gray-500 uppercase tracking-wide">Contato Adicional</div>
-                            {property.contact_name && (
-                              <div className="text-xs text-gray-700">{property.contact_name}</div>
-                            )}
-                            {property.contact_phone && (
-                              <a href={`tel:${property.contact_phone}`} className="text-xs text-blue-600 hover:underline">
-                                {property.contact_phone}
-                              </a>
-                            )}
-                          </div>
-                        )}
-                      </div>
-                    </Popup>
-                  </Marker>
+                    shouldOpenPopup={forceOpenPopup === property.id}
+                    onPopupOpen={() => setForceOpenPopup(null)}
+                  />
                 ))}
 
                 {showVehicles && getFilteredVehicles.map((vehicle) => (
