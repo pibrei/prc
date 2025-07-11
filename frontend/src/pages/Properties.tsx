@@ -7,6 +7,7 @@ import { useAuth } from '../contexts/AuthContext'
 import { Plus, Edit, Trash2, Search, Camera, Wifi, Upload, MapPin, Filter } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import PropertyFormModal from '../components/property/PropertyFormModal'
+import { formatDateBR } from '../utils/dateUtils'
 
 interface Property {
   id: string
@@ -86,6 +87,9 @@ const Properties: React.FC = () => {
       if (properties.length <= 5) {
         fetchAllProperties()
       }
+      
+      console.log(`🔍 DEBUG Search: Buscando por "${searchTerm}" em ${properties.length} propriedades`)
+      
       const filtered = properties.filter(property =>
         property.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         property.cidade.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -93,6 +97,23 @@ const Properties: React.FC = () => {
         property.owner_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         property.contact_name?.toLowerCase().includes(searchTerm.toLowerCase())
       )
+      
+      console.log(`🔍 DEBUG Search: Encontradas ${filtered.length} propriedades`)
+      
+      // Debug específico para "águas de março"
+      if (searchTerm.toLowerCase().includes('águas') || searchTerm.toLowerCase().includes('aguas')) {
+        const sitioAguas = properties.find(p => p.name.toLowerCase().includes('águas de março'))
+        console.log('🔍 DEBUG: Procurando "águas de março" - encontrado?', !!sitioAguas)
+        if (sitioAguas) {
+          console.log('🔍 DEBUG: Dados do Sítio águas de março:', {
+            name: sitioAguas.name,
+            cia: sitioAguas.cia,
+            cidade: sitioAguas.cidade,
+            bairro: sitioAguas.bairro
+          })
+        }
+      }
+      
       setFilteredProperties(filtered)
     } else {
       setHasSearched(false)
@@ -128,11 +149,33 @@ const Properties: React.FC = () => {
         query = query.eq('cia', selectedCia)
       }
 
-      const { data, error } = await query.limit(5)
-
-      if (error) throw error
-      setProperties(data || [])
-      setFilteredProperties(data || [])
+      // Carregamento sem limite usando paginação (mesmo para limited)
+      let allProperties: any[] = [];
+      let from = 0;
+      const pageSize = 1000;
+      
+      while (true) {
+        const paginatedQuery = query.range(from, from + pageSize - 1);
+        const { data: batch, error } = await paginatedQuery;
+        
+        if (error) throw error;
+        
+        if (batch && batch.length > 0) {
+          allProperties = [...allProperties, ...batch];
+          
+          // Se retornou menos que o pageSize, não há mais dados
+          if (batch.length < pageSize) {
+            break;
+          }
+          
+          from += pageSize;
+        } else {
+          break;
+        }
+      }
+      
+      setProperties(allProperties)
+      setFilteredProperties(allProperties.slice(0, 5)) // Apenas limite na exibição inicial
     } catch (error) {
       console.error('Erro ao buscar propriedades:', error)
     } finally {
@@ -166,10 +209,46 @@ const Properties: React.FC = () => {
         query = query.eq('cia', selectedCia)
       }
 
-      const { data, error } = await query
-
-      if (error) throw error
-      setProperties(data || [])
+      // Carregamento sem limite usando paginação
+      let allProperties: any[] = [];
+      let from = 0;
+      const pageSize = 1000;
+      
+      while (true) {
+        const paginatedQuery = query.range(from, from + pageSize - 1);
+        const { data: batch, error } = await paginatedQuery;
+        
+        if (error) throw error;
+        
+        if (batch && batch.length > 0) {
+          allProperties = [...allProperties, ...batch];
+          console.log(`🔍 DEBUG Properties: Lote carregado - ${batch.length} propriedades. Total: ${allProperties.length}`);
+          
+          // Se retornou menos que o pageSize, não há mais dados
+          if (batch.length < pageSize) {
+            break;
+          }
+          
+          from += pageSize;
+        } else {
+          break;
+        }
+      }
+      
+      console.log(`🔍 DEBUG Properties: TOTAL carregado - ${allProperties.length} propriedades`)
+      
+      // Debug específico para as propriedades que estamos investigando
+      const sitioAguas = allProperties.find(p => p.name === 'Sítio águas de março')
+      const racoesPioneiro = allProperties.find(p => p.name === 'Rações Pioneiro')
+      
+      console.log('🔍 DEBUG: Sítio águas de março encontrado?', !!sitioAguas)
+      console.log('🔍 DEBUG: Rações Pioneiro encontrado?', !!racoesPioneiro)
+      
+      if (selectedCia === '4ª CIA') {
+        console.log('🔍 DEBUG: Total propriedades da 4ª CIA carregadas:', allProperties.length)
+      }
+      
+      setProperties(allProperties)
     } catch (error) {
       console.error('Erro ao buscar todas as propriedades:', error)
     }
@@ -546,7 +625,7 @@ const Properties: React.FC = () => {
                 <div className="grid grid-cols-2 gap-3">
                   <div className="bg-gray-50 p-3 rounded-lg">
                     <div className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">Cadastro</div>
-                    <div className="font-medium">{property.cadastro_date ? new Date(property.cadastro_date).toLocaleDateString('pt-BR') : 'N/A'}</div>
+                    <div className="font-medium">{formatDateBR(property.cadastro_date)}</div>
                   </div>
                   
                   <div className="bg-gray-50 p-3 rounded-lg">

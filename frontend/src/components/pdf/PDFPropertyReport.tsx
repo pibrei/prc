@@ -2,6 +2,7 @@ import React from 'react';
 import { Document, Page, View, Text, StyleSheet } from '@react-pdf/renderer';
 import { PDFHeader } from './PDFHeader';
 import { PDFFooter } from './PDFFooter';
+import { formatDateBR } from '../../utils/dateUtils';
 
 interface Property {
   id: string;
@@ -149,7 +150,7 @@ export const PDFPropertyReport: React.FC<PDFPropertyReportProps> = ({
           
           {properties.map((property, index) => {
             const cadastroDate = property.cadastro_date || property.created_at;
-            const formattedDate = new Date(cadastroDate).toLocaleDateString('pt-BR');
+            const formattedDate = formatDateBR(cadastroDate);
             
             return (
               <View key={property.id} style={styles.tableRow}>

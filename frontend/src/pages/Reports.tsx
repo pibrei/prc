@@ -8,6 +8,7 @@ import { Input } from '../components/ui/input';
 import { PDFPropertyReport } from '../components/pdf/PDFPropertyReport';
 import { Download, FileText, Calendar, Users } from 'lucide-react';
 import { normalizeBattalionFileName } from '../utils/fileUtils';
+import { formatDateBR, isDateInRange, isDateInMonth } from '../utils/dateUtils';
 
 interface Property {
   id: string;
@@ -48,14 +49,23 @@ const Reports: React.FC = () => {
   const [battalionBadgeUrl, setBattalionBadgeUrl] = useState<string | null>(null);
   const [pmprBadgeUrl, setPmprBadgeUrl] = useState<string | null>(null);
   const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
-  const [organizationalScope, setOrganizationalScope] = useState<'my-cia' | 'all-parana' | 'specific-crpm' | 'specific-cia'>('my-cia');
+  const [organizationalScope, setOrganizationalScope] = useState<'my-cia' | 'other-unit'>('my-cia');
   const [selectedCrpm, setSelectedCrpm] = useState('');
+  const [selectedBatalhao, setSelectedBatalhao] = useState('');
   const [selectedCia, setSelectedCia] = useState('');
+  const [selectedEquipe, setSelectedEquipe] = useState('');
+  const [availableEquipes, setAvailableEquipes] = useState<string[]>([]);
 
   useEffect(() => {
     loadUserData();
-    loadProperties();
   }, []);
+  
+  useEffect(() => {
+    if (user) {
+      loadProperties();
+      loadAvailableEquipes();
+    }
+  }, [user]);
 
   useEffect(() => {
     if (user?.batalhao) {
@@ -66,7 +76,7 @@ const Reports: React.FC = () => {
 
   useEffect(() => {
     filterPropertiesByDate();
-  }, [properties, startDate, endDate, selectedMonth, selectedYear, filterType, organizationalScope, selectedCrpm, selectedCia]);
+  }, [properties, startDate, endDate, selectedMonth, selectedYear, filterType, organizationalScope, selectedCrpm, selectedBatalhao, selectedCia, selectedEquipe]);
 
   const loadUserData = async () => {
     try {
@@ -88,25 +98,87 @@ const Reports: React.FC = () => {
   };
 
   const loadProperties = async () => {
+    if (!user) return;
+    
     try {
       setLoading(true);
-      const { data } = await supabase
+      
+      // Primeiro, vamos descobrir quantas propriedades existem
+      const { count } = await supabase
         .from('properties')
-        .select(`
-          id, name, owner_name, owner_phone, cidade, property_type, 
-          has_cameras, has_wifi, created_at, cadastro_date, equipe,
-          crpm, batalhao, cia
-        `)
-        .is('deleted_at', null)
-        .order('cadastro_date', { ascending: false });
-
-      if (data) {
-        setProperties(data);
+        .select('*', { count: 'exact', head: true })
+        .is('deleted_at', null);
+      
+      console.log(`🔍 DEBUG: Total de propriedades no banco: ${count}`);
+      
+      // Agora vamos carregar TODAS em lotes de 1000
+      let allProperties: any[] = [];
+      const batchSize = 1000;
+      let offset = 0;
+      
+      while (offset < (count || 0)) {
+        console.log(`🔍 DEBUG: Carregando lote ${offset} a ${offset + batchSize}`);
+        
+        const { data: batch, error } = await supabase
+          .from('properties')
+          .select(`
+            id, name, owner_name, owner_phone, cidade, property_type, 
+            has_cameras, has_wifi, created_at, cadastro_date, equipe,
+            crpm, batalhao, cia
+          `)
+          .is('deleted_at', null)
+          .order('created_at', { ascending: false })
+          .range(offset, offset + batchSize - 1);
+        
+        if (error) {
+          console.error('🚨 Erro na query do lote:', error);
+          throw error;
+        }
+        
+        if (batch && batch.length > 0) {
+          allProperties = [...allProperties, ...batch];
+          console.log(`🔍 DEBUG: Lote carregado: ${batch.length} propriedades. Total: ${allProperties.length}`);
+        }
+        
+        // Se o lote retornou menos que o esperado, não há mais dados
+        if (!batch || batch.length < batchSize) {
+          break;
+        }
+        
+        offset += batchSize;
       }
+
+      setProperties(allProperties);
+      console.log(`🔍 DEBUG: TOTAL FINAL carregado: ${allProperties.length} de ${count} no banco`);
+      
+      // Verificar distribuição por CIA para debug
+      const ciaCount = allProperties.reduce((acc, p) => {
+        const key = `${p.crpm}-${p.batalhao}-${p.cia}`;
+        acc[key] = (acc[key] || 0) + 1;
+        return acc;
+      }, {} as Record<string, number>);
+      console.log(`🔍 DEBUG: Distribuição por unidade:`, ciaCount);
+      
     } catch (error) {
       console.error('Erro ao carregar propriedades:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const loadAvailableEquipes = async () => {
+    if (!user) return;
+    
+    try {
+      // Equipes padrão que devem estar sempre disponíveis
+      const equipePadrao = ['Alpha 1', 'Alpha 2', 'Bravo', 'Charlie', 'Delta'];
+      
+      // Sempre mostra as equipes padrão - elas serão filtradas dinamicamente
+      // baseado na unidade selecionada (minha CIA ou outra unidade)
+      setAvailableEquipes(equipePadrao);
+      console.log('Equipes padrão carregadas:', equipePadrao);
+    } catch (error) {
+      console.error('Erro ao carregar equipes:', error);
     }
   };
 
@@ -157,47 +229,85 @@ const Reports: React.FC = () => {
   const filterPropertiesByDate = () => {
     let filtered = [...properties];
 
+    console.log(`🔍 DEBUG: Iniciando filtro com ${properties.length} propriedades`);
+
+    // Filtro de data
     if (filterType === 'date-range' && startDate && endDate) {
       filtered = properties.filter(property => {
-        // Usar cadastro_date se disponível, senão created_at
         const dateToUse = property.cadastro_date || property.created_at;
-        const propertyDate = new Date(dateToUse);
-        const start = new Date(startDate);
-        const end = new Date(endDate);
-        return propertyDate >= start && propertyDate <= end;
+        return isDateInRange(dateToUse, startDate, endDate);
       });
+      console.log(`🔍 DEBUG: Após filtro de data (range): ${filtered.length} propriedades`);
     } else if (filterType === 'month' && selectedMonth && selectedYear) {
       filtered = properties.filter(property => {
-        // Usar cadastro_date se disponível, senão created_at
         const dateToUse = property.cadastro_date || property.created_at;
-        const propertyDate = new Date(dateToUse);
-        const month = (propertyDate.getMonth() + 1).toString().padStart(2, '0');
-        const year = propertyDate.getFullYear().toString();
-        return month === selectedMonth && year === selectedYear;
+        return isDateInMonth(dateToUse, selectedMonth, selectedYear);
       });
+      console.log(`🔍 DEBUG: Após filtro de data (mês): ${filtered.length} propriedades`);
     }
 
     // Aplicar filtro organizacional
     if (user) {
+      const beforeOrgFilter = filtered.length;
+      
       filtered = filtered.filter(property => {
         switch (organizationalScope) {
           case 'my-cia':
-            return property.cia === user.cia;
-          case 'all-parana':
-            return true; // Mostrar todas as propriedades do Paraná
-          case 'specific-crpm':
-            return selectedCrpm ? property.crpm === selectedCrpm : true;
-          case 'specific-cia':
-            return selectedCia ? property.cia === selectedCia : true;
+            const myMatch = property.cia === user.cia && property.batalhao === user.batalhao && property.crpm === user.crpm;
+            if (!myMatch && filtered.length < 10) {
+              console.log(`🔍 DEBUG: Propriedade rejeitada:`, {
+                property: { crpm: property.crpm, batalhao: property.batalhao, cia: property.cia },
+                user: { crpm: user.crpm, batalhao: user.batalhao, cia: user.cia }
+              });
+            }
+            return myMatch;
+          case 'other-unit':
+            // Filtro hierárquico: CRPM > BPM > CIA
+            let matches = true;
+            
+            // Se CRPM selecionado, deve bater
+            if (selectedCrpm) {
+              matches = matches && property.crpm === selectedCrpm;
+            } else {
+              matches = false; // CRPM é obrigatório
+            }
+            
+            // Se Batalhão selecionado, deve bater
+            if (selectedBatalhao && matches) {
+              matches = matches && property.batalhao === selectedBatalhao;
+            } else if (selectedBatalhao) {
+              matches = false;
+            }
+            
+            // Se CIA selecionada, deve bater
+            if (selectedCia && matches) {
+              matches = matches && property.cia === selectedCia;
+            }
+            // Se CIA não selecionada mas CRPM e Batalhão sim, mostra todas as CIAs
+            
+            return matches;
           default:
             return true;
         }
       });
+      
+      console.log(`🔍 DEBUG: Após filtro organizacional: ${beforeOrgFilter} → ${filtered.length} propriedades`);
     }
 
-    console.log(`Filtro aplicado: ${filterType === 'month' ? `${selectedMonth}/${selectedYear}` : `${startDate} a ${endDate}`}`);
-    console.log(`Filtro organizacional: ${organizationalScope}`);
-    console.log(`Total de propriedades: ${properties.length}, Filtradas: ${filtered.length}`);
+    // Aplicar filtro por equipe
+    if (selectedEquipe) {
+      const beforeTeamFilter = filtered.length;
+      filtered = filtered.filter(property => property.equipe === selectedEquipe);
+      console.log(`🔍 DEBUG: Após filtro de equipe: ${beforeTeamFilter} → ${filtered.length} propriedades`);
+    }
+
+    console.log(`📊 RESUMO FINAL:`);
+    console.log(`   Filtro: ${filterType === 'month' ? `${selectedMonth}/${selectedYear}` : `${startDate} a ${endDate}`}`);
+    console.log(`   Organizacional: ${organizationalScope}`);
+    console.log(`   Equipe: ${selectedEquipe || 'Todas as equipes'}`);
+    console.log(`   Seleções: CRPM="${selectedCrpm}", Batalhão="${selectedBatalhao}", CIA="${selectedCia}"`);
+    console.log(`   User: CRPM="${user?.crpm}", Batalhão="${user?.batalhao}", CIA="${user?.cia}"`);
+    console.log(`   RESULTADO: ${properties.length} → ${filtered.length} propriedades`);
 
     setFilteredProperties(filtered);
   };
@@ -209,11 +319,14 @@ const Reports: React.FC = () => {
       setLoading(true);
 
       let reportTitle = 'RELATÓRIO DE PRODUÇÃO PATRULHA RURAL';
+      if (selectedEquipe) {
+        reportTitle += ` - EQUIPE ${selectedEquipe.toUpperCase()}`;
+      }
       let dateRange = '';
 
       if (filterType === 'date-range' && startDate && endDate) {
-        const start = new Date(startDate).toLocaleDateString('pt-BR');
-        const end = new Date(endDate).toLocaleDateString('pt-BR');
+        const start = formatDateBR(startDate);
+        const end = formatDateBR(endDate);
         dateRange = `${start} a ${end}`;
       } else if (filterType === 'month' && selectedMonth && selectedYear) {
         const monthNames = [
@@ -244,7 +357,8 @@ const Reports: React.FC = () => {
       );
 
       const blob = await pdf(pdfDoc).toBlob();
-      const fileName = `PMPR_Relatorio_Propriedades_${dateRange.replace(/\//g, '_')}_${user.cia}.pdf`;
+      const equipeText = selectedEquipe ? `_${selectedEquipe.replace(/\s+/g, '_')}` : '';
+      const fileName = `PMPR_Relatorio_Propriedades_${dateRange.replace(/\//g, '_')}_${user.cia}${equipeText}.pdf`;
       saveAs(blob, fileName);
 
     } catch (error) {
@@ -358,6 +472,7 @@ const Reports: React.FC = () => {
                       // Reset ao abrir filtros avançados
                       setOrganizationalScope('my-cia');
                       setSelectedCrpm('');
+                      setSelectedBatalhao('');
                       setSelectedCia('');
                     }
                   }}
@@ -375,64 +490,67 @@ const Reports: React.FC = () => {
                     <select
                       value={organizationalScope}
                       onChange={(e) => {
-                        setOrganizationalScope(e.target.value as any);
+                        const newScope = e.target.value as 'my-cia' | 'other-unit';
+                        setOrganizationalScope(newScope);
                         // Reset campos dependentes
                         setSelectedCrpm('');
+                        setSelectedBatalhao('');
                         setSelectedCia('');
                       }}
                       className="w-full p-2 border border-gray-300 rounded-md"
                     >
                       <option value="my-cia">Minha CIA ({user?.cia})</option>
-                      <option value="all-parana">Todo o Paraná (Todos os CRPMs)</option>
-                      <option value="specific-crpm">CRPM Específico</option>
-                      <option value="specific-cia">CIA Específica</option>
+                      <option value="other-unit">Outra Unidade</option>
                     </select>
                   </div>
 
-                  {/* Seleção de CRPM */}
-                  {organizationalScope === 'specific-crpm' && (
-                    <div>
-                      <label className="block text-sm font-medium mb-2">Selecione o CRPM</label>
-                      <select
-                        value={selectedCrpm}
-                        onChange={(e) => setSelectedCrpm(e.target.value)}
-                        className="w-full p-2 border border-gray-300 rounded-md"
-                      >
-                        <option value="">Selecione um CRPM</option>
-                        <option value="1º COMANDO REGIONAL DE POLÍCIA MILITAR">1º CRPM</option>
-                        <option value="2º COMANDO REGIONAL DE POLÍCIA MILITAR">2º CRPM</option>
-                        <option value="3º COMANDO REGIONAL DE POLÍCIA MILITAR">3º CRPM</option>
-                        <option value="4º COMANDO REGIONAL DE POLÍCIA MILITAR">4º CRPM</option>
-                        <option value="5º COMANDO REGIONAL DE POLÍCIA MILITAR">5º CRPM</option>
-                      </select>
-                    </div>
-                  )}
-
-                  {/* Seleção de CIA */}
-                  {organizationalScope === 'specific-cia' && (
+                  {/* Seleção Hierárquica para Outra Unidade */}
+                  {organizationalScope === 'other-unit' && (
                     <div className="space-y-4">
                       <div>
-                        <label className="block text-sm font-medium mb-2">Primeiro selecione o CRPM</label>
+                        <label className="block text-sm font-medium mb-2">1º - Selecione o CRPM</label>
                         <select
                           value={selectedCrpm}
                           onChange={(e) => {
                             setSelectedCrpm(e.target.value);
+                            setSelectedBatalhao(''); // Reset batalhão quando muda CRPM
                             setSelectedCia(''); // Reset CIA quando muda CRPM
                           }}
                           className="w-full p-2 border border-gray-300 rounded-md"
                         >
                           <option value="">Selecione um CRPM</option>
-                          <option value="1º COMANDO REGIONAL DE POLÍCIA MILITAR">1º CRPM</option>
-                          <option value="2º COMANDO REGIONAL DE POLÍCIA MILITAR">2º CRPM</option>
-                          <option value="3º COMANDO REGIONAL DE POLÍCIA MILITAR">3º CRPM</option>
-                          <option value="4º COMANDO REGIONAL DE POLÍCIA MILITAR">4º CRPM</option>
-                          <option value="5º COMANDO REGIONAL DE POLÍCIA MILITAR">5º CRPM</option>
+                          <option value="1º CRPM">1º CRPM</option>
+                          <option value="2º CRPM">2º CRPM</option>
+                          <option value="3º CRPM">3º CRPM</option>
+                          <option value="4º CRPM">4º CRPM</option>
+                          <option value="5º CRPM">5º CRPM</option>
                         </select>
                       </div>
 
                       {selectedCrpm && (
                         <div>
-                          <label className="block text-sm font-medium mb-2">Agora selecione a CIA</label>
+                          <label className="block text-sm font-medium mb-2">2º - Selecione o Batalhão</label>
+                          <select
+                            value={selectedBatalhao}
+                            onChange={(e) => {
+                              setSelectedBatalhao(e.target.value);
+                              setSelectedCia(''); // Reset CIA quando muda batalhão
+                            }}
+                            className="w-full p-2 border border-gray-300 rounded-md"
+                          >
+                            <option value="">Selecione um Batalhão</option>
+                            <option value="1º BPM">1º BPM</option>
+                            <option value="2º BPM">2º BPM</option>
+                            <option value="3º BPM">3º BPM</option>
+                            <option value="4º BPM">4º BPM</option>
+                            <option value="5º BPM">5º BPM</option>
+                          </select>
+                        </div>
+                      )}
+
+                      {selectedCrpm && selectedBatalhao && (
+                        <div>
+                          <label className="block text-sm font-medium mb-2">3º - Selecione a CIA</label>
                           <select
                             value={selectedCia}
                             onChange={(e) => setSelectedCia(e.target.value)}
@@ -457,11 +575,8 @@ const Reports: React.FC = () => {
                       <p className="text-sm font-medium text-gray-700">Filtro Ativo:</p>
                       <p className="text-sm text-gray-600">
                         {organizationalScope === 'my-cia' && `${user?.cia} - ${user?.batalhao} - ${user?.crpm}`}
-                        {organizationalScope === 'all-parana' && 'Todo o Estado do Paraná'}
-                        {organizationalScope === 'specific-crpm' && selectedCrpm && `${selectedCrpm}`}
-                        {organizationalScope === 'specific-cia' && selectedCia && selectedCrpm && `${selectedCia} - ${selectedCrpm}`}
-                        {organizationalScope === 'specific-crpm' && !selectedCrpm && 'Selecione um CRPM'}
-                        {organizationalScope === 'specific-cia' && (!selectedCrpm || !selectedCia) && 'Selecione CRPM e CIA'}
+                        {organizationalScope === 'other-unit' && selectedCia && selectedBatalhao && selectedCrpm && `${selectedCia} - ${selectedBatalhao} - ${selectedCrpm}`}
+                        {organizationalScope === 'other-unit' && (!selectedCrpm || !selectedBatalhao || !selectedCia) && 'Selecione CRPM → Batalhão → CIA'}
                       </p>
                       <p className="text-lg font-bold text-green-600 mt-1">
                         {filteredProperties.length} propriedades
@@ -525,6 +640,33 @@ const Reports: React.FC = () => {
                 </div>
               </div>
             )}
+
+            {/* Filtro por Equipe */}
+            <div>
+              <label className="block text-sm font-medium mb-2">Filtrar por Equipe</label>
+              <div className="space-y-2">
+                <p className="text-xs text-gray-600">
+                  Apenas propriedades com equipe definida serão exibidas no relatório
+                </p>
+                <select
+                  value={selectedEquipe}
+                  onChange={(e) => setSelectedEquipe(e.target.value)}
+                  className="w-full p-2 border border-gray-300 rounded-md"
+                >
+                  <option value="">Todas as equipes</option>
+                  {availableEquipes.map(equipe => (
+                    <option key={equipe} value={equipe}>
+                      {equipe}
+                    </option>
+                  ))}
+                </select>
+                {selectedEquipe && (
+                  <div className="text-xs text-blue-600 bg-blue-50 p-2 rounded">
+                    ℹ️ Mostrando apenas propriedades da equipe "{selectedEquipe}"
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
         </Card>
 
@@ -549,8 +691,7 @@ const Reports: React.FC = () => {
               <Button
                 onClick={generatePDF}
                 disabled={loading || filteredProperties.length === 0 || 
-                  (organizationalScope === 'specific-crpm' && !selectedCrpm) ||
-                  (organizationalScope === 'specific-cia' && (!selectedCrpm || !selectedCia))
+                  (organizationalScope === 'other-unit' && (!selectedCrpm || !selectedBatalhao || !selectedCia))
                 }
                 className="flex items-center gap-2"
               >
@@ -560,8 +701,7 @@ const Reports: React.FC = () => {
             </div>
 
             {/* Mensagem quando filtro está incompleto */}
-            {((organizationalScope === 'specific-crpm' && !selectedCrpm) ||
-              (organizationalScope === 'specific-cia' && (!selectedCrpm || !selectedCia))) && (
+            {(organizationalScope === 'other-unit' && (!selectedCrpm || !selectedBatalhao || !selectedCia)) && (
               <div className="text-center text-sm text-gray-500">
                 Complete a seleção de unidade para gerar o relatório
               </div>
