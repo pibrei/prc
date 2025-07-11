@@ -126,6 +126,7 @@ ALTER TABLE vehicles ADD COLUMN city text;
 - **Corrigido**: Erro do construtor Image (TypeError)
 - **Corrigido**: Coordenadas opcionais (não preenchimento automático)
 - **Corrigido**: Políticas RLS circular dependency (erro 403 Forbidden)
+- **Adicionado**: Modal de imagem para ampliação elegante das fotos
 
 🔄 **Próximos Passos Sugeridos:**
 - Teste com usuários reais

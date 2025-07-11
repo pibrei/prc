@@ -8,6 +8,7 @@ import { Plus, Edit, Trash2, Search, MapPin } from 'lucide-react'
 import LocationInput from '../components/ui/location-input'
 import PhotoUpload from '../components/ui/photo-upload'
 import CitySelector from '../components/ui/city-selector'
+import ImageModal from '../components/ui/image-modal'
 
 interface Vehicle {
   id: string
@@ -39,6 +40,17 @@ const Vehicles: React.FC = () => {
   const [showForm, setShowForm] = useState(false)
   const [editingVehicle, setEditingVehicle] = useState<Vehicle | null>(null)
   const [loading, setLoading] = useState(true)
+  
+  // Image modal state
+  const [imageModal, setImageModal] = useState<{
+    isOpen: boolean
+    imageUrl: string
+    title: string
+  }>({
+    isOpen: false,
+    imageUrl: '',
+    title: ''
+  })
 
   const [formData, setFormData] = useState({
     license_plate: '',
@@ -415,8 +427,11 @@ const Vehicles: React.FC = () => {
                             alt={`Veículo ${vehicle.license_plate}`}
                             className="w-24 h-24 object-cover rounded-lg border border-gray-300 cursor-pointer hover:scale-105 transition-transform"
                             onClick={() => {
-                              // Open image in modal/new tab
-                              window.open(vehicle.photo_url!, '_blank')
+                              setImageModal({
+                                isOpen: true,
+                                imageUrl: vehicle.photo_url!,
+                                title: `Veículo ${vehicle.license_plate} - ${vehicle.make ? `${vehicle.make} ${vehicle.model}` : 'Sem marca/modelo'}`
+                              })
                             }}
                             onError={(e) => {
                               console.error('Erro ao carregar imagem do veículo:', e)
@@ -522,6 +537,15 @@ const Vehicles: React.FC = () => {
           <p className="text-gray-500">Nenhum veículo encontrado</p>
         </div>
       )}
+
+      {/* Image Modal */}
+      <ImageModal
+        isOpen={imageModal.isOpen}
+        onClose={() => setImageModal({ isOpen: false, imageUrl: '', title: '' })}
+        imageUrl={imageModal.imageUrl}
+        alt={imageModal.title}
+        title={imageModal.title}
+      />
     </div>
   )
 }
