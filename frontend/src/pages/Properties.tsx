@@ -52,6 +52,7 @@ const Properties: React.FC = () => {
   const [editingProperty, setEditingProperty] = useState<Property | null>(null)
   const [loading, setLoading] = useState(true)
   const [hasSearched, setHasSearched] = useState(false)
+  const [successMessage, setSuccessMessage] = useState('')
   
   // Estados para filtros de visualização
   const [selectedBatalhao, setSelectedBatalhao] = useState('')
@@ -256,6 +257,16 @@ const Properties: React.FC = () => {
 
       setShowFormModal(false)
       setEditingProperty(null)
+      
+      // Mostrar mensagem de sucesso
+      if (!editingProperty) {
+        setSuccessMessage('Propriedade cadastrada com sucesso!')
+        setTimeout(() => setSuccessMessage(''), 5000) // Remove após 5 segundos
+      } else {
+        setSuccessMessage('Propriedade atualizada com sucesso!')
+        setTimeout(() => setSuccessMessage(''), 5000) // Remove após 5 segundos
+      }
+      
       fetchProperties()
     } catch (error) {
       console.error('Erro ao salvar propriedade:', error)
@@ -298,6 +309,22 @@ const Properties: React.FC = () => {
 
   return (
     <div className="space-y-4 lg:space-y-6 pb-20 lg:pb-0">
+      {/* Mensagem de Sucesso */}
+      {successMessage && (
+        <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg flex items-center justify-between">
+          <div className="flex items-center space-x-2">
+            <span className="text-green-600 text-xl">✅</span>
+            <span className="font-medium">{successMessage}</span>
+          </div>
+          <button
+            onClick={() => setSuccessMessage('')}
+            className="text-green-600 hover:text-green-800 font-bold text-lg"
+          >
+            ×
+          </button>
+        </div>
+      )}
+
       {/* Mobile-First Header */}
       <div className="space-y-4">
         <div className="flex flex-col space-y-2">

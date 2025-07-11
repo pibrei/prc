@@ -186,11 +186,19 @@ const PropertyFormModal: React.FC<PropertyFormModalProps> = ({
     <button
       type="button"
       onClick={() => toggleSection(section)}
-      className="w-full flex items-center justify-between p-4 bg-gray-50 hover:bg-gray-100 transition-colors"
+      className={`w-full flex items-center justify-between p-4 transition-colors ${
+        required ? 'bg-red-50 hover:bg-red-100 border-l-4 border-red-500' : 'bg-gray-50 hover:bg-gray-100'
+      }`}
     >
       <div className="flex items-center space-x-2">
-        <span className="text-lg font-medium text-gray-900">{title}</span>
-        {required && <span className="text-red-500 text-sm">*</span>}
+        <span className={`text-lg font-medium ${required ? 'text-red-900' : 'text-gray-900'}`}>
+          {title}
+        </span>
+        {required && (
+          <span className="bg-red-500 text-white text-xs px-2 py-1 rounded-full font-bold">
+            OBRIGATÓRIO
+          </span>
+        )}
       </div>
       {expandedSections[section] ? 
         <ChevronUp className="h-5 w-5 text-gray-500" /> : 
@@ -206,6 +214,23 @@ const PropertyFormModal: React.FC<PropertyFormModalProps> = ({
       title={editingProperty ? 'Editar Propriedade' : 'Nova Propriedade'}
       size="full"
     >
+      {/* Legenda dos campos */}
+      <div className="bg-gradient-to-r from-red-50 to-blue-50 p-4 rounded-lg mb-6 border border-gray-200">
+        <h3 className="text-sm font-semibold text-gray-800 mb-2">Legenda dos Campos:</h3>
+        <div className="flex flex-wrap gap-4 text-xs">
+          <div className="flex items-center gap-2">
+            <span className="w-3 h-3 bg-red-500 rounded-full"></span>
+            <span className="bg-red-500 text-white px-2 py-1 rounded-full font-bold">OBRIGATÓRIO</span>
+            <span className="text-gray-600">Deve ser preenchido</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="w-3 h-3 bg-blue-400 rounded-full"></span>
+            <span className="bg-blue-100 text-blue-600 px-2 py-1 rounded-full">OPCIONAL</span>
+            <span className="text-gray-600">Pode deixar em branco</span>
+          </div>
+        </div>
+      </div>
+
       <form onSubmit={handleSubmit} className="divide-y divide-gray-200">
         
         {/* Seção: Informações Básicas */}
@@ -214,20 +239,23 @@ const PropertyFormModal: React.FC<PropertyFormModalProps> = ({
           {expandedSections.basic && (
             <div className="p-4 space-y-4">
               <div>
-                <label className="block text-sm font-medium mb-2 text-gray-700">
+                <label className="block text-sm font-medium mb-2 text-red-700 flex items-center gap-2">
+                  <span className="w-2 h-2 bg-red-500 rounded-full"></span>
                   Nome da Propriedade *
                 </label>
                 <Input
                   value={formData.name}
                   onChange={(e) => setFormData({...formData, name: e.target.value})}
                   required
-                  className="h-12 text-base"
+                  className="h-12 text-base border-red-200 focus:border-red-500 focus:ring-red-200"
                   placeholder="Ex: Fazenda São José"
                 />
+                <p className="text-xs text-red-600 mt-1">Campo obrigatório</p>
               </div>
               
               <div>
-                <label className="block text-sm font-medium mb-2 text-gray-700">
+                <label className="block text-sm font-medium mb-2 text-red-700 flex items-center gap-2">
+                  <span className="w-2 h-2 bg-red-500 rounded-full"></span>
                   Data de Cadastro *
                 </label>
                 <Input
@@ -235,8 +263,9 @@ const PropertyFormModal: React.FC<PropertyFormModalProps> = ({
                   value={formData.cadastro_date}
                   onChange={(e) => setFormData({...formData, cadastro_date: e.target.value})}
                   required
-                  className="h-12 text-base"
+                  className="h-12 text-base border-red-200 focus:border-red-500 focus:ring-red-200"
                 />
+                <p className="text-xs text-red-600 mt-1">Campo obrigatório</p>
               </div>
 
             </div>
@@ -250,38 +279,44 @@ const PropertyFormModal: React.FC<PropertyFormModalProps> = ({
             <div className="p-4 space-y-4">
               <div className="grid grid-cols-1 gap-4">
                 <div>
-                  <label className="block text-sm font-medium mb-2 text-gray-700">
+                  <label className="block text-sm font-medium mb-2 text-red-700 flex items-center gap-2">
+                    <span className="w-2 h-2 bg-red-500 rounded-full"></span>
                     Cidade *
                   </label>
                   <Input
                     value={formData.cidade}
                     onChange={(e) => setFormData({...formData, cidade: e.target.value})}
                     required
-                    className="h-12 text-base"
+                    className="h-12 text-base border-red-200 focus:border-red-500 focus:ring-red-200"
                     placeholder="Ex: Curitiba"
                   />
+                  <p className="text-xs text-red-600 mt-1">Campo obrigatório</p>
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium mb-2 text-gray-700">
+                  <label className="block text-sm font-medium mb-2 text-blue-700 flex items-center gap-2">
+                    <span className="w-2 h-2 bg-blue-400 rounded-full"></span>
                     Bairro
+                    <span className="text-xs bg-blue-100 text-blue-600 px-2 py-1 rounded-full">OPCIONAL</span>
                   </label>
                   <Input
                     value={formData.bairro}
                     onChange={(e) => setFormData({...formData, bairro: e.target.value})}
-                    className="h-12 text-base"
+                    className="h-12 text-base border-blue-200 focus:border-blue-500 focus:ring-blue-200"
                     placeholder="Ex: Centro"
                   />
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium mb-2 text-gray-700">
+                  <label className="block text-sm font-medium mb-2 text-blue-700 flex items-center gap-2">
+                    <span className="w-2 h-2 bg-blue-400 rounded-full"></span>
                     Número da Placa
+                    <span className="text-xs bg-blue-100 text-blue-600 px-2 py-1 rounded-full">OPCIONAL</span>
                   </label>
                   <Input
                     value={formData.numero_placa}
                     onChange={(e) => setFormData({...formData, numero_placa: e.target.value})}
-                    className="h-12 text-base"
+                    className="h-12 text-base border-blue-200 focus:border-blue-500 focus:ring-blue-200"
                     placeholder="Ex: 123"
                   />
                 </div>
@@ -312,39 +347,45 @@ const PropertyFormModal: React.FC<PropertyFormModalProps> = ({
           {expandedSections.owner && (
             <div className="p-4 space-y-4">
               <div>
-                <label className="block text-sm font-medium mb-2 text-gray-700">
+                <label className="block text-sm font-medium mb-2 text-red-700 flex items-center gap-2">
+                  <span className="w-2 h-2 bg-red-500 rounded-full"></span>
                   Nome do Proprietário *
                 </label>
                 <Input
                   value={formData.owner_name}
                   onChange={(e) => setFormData({...formData, owner_name: e.target.value})}
                   required
-                  className="h-12 text-base"
+                  className="h-12 text-base border-red-200 focus:border-red-500 focus:ring-red-200"
                   placeholder="Ex: João Silva"
                 />
+                <p className="text-xs text-red-600 mt-1">Campo obrigatório</p>
               </div>
               
               <div>
-                <label className="block text-sm font-medium mb-2 text-gray-700">
+                <label className="block text-sm font-medium mb-2 text-blue-700 flex items-center gap-2">
+                  <span className="w-2 h-2 bg-blue-400 rounded-full"></span>
                   Telefone
+                  <span className="text-xs bg-blue-100 text-blue-600 px-2 py-1 rounded-full">OPCIONAL</span>
                 </label>
                 <Input
                   value={formData.owner_phone}
                   onChange={(e) => setFormData({...formData, owner_phone: e.target.value})}
-                  className="h-12 text-base"
+                  className="h-12 text-base border-blue-200 focus:border-blue-500 focus:ring-blue-200"
                   placeholder="(41) 99999-9999"
                   type="tel"
                 />
               </div>
               
               <div>
-                <label className="block text-sm font-medium mb-2 text-gray-700">
+                <label className="block text-sm font-medium mb-2 text-blue-700 flex items-center gap-2">
+                  <span className="w-2 h-2 bg-blue-400 rounded-full"></span>
                   RG
+                  <span className="text-xs bg-blue-100 text-blue-600 px-2 py-1 rounded-full">OPCIONAL</span>
                 </label>
                 <Input
                   value={formData.owner_rg}
                   onChange={(e) => setFormData({...formData, owner_rg: e.target.value})}
-                  className="h-12 text-base"
+                  className="h-12 text-base border-blue-200 focus:border-blue-500 focus:ring-blue-200"
                   placeholder="Ex: 12.345.678-9"
                 />
               </div>
