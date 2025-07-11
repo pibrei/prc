@@ -74,6 +74,22 @@ const MapInteractionDetector: React.FC<{ onUserInteraction: () => void }> = ({ o
   return null
 }
 
+// Componente para controlar o centro do mapa programaticamente
+const MapCenterController: React.FC<{ center: [number, number] | null }> = ({ center }) => {
+  const map = useMapEvents({})
+  
+  useEffect(() => {
+    if (center && map) {
+      map.setView(center, 16, {
+        animate: true,
+        duration: 1.5
+      })
+    }
+  }, [center, map])
+  
+  return null
+}
+
 // Componente de marcador controlável
 const ControlledMarker: React.FC<{
   property: Property
@@ -85,11 +101,17 @@ const ControlledMarker: React.FC<{
 
   useEffect(() => {
     if (shouldOpenPopup && markerRef.current) {
-      // Abre o popup programaticamente
-      markerRef.current.openPopup()
-      onPopupOpen?.()
+      // Delay pequeno para garantir que o mapa esteja pronto
+      const timer = setTimeout(() => {
+        if (markerRef.current) {
+          markerRef.current.openPopup()
+          onPopupOpen?.()
+        }
+      }, 500)
+      
+      return () => clearTimeout(timer)
     }
-  }, [shouldOpenPopup, onPopupOpen])
+  }, [shouldOpenPopup, onPopupOpen, property.name])
 
   return (
     <Marker
@@ -430,13 +452,13 @@ const Map: React.FC = () => {
   const selectProperty = (property: Property) => {
     setSelectedProperty(property)
     setManualMapCenter([property.latitude, property.longitude])
-    setUserHasInteracted(true) // Marcar como interação do usuário
+    setUserHasInteracted(true)
     setShowSearchResults(false)
     setSearchTerm(property.name)
-    setForceOpenPopup(property.id) // Forçar abertura do popup
+    setForceOpenPopup(property.id)
     
     // Limpar o forceOpenPopup após um tempo para evitar loops
-    setTimeout(() => setForceOpenPopup(null), 1000)
+    setTimeout(() => setForceOpenPopup(null), 2000)
   }
 
   const clearSearch = () => {
@@ -828,6 +850,9 @@ const Map: React.FC = () => {
             >
               {/* Detector de interações do usuário */}
               <MapInteractionDetector onUserInteraction={() => setUserHasInteracted(true)} />
+              
+              {/* Controlador do centro do mapa */}
+              <MapCenterController center={manualMapCenter} />
               
               <TileLayer
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
