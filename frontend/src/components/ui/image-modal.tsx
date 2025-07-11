@@ -1,4 +1,5 @@
 import React from 'react'
+import { createPortal } from 'react-dom'
 import { X } from 'lucide-react'
 
 interface ImageModalProps {
@@ -30,9 +31,10 @@ const ImageModal: React.FC<ImageModalProps> = ({
     }
   }
 
-  return (
+  const modalContent = (
     <div
-      className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50"
+      className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center"
+      style={{ zIndex: 9999 }}
       onClick={handleBackdropClick}
       onKeyDown={handleKeyDown}
       tabIndex={0}
@@ -69,6 +71,9 @@ const ImageModal: React.FC<ImageModalProps> = ({
       </div>
     </div>
   )
+
+  // Render modal using portal to escape any container constraints
+  return createPortal(modalContent, document.body)
 }
 
 export default ImageModal

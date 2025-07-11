@@ -8,7 +8,7 @@ import { Plus, Edit, Trash2, Search, MapPin } from 'lucide-react'
 import LocationInput from '../components/ui/location-input'
 import PhotoUpload from '../components/ui/photo-upload'
 import CitySelector from '../components/ui/city-selector'
-import ImageModal from '../components/ui/image-modal'
+import SimpleImageViewer from '../components/ui/simple-image-viewer'
 
 interface Vehicle {
   id: string
@@ -40,17 +40,6 @@ const Vehicles: React.FC = () => {
   const [showForm, setShowForm] = useState(false)
   const [editingVehicle, setEditingVehicle] = useState<Vehicle | null>(null)
   const [loading, setLoading] = useState(true)
-  
-  // Image modal state
-  const [imageModal, setImageModal] = useState<{
-    isOpen: boolean
-    imageUrl: string
-    title: string
-  }>({
-    isOpen: false,
-    imageUrl: '',
-    title: ''
-  })
 
   const [formData, setFormData] = useState({
     license_plate: '',
@@ -421,29 +410,12 @@ const Vehicles: React.FC = () => {
                     {/* Vehicle Photo */}
                     <div className="flex-shrink-0">
                       {vehicle.photo_url ? (
-                        <div className="relative group">
-                          <img
-                            src={vehicle.photo_url}
-                            alt={`Veículo ${vehicle.license_plate}`}
-                            className="w-24 h-24 object-cover rounded-lg border border-gray-300 cursor-pointer hover:scale-105 transition-transform"
-                            onClick={() => {
-                              setImageModal({
-                                isOpen: true,
-                                imageUrl: vehicle.photo_url!,
-                                title: `Veículo ${vehicle.license_plate} - ${vehicle.make ? `${vehicle.make} ${vehicle.model}` : 'Sem marca/modelo'}`
-                              })
-                            }}
-                            onError={(e) => {
-                              console.error('Erro ao carregar imagem do veículo:', e)
-                              e.currentTarget.style.display = 'none'
-                            }}
-                          />
-                          <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 rounded-lg transition-all duration-200 flex items-center justify-center">
-                            <span className="text-white text-xs opacity-0 group-hover:opacity-100 transition-opacity">
-                              Clique para ampliar
-                            </span>
-                          </div>
-                        </div>
+                        <SimpleImageViewer
+                          imageUrl={vehicle.photo_url}
+                          alt={`Veículo ${vehicle.license_plate}`}
+                          className="w-24 h-24 object-cover rounded-lg border border-gray-300"
+                          title={`Veículo ${vehicle.license_plate} - ${vehicle.make ? `${vehicle.make} ${vehicle.model}` : 'Sem marca/modelo'}`}
+                        />
                       ) : (
                         <div className="w-24 h-24 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center bg-gray-50">
                           <span className="text-xs text-gray-500 text-center">Sem foto</span>
@@ -537,15 +509,6 @@ const Vehicles: React.FC = () => {
           <p className="text-gray-500">Nenhum veículo encontrado</p>
         </div>
       )}
-
-      {/* Image Modal */}
-      <ImageModal
-        isOpen={imageModal.isOpen}
-        onClose={() => setImageModal({ isOpen: false, imageUrl: '', title: '' })}
-        imageUrl={imageModal.imageUrl}
-        alt={imageModal.title}
-        title={imageModal.title}
-      />
     </div>
   )
 }
