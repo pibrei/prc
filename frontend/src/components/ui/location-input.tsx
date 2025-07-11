@@ -6,8 +6,8 @@ import LocationPickerModal from '../map/LocationPickerModal'
 import { useLocationPicker } from '../../hooks/useLocationPicker'
 
 interface LocationInputProps {
-  latitude: number
-  longitude: number
+  latitude?: number
+  longitude?: number
   onLocationChange: (lat: number, lng: number) => void
   label?: string
   placeholder?: string
@@ -24,8 +24,8 @@ const LocationInput: React.FC<LocationInputProps> = ({
   required = false,
   disabled = false
 }) => {
-  const [manualLat, setManualLat] = useState(latitude.toString())
-  const [manualLng, setManualLng] = useState(longitude.toString())
+  const [manualLat, setManualLat] = useState(latitude?.toString() || '')
+  const [manualLng, setManualLng] = useState(longitude?.toString() || '')
   const [showManualInput, setShowManualInput] = useState(false)
   
   const {
@@ -39,7 +39,10 @@ const LocationInput: React.FC<LocationInputProps> = ({
   } = useLocationPicker()
 
   const handleOpenPicker = () => {
-    openPicker(latitude, longitude, (lat, lng) => {
+    // Use provided coordinates or default to Curitiba if none provided
+    const defaultLat = latitude || -25.4284
+    const defaultLng = longitude || -49.2733
+    openPicker(defaultLat, defaultLng, (lat, lng) => {
       onLocationChange(lat, lng)
       setManualLat(lat.toString())
       setManualLng(lng.toString())

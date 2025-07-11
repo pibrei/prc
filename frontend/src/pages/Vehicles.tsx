@@ -4,8 +4,10 @@ import { Button } from '../components/ui/button'
 import { Input } from '../components/ui/input'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../contexts/AuthContext'
-import { Plus, Edit, Trash2, Search } from 'lucide-react'
+import { Plus, Edit, Trash2, Search, MapPin } from 'lucide-react'
 import LocationInput from '../components/ui/location-input'
+import PhotoUpload from '../components/ui/photo-upload'
+import CitySelector from '../components/ui/city-selector'
 
 interface Vehicle {
   id: string
@@ -17,6 +19,7 @@ interface Vehicle {
   description: string | null
   suspicious_activity: string | null
   location_spotted: string | null
+  city: string | null
   latitude: number | null
   longitude: number | null
   spotted_at: string
@@ -46,8 +49,10 @@ const Vehicles: React.FC = () => {
     description: '',
     suspicious_activity: '',
     location_spotted: '',
+    city: '',
     latitude: '',
     longitude: '',
+    photo_url: '',
     status: 'active' as 'active' | 'resolved' | 'false_alarm'
   })
 
@@ -61,7 +66,8 @@ const Vehicles: React.FC = () => {
       vehicle.make?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       vehicle.model?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       vehicle.color?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      vehicle.location_spotted?.toLowerCase().includes(searchTerm.toLowerCase())
+      vehicle.location_spotted?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      vehicle.city?.toLowerCase().includes(searchTerm.toLowerCase())
     )
 
     if (statusFilter !== 'all') {
@@ -96,6 +102,7 @@ const Vehicles: React.FC = () => {
         year: formData.year ? parseInt(formData.year) : null,
         latitude: formData.latitude ? parseFloat(formData.latitude) : null,
         longitude: formData.longitude ? parseFloat(formData.longitude) : null,
+        photo_url: formData.photo_url || null,
         created_by: userProfile?.id
       }
 
@@ -134,8 +141,10 @@ const Vehicles: React.FC = () => {
       description: vehicle.description || '',
       suspicious_activity: vehicle.suspicious_activity || '',
       location_spotted: vehicle.location_spotted || '',
+      city: vehicle.city || '',
       latitude: vehicle.latitude?.toString() || '',
       longitude: vehicle.longitude?.toString() || '',
+      photo_url: vehicle.photo_url || '',
       status: vehicle.status
     })
     setShowForm(true)
@@ -167,8 +176,10 @@ const Vehicles: React.FC = () => {
       description: '',
       suspicious_activity: '',
       location_spotted: '',
+      city: '',
       latitude: '',
       longitude: '',
+      photo_url: '',
       status: 'active'
     })
   }
@@ -304,13 +315,23 @@ const Vehicles: React.FC = () => {
                   <Input
                     value={formData.location_spotted}
                     onChange={(e) => setFormData({...formData, location_spotted: e.target.value})}
+                    placeholder="Ex: Rua das Flores, 123"
                   />
                 </div>
               </div>
 
+              <div>
+                <label className="block text-sm font-medium mb-1">Cidade</label>
+                <CitySelector
+                  value={formData.city}
+                  onChange={(city) => setFormData({...formData, city})}
+                  placeholder="Digite ou selecione a cidade onde foi avistado"
+                />
+              </div>
+
               <LocationInput
-                latitude={parseFloat(formData.latitude) || -25.4284}
-                longitude={parseFloat(formData.longitude) || -49.2733}
+                latitude={formData.latitude ? parseFloat(formData.latitude) : undefined}
+                longitude={formData.longitude ? parseFloat(formData.longitude) : undefined}
                 onLocationChange={(lat, lng) => {
                   setFormData({
                     ...formData,
@@ -318,7 +339,7 @@ const Vehicles: React.FC = () => {
                     longitude: lng.toString()
                   })
                 }}
-                label="Localização onde foi avistado"
+                label="Localização onde foi avistado (opcional)"
                 placeholder="Clique para selecionar onde o veículo foi avistado"
               />
 
@@ -341,6 +362,14 @@ const Vehicles: React.FC = () => {
                   rows={3}
                 />
               </div>
+
+              {/* Photo Upload */}
+              <PhotoUpload
+                currentPhotoUrl={formData.photo_url}
+                onPhotoUploaded={(url) => setFormData({...formData, photo_url: url})}
+                onPhotoRemoved={() => setFormData({...formData, photo_url: ''})}
+                vehicleId={editingVehicle?.id}
+              />
 
               <div className="flex justify-end space-x-2">
                 <Button
@@ -376,50 +405,92 @@ const Vehicles: React.FC = () => {
                     </span>
                   </div>
                   
-                  <div className="grid grid-cols-2 gap-4 text-sm mb-4">
-                    {vehicle.make && (
-                      <div>
-                        <span className="font-medium">Marca:</span> {vehicle.make}
+                  <div className="flex space-x-6">
+                    {/* Vehicle Photo */}
+                    <div className="flex-shrink-0">
+                      {vehicle.photo_url ? (
+                        <div className="relative group">
+                          <img
+                            src={vehicle.photo_url}
+                            alt={`Veículo ${vehicle.license_plate}`}
+                            className="w-24 h-24 object-cover rounded-lg border border-gray-300 cursor-pointer hover:scale-105 transition-transform"
+                            onClick={() => {
+                              // Open image in modal/new tab
+                              window.open(vehicle.photo_url!, '_blank')
+                            }}
+                            onError={(e) => {
+                              console.error('Erro ao carregar imagem do veículo:', e)
+                              e.currentTarget.style.display = 'none'
+                            }}
+                          />
+                          <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 rounded-lg transition-all duration-200 flex items-center justify-center">
+                            <span className="text-white text-xs opacity-0 group-hover:opacity-100 transition-opacity">
+                              Clique para ampliar
+                            </span>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="w-24 h-24 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center bg-gray-50">
+                          <span className="text-xs text-gray-500 text-center">Sem foto</span>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Vehicle Information */}
+                    <div className="flex-1">
+                      <div className="grid grid-cols-2 gap-4 text-sm mb-4">
+                        {vehicle.make && (
+                          <div>
+                            <span className="font-medium">Marca:</span> {vehicle.make}
+                          </div>
+                        )}
+                        {vehicle.model && (
+                          <div>
+                            <span className="font-medium">Modelo:</span> {vehicle.model}
+                          </div>
+                        )}
+                        {vehicle.color && (
+                          <div>
+                            <span className="font-medium">Cor:</span> {vehicle.color}
+                          </div>
+                        )}
+                        {vehicle.year && (
+                          <div>
+                            <span className="font-medium">Ano:</span> {vehicle.year}
+                          </div>
+                        )}
+                        {vehicle.location_spotted && (
+                          <div>
+                            <span className="font-medium">Local:</span> {vehicle.location_spotted}
+                          </div>
+                        )}
+                        {vehicle.city && (
+                          <div className="flex items-center space-x-1">
+                            <MapPin className="h-3 w-3 text-gray-500" />
+                            <span className="font-medium">Cidade:</span> 
+                            <span>{vehicle.city}</span>
+                          </div>
+                        )}
+                        <div>
+                          <span className="font-medium">Data:</span> {new Date(vehicle.spotted_at).toLocaleDateString()}
+                        </div>
                       </div>
-                    )}
-                    {vehicle.model && (
-                      <div>
-                        <span className="font-medium">Modelo:</span> {vehicle.model}
-                      </div>
-                    )}
-                    {vehicle.color && (
-                      <div>
-                        <span className="font-medium">Cor:</span> {vehicle.color}
-                      </div>
-                    )}
-                    {vehicle.year && (
-                      <div>
-                        <span className="font-medium">Ano:</span> {vehicle.year}
-                      </div>
-                    )}
-                    {vehicle.location_spotted && (
-                      <div>
-                        <span className="font-medium">Local:</span> {vehicle.location_spotted}
-                      </div>
-                    )}
-                    <div>
-                      <span className="font-medium">Data:</span> {new Date(vehicle.spotted_at).toLocaleDateString()}
+
+                      {vehicle.suspicious_activity && (
+                        <div className="mb-2">
+                          <span className="font-medium text-sm">Atividade Suspeita:</span>
+                          <p className="text-sm text-gray-600">{vehicle.suspicious_activity}</p>
+                        </div>
+                      )}
+
+                      {vehicle.description && (
+                        <div className="mb-2">
+                          <span className="font-medium text-sm">Descrição:</span>
+                          <p className="text-sm text-gray-600">{vehicle.description}</p>
+                        </div>
+                      )}
                     </div>
                   </div>
-
-                  {vehicle.suspicious_activity && (
-                    <div className="mb-2">
-                      <span className="font-medium text-sm">Atividade Suspeita:</span>
-                      <p className="text-sm text-gray-600">{vehicle.suspicious_activity}</p>
-                    </div>
-                  )}
-
-                  {vehicle.description && (
-                    <div className="mb-2">
-                      <span className="font-medium text-sm">Descrição:</span>
-                      <p className="text-sm text-gray-600">{vehicle.description}</p>
-                    </div>
-                  )}
                 </div>
                 
                 <div className="flex space-x-2">
