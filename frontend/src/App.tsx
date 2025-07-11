@@ -17,6 +17,7 @@ import BattalionSettings from './pages/BattalionSettings'
 import Register from './pages/Register'
 import ContactPage from './pages/ContactPage'
 import Tools from './pages/Tools'
+import AdminTools from './pages/AdminTools'
 
 function App() {
   return (
@@ -88,6 +89,13 @@ function App() {
             <ProtectedRoute requiredRole="admin">
               <Layout>
                 <AuditLogs />
+              </Layout>
+            </ProtectedRoute>
+          } />
+          <Route path="/admin-tools" element={
+            <ProtectedRoute requiredRole="admin">
+              <Layout>
+                <AdminTools />
               </Layout>
             </ProtectedRoute>
           } />

@@ -126,14 +126,55 @@ Esta implementação segue exatamente o mesmo padrão usado para usuários:
 - ✅ **Frontend**: Filtro em queries + chamada para Edge Function
 - ✅ **Testes**: Validação completa da funcionalidade
 
+## Correção Adicional: Propriedades Deletadas no Mapa
+
+### Problema Identificado
+Após implementação do soft delete, propriedades excluídas continuavam aparecendo no mapa interativo.
+
+### Causa
+Páginas Map.tsx, Dashboard.tsx, Reports.tsx e PropertyImport.tsx não incluíam filtro `deleted_at IS NULL` nas consultas.
+
+### Solução Aplicada
+Atualização de todas as consultas de propriedades para incluir filtro de soft delete:
+
+```typescript
+// Map.tsx - linha 390
+.is('deleted_at', null)
+
+// Dashboard.tsx - linha 21  
+.select('id', { count: 'exact' }).is('deleted_at', null)
+
+// Reports.tsx - linha 100
+.is('deleted_at', null)
+
+// PropertyImport.tsx - 4 consultas de contagem
+.is('deleted_at', null)
+```
+
+### Validação
+```sql
+-- Propriedade "Sítio teste" corretamente excluída
+SELECT name FROM properties WHERE deleted_at IS NULL AND name ILIKE '%Sítio teste%';
+-- Resultado: [] (vazio)
+
+-- Total de propriedades ativas: 1893
+SELECT COUNT(*) FROM properties WHERE deleted_at IS NULL;
+```
+
 ## Status
 
 ✅ **Sistema 100% funcional** - Problema de exclusão de propriedades completamente resolvido
+✅ **Mapa atualizado** - Propriedades excluídas não aparecem mais no mapa interativo
+✅ **Consistência total** - Todas as páginas agora respeitam soft delete
 
 ## Arquivos Modificados
 
 - `supabase/functions/delete-property/index.ts` (novo - v7)
 - `frontend/src/pages/Properties.tsx` (filtro `deleted_at IS NULL` em queries)
+- `frontend/src/pages/Map.tsx` (filtro `deleted_at IS NULL` adicionado)
+- `frontend/src/pages/Dashboard.tsx` (filtro `deleted_at IS NULL` adicionado)
+- `frontend/src/pages/Reports.tsx` (filtro `deleted_at IS NULL` adicionado)
+- `frontend/src/pages/PropertyImport.tsx` (filtro `deleted_at IS NULL` em 4 consultas)
 - Database: função `soft_delete_property` e coluna `deleted_at` (já existiam)
 
 ## Próximos Passos

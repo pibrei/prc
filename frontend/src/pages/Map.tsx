@@ -387,6 +387,7 @@ const Map: React.FC = () => {
         let query = supabase
           .from('properties')
           .select('*')
+          .is('deleted_at', null)
           .range(from, from + pageSize - 1)
           .order('created_at', { ascending: false })
 

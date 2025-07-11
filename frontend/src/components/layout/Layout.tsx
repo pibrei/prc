@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom'
 import { useAuth } from '../../contexts/AuthContext'
 import { Button } from '../ui/button'
 import { Input } from '../ui/input'
-import { LogOut, Home, MapPin, Car, Users, Activity, Menu, X, ChevronDown, Key, FileText, Settings, Wrench } from 'lucide-react'
+import { LogOut, Home, MapPin, Car, Users, Activity, Menu, X, ChevronDown, Key, FileText, Settings, Wrench, Cog } from 'lucide-react'
 import LocationPermissionBanner from '../location/LocationPermissionBanner'
 import LocationErrorBanner from '../location/LocationErrorBanner'
 import { supabase } from '../../lib/supabase'
@@ -91,6 +91,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     navigationItems.push(
       { label: 'Usuários', icon: Users, href: '/users' },
       { label: 'Auditoria', icon: Activity, href: '/audit' },
+      { label: 'Admin Tools', icon: Cog, href: '/admin-tools' },
       { label: 'Configurações', icon: Settings, href: '/battalion-settings' }
     )
   }

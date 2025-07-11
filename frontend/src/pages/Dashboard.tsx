@@ -18,7 +18,7 @@ const Dashboard: React.FC = () => {
   const fetchStats = async () => {
     try {
       const [propertiesResult, vehiclesResult, activeVehiclesResult, usersResult] = await Promise.all([
-        supabase.from('properties').select('id', { count: 'exact' }),
+        supabase.from('properties').select('id', { count: 'exact' }).is('deleted_at', null),
         supabase.from('vehicles').select('id', { count: 'exact' }),
         supabase.from('vehicles').select('id', { count: 'exact' }).eq('status', 'active'),
         supabase.from('users').select('id', { count: 'exact' })

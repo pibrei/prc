@@ -97,6 +97,7 @@ const Reports: React.FC = () => {
           has_cameras, has_wifi, created_at, cadastro_date, equipe,
           crpm, batalhao, cia
         `)
+        .is('deleted_at', null)
         .order('cadastro_date', { ascending: false });
 
       if (data) {

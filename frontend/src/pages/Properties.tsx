@@ -4,7 +4,7 @@ import { Button } from '../components/ui/button'
 import { Input } from '../components/ui/input'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../contexts/AuthContext'
-import { Plus, Edit, Trash2, Search, Camera, Wifi, Upload, Package, MapPin, Filter } from 'lucide-react'
+import { Plus, Edit, Trash2, Search, Camera, Wifi, Upload, MapPin, Filter } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import PropertyFormModal from '../components/property/PropertyFormModal'
 
@@ -379,31 +379,21 @@ const Properties: React.FC = () => {
         <div className="flex flex-col gap-2">
           <Button 
             onClick={() => setShowFormModal(true)} 
-            className="w-full h-12 text-base font-medium"
+            className="w-full h-14 text-base font-bold bg-blue-600 hover:bg-blue-700 text-white shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105"
           >
-            <Plus className="h-5 w-5 mr-2" />
-            Nova Propriedade
+            <Plus className="h-6 w-6 mr-2" />
+            ➕ Nova Propriedade
           </Button>
           
           {(userProfile?.role === 'admin' || userProfile?.role === 'team_leader') && (
-            <div className="grid grid-cols-2 gap-2">
-              <Button 
-                onClick={() => navigate('/properties/import-single')} 
-                variant="outline"
-                className="h-12 bg-green-50 hover:bg-green-100 border-green-200"
-              >
-                <Upload className="h-4 w-4 mr-2" />
-                <span className="text-sm">Importar</span>
-              </Button>
-              <Button 
-                onClick={() => navigate('/properties/import-batch')} 
-                variant="outline"
-                className="h-12 bg-blue-50 hover:bg-blue-100 border-blue-200"
-              >
-                <Package className="h-4 w-4 mr-2" />
-                Importar em Lotes
-              </Button>
-            </div>
+            <Button 
+              onClick={() => navigate('/properties/import-single')} 
+              variant="outline"
+              className="w-full h-12 bg-green-50 hover:bg-green-100 border-green-200"
+            >
+              <Upload className="h-4 w-4 mr-2" />
+              Importar
+            </Button>
           )}
         </div>
       </div>

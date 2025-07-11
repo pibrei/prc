@@ -571,7 +571,8 @@ const PropertyImport: React.FC = () => {
       try {
         const { count } = await supabase
           .from('properties')
-          .select('*', { count: 'exact', head: true });
+          .select('*', { count: 'exact', head: true })
+          .is('deleted_at', null);
         initialPropertyCount = count || 0;
         console.log('🔢 Initial property count:', initialPropertyCount);
         
@@ -580,6 +581,7 @@ const PropertyImport: React.FC = () => {
         const { count: recentCount } = await supabase
           .from('properties')
           .select('*', { count: 'exact', head: true })
+          .is('deleted_at', null)
           .gte('created_at', new Date(Date.now() - 60 * 60 * 1000).toISOString());
         
         console.log('🔢 Recent properties (last hour):', recentCount);
@@ -617,7 +619,8 @@ const PropertyImport: React.FC = () => {
           try {
             const { count } = await supabase
               .from('properties')
-              .select('*', { count: 'exact', head: true });
+              .select('*', { count: 'exact', head: true })
+              .is('deleted_at', null);
             
             const currentCount = count || 0;
             
@@ -943,7 +946,8 @@ const PropertyImport: React.FC = () => {
           // Do a final check of property count
           const { count: finalCount } = await supabase
             .from('properties')
-            .select('*', { count: 'exact', head: true });
+            .select('*', { count: 'exact', head: true })
+            .is('deleted_at', null);
           
           const finalProcessedCount = (finalCount || 0) - initialPropertyCount;
           console.log(`🔍 Final property count check: ${finalProcessedCount} properties processed (current: ${finalCount}, initial: ${initialPropertyCount})`);
