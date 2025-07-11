@@ -125,10 +125,13 @@ const ControlledMarker: React.FC<{
       // Detectar se é mobile
       const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
       
+      let popupOpened = false // Flag para evitar múltiplas aberturas
+      
       const openPopup = () => {
-        if (markerRef.current) {
+        if (markerRef.current && !popupOpened) {
           try {
             markerRef.current.openPopup()
+            popupOpened = true
             onPopupOpen?.()
           } catch (error) {
             console.error('Erro ao abrir popup:', error)
@@ -139,6 +142,8 @@ const ControlledMarker: React.FC<{
       if (isMobile) {
         // Em mobile, aguardar o mapa terminar de mover
         const handleMapMoveComplete = (event: CustomEvent) => {
+          if (popupOpened) return // Já abriu, não fazer nada
+          
           const { center } = event.detail
           const propertyPosition = [property.latitude, property.longitude]
           
@@ -154,8 +159,12 @@ const ControlledMarker: React.FC<{
         
         window.addEventListener('mapMoveComplete', handleMapMoveComplete as EventListener)
         
-        // Fallback timeout
-        const fallbackTimer = setTimeout(openPopup, 3000)
+        // Fallback timeout - só executa se não abriu ainda
+        const fallbackTimer = setTimeout(() => {
+          if (!popupOpened) {
+            openPopup()
+          }
+        }, 3000)
         
         return () => {
           window.removeEventListener('mapMoveComplete', handleMapMoveComplete as EventListener)
@@ -188,11 +197,6 @@ const ControlledMarker: React.FC<{
           
           {/* Property Details */}
           <div className="space-y-2">
-            <div className="flex justify-between">
-              <span className="text-xs font-medium text-gray-500">TIPO:</span>
-              <span className="text-xs font-bold capitalize">{property.property_type}</span>
-            </div>
-            
             <div className="flex justify-between">
               <span className="text-xs font-medium text-gray-500">PROPRIETÁRIO:</span>
               <span className="text-xs font-bold">{property.owner_name}</span>
