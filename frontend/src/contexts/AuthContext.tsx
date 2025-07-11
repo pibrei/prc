@@ -26,30 +26,9 @@ export const useAuth = () => {
 }
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  // Check for stored session synchronously on component mount
-  const getInitialSession = () => {
-    try {
-      const storedSession = localStorage.getItem('supabase.auth.token')
-      if (storedSession) {
-        const sessionData = JSON.parse(storedSession)
-        const expiresAt = sessionData.expires_at
-        const now = Math.floor(Date.now() / 1000)
-        
-        if (expiresAt && now < expiresAt) {
-          return sessionData
-        }
-      }
-    } catch (error) {
-      console.log('Error reading initial session:', error)
-    }
-    return null
-  }
-
-  const initialSession = getInitialSession()
-  
-  const [user, setUser] = useState<User | null>(initialSession?.user || null)
+  const [user, setUser] = useState<User | null>(null)
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null)
-  const [session, setSession] = useState<Session | null>(initialSession)
+  const [session, setSession] = useState<Session | null>(null)
   const [loading, setLoading] = useState(true)
   const [initializing, setInitializing] = useState(true)
 
@@ -59,62 +38,57 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const initializeAuth = async () => {
       console.log('Initializing authentication...')
       
-      // If we already have a session from initial load, just fetch profile
-      if (initialSession) {
-        console.log('Using initial session, fetching profile...')
-        if (initialSession.user) {
-          fetchUserProfile(initialSession.user.id).catch(err => {
-            console.error('Background profile fetch failed:', err)
-          })
+      try {
+        // Get current session from Supabase (handles persistence automatically)
+        const { data: { session }, error } = await supabase.auth.getSession()
+        
+        if (error) {
+          console.error('Error getting session:', error)
         }
-      } else {
-        // No initial session, clear everything
-        console.log('No initial session, clearing states')
-        setSession(null)
-        setUser(null)
-        setUserProfile(null)
-      }
-      
-      // Clear loading states quickly
-      if (isMounted) {
-        console.log('Clearing loading states')
-        setLoading(false)
-        setInitializing(false)
+        
+        if (isMounted && session) {
+          console.log('Found existing session')
+          setSession(session)
+          setUser(session.user)
+          
+          // Fetch user profile
+          if (session.user) {
+            fetchUserProfile(session.user.id).catch(err => {
+              console.error('Profile fetch failed:', err)
+            })
+          }
+        }
+      } catch (error) {
+        console.error('Session initialization error:', error)
+      } finally {
+        if (isMounted) {
+          setLoading(false)
+          setInitializing(false)
+        }
       }
     }
 
     initializeAuth()
 
-    // Set up auth state listener - only handle actual auth events, not page loads
+    // Set up auth state listener for all auth events
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
         console.log('Auth state changed:', event, session ? 'has session' : 'no session')
         
         if (!isMounted) return
         
-        // Skip initial session - we handle this manually in initializeAuth
-        if (event === 'INITIAL_SESSION') {
-          console.log('Skipping INITIAL_SESSION event')
-          return
-        }
-        
-        // Only handle real auth events like SIGNED_IN, SIGNED_OUT, etc.
-        if (event === 'SIGNED_IN' && session) {
-          console.log('User signed in, storing session')
-          localStorage.setItem('supabase.auth.token', JSON.stringify(session))
-          
+        if (session) {
           setSession(session)
           setUser(session.user)
           
-          // Fetch profile in background
-          if (session.user) {
+          // Fetch profile for new sessions
+          if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
             fetchUserProfile(session.user.id).catch(err => {
-              console.error('Profile fetch failed during sign in:', err)
+              console.error('Profile fetch failed during auth change:', err)
             })
           }
-        } else if (event === 'SIGNED_OUT') {
-          console.log('User signed out, clearing session')
-          localStorage.removeItem('supabase.auth.token')
+        } else {
+          // No session - user is signed out
           setSession(null)
           setUser(null)
           setUserProfile(null)
@@ -185,12 +159,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const signOut = async () => {
     const { error } = await supabase.auth.signOut()
     
-    // Clear localStorage regardless of error
-    localStorage.removeItem('supabase.auth.token')
-    
     if (error) {
       throw error
     }
+    
+    // Clear states immediately (onAuthStateChange will also handle this)
+    setSession(null)
+    setUser(null)
+    setUserProfile(null)
   }
 
   const value = {
