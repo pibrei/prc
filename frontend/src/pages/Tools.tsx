@@ -45,10 +45,16 @@ const Tools: React.FC = () => {
   const isAdmin = userProfile?.role === 'admin'
 
   useEffect(() => {
-    if (userProfile?.batalhao && isAdmin) {
-      ensureBattalionConfig().then(() => {
-        fetchConfigs()
-      })
+    if (userProfile?.batalhao) {
+      if (isAdmin) {
+        // Admin: configurar batalhão e buscar configs
+        ensureBattalionConfig().then(() => {
+          fetchConfigs()
+        })
+      } else {
+        // Outros usuários: apenas parar loading (sem dados de config)
+        setLoading(false)
+      }
     }
   }, [userProfile, isAdmin])
 

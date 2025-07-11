@@ -114,6 +114,7 @@ const Properties: React.FC = () => {
       let query = supabase
         .from('properties')
         .select('*')
+        .is('deleted_at', null)
         .order('created_at', { ascending: false })
 
       // Filtrar por batalhão e CIA selecionados (padrão do usuário)
@@ -151,6 +152,7 @@ const Properties: React.FC = () => {
       let query = supabase
         .from('properties')
         .select('*')
+        .is('deleted_at', null)
         .order('created_at', { ascending: false })
 
       // Filtrar por batalhão e CIA selecionados (padrão do usuário)
