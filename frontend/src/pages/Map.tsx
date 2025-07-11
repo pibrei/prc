@@ -76,14 +76,35 @@ const MapInteractionDetector: React.FC<{ onUserInteraction: () => void }> = ({ o
 
 // Componente para controlar o centro do mapa programaticamente
 const MapCenterController: React.FC<{ center: [number, number] | null }> = ({ center }) => {
-  const map = useMapEvents({})
+  const map = useMapEvents({
+    moveend: () => {
+      // Evento disparado quando o mapa termina de mover
+      if (center) {
+        const event = new CustomEvent('mapMoveComplete', { detail: { center } })
+        window.dispatchEvent(event)
+      }
+    }
+  })
   
   useEffect(() => {
     if (center && map) {
-      map.setView(center, 16, {
-        animate: true,
-        duration: 1.5
-      })
+      // Detectar se é mobile
+      const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+      
+      if (isMobile) {
+        // No mobile, usar flyTo com configurações mais agressivas
+        map.flyTo(center, 16, {
+          animate: true,
+          duration: 2,
+          easeLinearity: 0.5
+        })
+      } else {
+        // Desktop usa setView normal
+        map.setView(center, 16, {
+          animate: true,
+          duration: 1.5
+        })
+      }
     }
   }, [center, map])
   
@@ -101,17 +122,52 @@ const ControlledMarker: React.FC<{
 
   useEffect(() => {
     if (shouldOpenPopup && markerRef.current) {
-      // Delay pequeno para garantir que o mapa esteja pronto
-      const timer = setTimeout(() => {
-        if (markerRef.current) {
-          markerRef.current.openPopup()
-          onPopupOpen?.()
-        }
-      }, 500)
+      // Detectar se é mobile
+      const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
       
-      return () => clearTimeout(timer)
+      const openPopup = () => {
+        if (markerRef.current) {
+          try {
+            markerRef.current.openPopup()
+            onPopupOpen?.()
+          } catch (error) {
+            console.error('Erro ao abrir popup:', error)
+          }
+        }
+      }
+      
+      if (isMobile) {
+        // Em mobile, aguardar o mapa terminar de mover
+        const handleMapMoveComplete = (event: CustomEvent) => {
+          const { center } = event.detail
+          const propertyPosition = [property.latitude, property.longitude]
+          
+          // Verificar se o centro do mapa está próximo à propriedade
+          const lat1 = center[0], lng1 = center[1]
+          const lat2 = propertyPosition[0], lng2 = propertyPosition[1]
+          const distance = Math.sqrt(Math.pow(lat1 - lat2, 2) + Math.pow(lng1 - lng2, 2))
+          
+          if (distance < 0.001) { // Muito próximo
+            setTimeout(openPopup, 500)
+          }
+        }
+        
+        window.addEventListener('mapMoveComplete', handleMapMoveComplete as EventListener)
+        
+        // Fallback timeout
+        const fallbackTimer = setTimeout(openPopup, 3000)
+        
+        return () => {
+          window.removeEventListener('mapMoveComplete', handleMapMoveComplete as EventListener)
+          clearTimeout(fallbackTimer)
+        }
+      } else {
+        // Desktop usa delay simples
+        const timer = setTimeout(openPopup, 500)
+        return () => clearTimeout(timer)
+      }
     }
-  }, [shouldOpenPopup, onPopupOpen, property.name])
+  }, [shouldOpenPopup, onPopupOpen, property.name, property.latitude, property.longitude])
 
   return (
     <Marker
@@ -297,6 +353,7 @@ const Map: React.FC = () => {
   const [manualMapCenter, setManualMapCenter] = useState<[number, number] | null>(null)
   const [userHasInteracted, setUserHasInteracted] = useState(false)
   const [forceOpenPopup, setForceOpenPopup] = useState<string | null>(null)
+  const [selectedPropertyForMobile, setSelectedPropertyForMobile] = useState<Property | null>(null)
 
   // Definir centro inicial apenas uma vez quando a localização estiver disponível
   useEffect(() => {
@@ -450,6 +507,8 @@ const Map: React.FC = () => {
   }
 
   const selectProperty = (property: Property) => {
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+    
     setSelectedProperty(property)
     setManualMapCenter([property.latitude, property.longitude])
     setUserHasInteracted(true)
@@ -457,8 +516,11 @@ const Map: React.FC = () => {
     setSearchTerm(property.name)
     setForceOpenPopup(property.id)
     
+    // Mobile precisa de mais tempo
+    const cleanupDelay = isMobile ? 4000 : 2000
+    
     // Limpar o forceOpenPopup após um tempo para evitar loops
-    setTimeout(() => setForceOpenPopup(null), 2000)
+    setTimeout(() => setForceOpenPopup(null), cleanupDelay)
   }
 
   const clearSearch = () => {
