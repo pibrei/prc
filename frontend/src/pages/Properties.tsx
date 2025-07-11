@@ -17,6 +17,7 @@ interface Property {
   cidade: string
   bairro: string | null
   numero_placa: string | null
+  solicitou_placa: boolean
   crpm: string
   batalhao: string
   cia: string | null
@@ -188,6 +189,7 @@ const Properties: React.FC = () => {
           cidade: formData.cidade,
           bairro: formData.bairro || null,
           numero_placa: formData.numero_placa || null,
+          solicitou_placa: formData.solicitou_placa,
           crpm: formData.crpm,
           batalhao: formData.batalhao,
           cia: formData.cia || null,
@@ -231,6 +233,7 @@ const Properties: React.FC = () => {
             property_description: formData.description || null,
             property_bairro: formData.bairro || null,
             property_numero_placa: formData.numero_placa || null,
+            property_solicitou_placa: formData.solicitou_placa,
             property_cia: formData.cia || null,
             property_equipe: formData.equipe || null,
             property_owner_phone: formData.owner_phone || null,

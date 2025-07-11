@@ -16,6 +16,7 @@ interface Property {
   cidade: string
   bairro: string | null
   numero_placa: string | null
+  solicitou_placa: boolean
   crpm: string
   batalhao: string
   cia: string | null
@@ -74,6 +75,7 @@ const PropertyFormModal: React.FC<PropertyFormModalProps> = ({
     cidade: '',
     bairro: '',
     numero_placa: '',
+    solicitou_placa: false,
     crpm: userProfile?.crpm || '',
     batalhao: userProfile?.batalhao || '',
     cia: '',
@@ -107,6 +109,7 @@ const PropertyFormModal: React.FC<PropertyFormModalProps> = ({
         cidade: editingProperty.cidade || '',
         bairro: editingProperty.bairro || '',
         numero_placa: editingProperty.numero_placa || '',
+        solicitou_placa: editingProperty.solicitou_placa || false,
         crpm: editingProperty.crpm || '',
         batalhao: editingProperty.batalhao || '',
         cia: editingProperty.cia || '',
@@ -138,6 +141,7 @@ const PropertyFormModal: React.FC<PropertyFormModalProps> = ({
         cidade: '',
         bairro: '',
         numero_placa: '',
+        solicitou_placa: false,
         crpm: userProfile?.crpm || '',
         batalhao: userProfile?.batalhao || '',
         cia: userProfile?.cia || '',
@@ -319,6 +323,24 @@ const PropertyFormModal: React.FC<PropertyFormModalProps> = ({
                     className="h-12 text-base border-blue-200 focus:border-blue-500 focus:ring-blue-200"
                     placeholder="Ex: 123"
                   />
+                </div>
+                
+                <div className="bg-orange-50 p-4 rounded-lg">
+                  <div className="flex items-center space-x-3">
+                    <input
+                      type="checkbox"
+                      id="solicitou_placa"
+                      checked={formData.solicitou_placa}
+                      onChange={(e) => setFormData({...formData, solicitou_placa: e.target.checked})}
+                      className="h-5 w-5 rounded"
+                    />
+                    <label htmlFor="solicitou_placa" className="flex items-center text-base font-medium text-orange-800">
+                      Solicitou placa?
+                    </label>
+                  </div>
+                  <p className="text-xs text-orange-600 mt-2">
+                    Marque se o proprietário solicitou a placa da Patrulha Rural
+                  </p>
                 </div>
               </div>
 
