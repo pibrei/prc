@@ -252,3 +252,16 @@ Visão geral sobre o projeto está em @plano-tecnico.md
 - **Upload de Brasão**: Sistema completo para upload de brasão personalizado por batalhão
 - **Storage**: Bucket battalion-badges no Supabase, página /battalion-settings para admins
 - **Status**: Sistema completo e funcional com upload de brasão implementado
+
+### Sistema de Contato Dinâmico Multi-Tenant
+- **Documentação**: `docs/sistema-contato-dinamico.md`
+- **Implementação**: Sistema multi-tenant para links únicos por batalhão via WhatsApp
+- **Funcionalidades**: URLs personalizadas (/contato/2bpm), isolamento total por batalhão, auto-configuração
+- **Componentes**: ContactPage.tsx com slug, Tools.tsx isolado, Edge Function v2 com parâmetro slug
+- **Database**: Tabelas contact_configs + battalion_configs, RLS por batalhão, slug único
+- **Multi-Tenancy**: Cada batalhão tem link próprio, dados isolados, gerenciamento independente
+- **URLs Únicas**: /contato/2bpm, /contato/5bpm, etc. (padrão: {numero}bpm)
+- **Auto-Setup**: Configuração automática de novo batalhão no primeiro acesso admin
+- **Integração**: Rota dinâmica /contato/:slug, interface Tools específica por batalhão
+- **Isolamento**: RLS garante que admins vejam apenas dados do próprio batalhão
+- **Status**: Sistema multi-tenant 100% funcional com isolamento completo

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contato PMPR - Produtor Rural</title>
+  <link rel="stylesheet" href="style.css">
+  <script>
+    const grupos = {
+      "1": ["Jacarezinho", "Ribeirão Claro", "Carlopolis", "Cambará"],
+      "2": ["São José da Boa Vista", "Wenceslau Braz", "Santana do Itararé", "Salto do Itararé", "Siqueira Campos"],
+      "3": ["Ibaiti", "Japira", "Jaboti", "Pinhalão", "Tomazina", "Conselheiro Mairinck"],
+      "4": ["Santo Antônio da Platina", "Ribeirão do Pinhal", "Abatiá", "Guapirama", "Joaquim Távora", "Jundiaí do Sul"]
+    };
+
+    const numeros = {
+      "1": "554311100000",
+      "2": "554322200000",
+      "3": "554333300000",
+      "4": "554344400000"
+    };
+
+    function atualizarContato() {
+      const cidade = document.getElementById("cidade").value;
+      const divContato = document.getElementById("contato");
+
+      let grupoEncontrado = null;
+
+      for (const grupo in grupos) {
+        if (grupos[grupo].includes(cidade)) {
+          grupoEncontrado = grupo;
+          break;
+        }
+      }
+
+      if (grupoEncontrado && numeros[grupoEncontrado]) {
+        const numero = numeros[grupoEncontrado];
+
+        divContato.innerHTML = `
+          <form id="formulario" aria-label="Formulário de contato">
+            <div>
+              <label for="nome">Nome:</label>
+              <input type="text" id="nome" name="nome" required placeholder="Digite seu nome">
+            </div>
+            <div>
+              <label for="bairro">Bairro:</label>
+              <input type="text" id="bairro" name="bairro" required placeholder="Digite seu bairro">
+            </div>
+            <input type="hidden" id="cidadeSelecionada" value="${cidade}">
+            <button type="submit" class="botao-whatsapp">Falar via WhatsApp</button>
+          </form>
+        `;
+
+        document.getElementById("formulario").addEventListener("submit", function (e) {
+          e.preventDefault();
+          const nome = document.getElementById("nome").value.trim();
+          const bairro = document.getElementById("bairro").value.trim();
+          const cidadeForm = document.getElementById("cidadeSelecionada").value;
+
+          const mensagem = `Olá, meu nome é ${nome}, sou da cidade de ${cidadeForm}, bairro ${bairro}, e gostaria de solicitar uma visita da patrulha rural.`;
+          const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensagem)}`;
+          window.open(url, "_blank");
+        });
+
+      } else {
+        divContato.innerHTML = `<p class="erro">Cidade não encontrada. Verifique sua seleção.</p>`;
+      }
+    }
+  </script>
+</head>
+<body>
+  <div class="container">
+    <div class="logo-container">
+      <img src="pmpr-logo.png" alt="Logo da Polícia Militar do Paraná" class="logo-pmpr">
+      <img src="patrulha-rural.png" alt="Logo da Patrulha Rural" class="logo-patrulha">
+    </div>
+
+    <h1>Solicite a visita da Patrulha Rural</h1>
+    <p class="descricao">Selecione seu município para falar com um patrulheiro rural.</p>
+
+    <select id="cidade" onchange="atualizarContato()" aria-label="Selecione sua cidade">
+      <option value="">Selecione sua cidade</option>
+      <optgroup label="1ª Cia">
+        <option value="Jacarezinho">Jacarezinho</option>
+        <option value="Ribeirão Claro">Ribeirão Claro</option>
+        <option value="Carlopolis">Carlópolis</option>
+        <option value="Cambará">Cambará</option>
+      </optgroup>
+      <optgroup label="2ª Cia">
+        <option value="São José da Boa Vista">São José da Boa Vista</option>
+        <option value="Wenceslau Braz">Wenceslau Braz</option>
+        <option value="Santana do Itararé">Santana do Itararé</option>
+        <option value="Salto do Itararé">Salto do Itararé</option>
+        <option value="Siqueira Campos">Siqueira Campos</option>
+      </optgroup>
+      <optgroup label="3ª Cia">
+        <option value="Ibaiti">Ibaiti</option>
+        <option value="Japira">Japira</option>
+        <option value="Jaboti">Jaboti</option>
+        <option value="Pinhalão">Pinhalão</option>
+        <option value="Tomazina">Tomazina</option>
+        <option value="Conselheiro Mairinck">Conselheiro Mairinck</option>
+      </optgroup>
+      <optgroup label="4ª Cia">
+        <option value="Santo Antônio da Platina">Santo Antônio da Platina</option>
+        <option value="Ribeirão do Pinhal">Ribeirão do Pinhal</option>
+        <option value="Abatiá">Abatiá</option>
+        <option value="Guapirama">Guapirama</option>
+        <option value="Joaquim Távora">Joaquim Távora</option>
+        <option value="Jundiaí do Sul">Jundiaí do Sul</option>
+      </optgroup>
+    </select>
+
+    <div id="contato" aria-live="polite"></div>
+  </div>
+
+  <footer>
+    <p>Esta não é uma página oficial da Polícia Militar do Paraná.</p>
+  </footer>
+</body>
+</html>

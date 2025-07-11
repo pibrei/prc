@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom'
 import { useAuth } from '../../contexts/AuthContext'
 import { Button } from '../ui/button'
 import { Input } from '../ui/input'
-import { LogOut, Home, MapPin, Car, Users, Activity, Menu, X, ChevronDown, Key, FileText, Settings } from 'lucide-react'
+import { LogOut, Home, MapPin, Car, Users, Activity, Menu, X, ChevronDown, Key, FileText, Settings, Wrench } from 'lucide-react'
 import LocationPermissionBanner from '../location/LocationPermissionBanner'
 import LocationErrorBanner from '../location/LocationErrorBanner'
 import { supabase } from '../../lib/supabase'
@@ -83,6 +83,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     { label: 'Propriedades', icon: MapPin, href: '/properties' },
     { label: 'Veículos', icon: Car, href: '/vehicles' },
     { label: 'Mapa', icon: MapPin, href: '/map' },
+    { label: 'Ferramentas', icon: Wrench, href: '/tools' },
   ]
 
   if (userProfile?.role === 'admin' || userProfile?.role === 'team_leader') {
@@ -242,7 +243,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       {/* Bottom Navigation for Mobile */}
       <nav className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t shadow-lg z-30">
         <div className="flex justify-around py-2">
-          {navigationItems.slice(0, 4).map((item) => (
+          {navigationItems.slice(0, 5).map((item) => (
             <Link
               key={item.href}
               to={item.href}

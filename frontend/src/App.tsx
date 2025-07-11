@@ -15,6 +15,8 @@ import AuditLogs from './pages/AuditLogs'
 import Reports from './pages/Reports'
 import BattalionSettings from './pages/BattalionSettings'
 import Register from './pages/Register'
+import ContactPage from './pages/ContactPage'
+import Tools from './pages/Tools'
 
 function App() {
   return (
@@ -22,8 +24,9 @@ function App() {
       <GeolocationProvider>
         <Router>
           <Routes>
-          {/* Rota pública para cadastro */}
+          {/* Rotas públicas */}
           <Route path="/register" element={<Register />} />
+          <Route path="/contato/:slug" element={<ContactPage />} />
           
           <Route path="/" element={
             <ProtectedRoute>
@@ -99,6 +102,13 @@ function App() {
             <ProtectedRoute requiredRole="admin">
               <Layout>
                 <BattalionSettings />
+              </Layout>
+            </ProtectedRoute>
+          } />
+          <Route path="/tools" element={
+            <ProtectedRoute>
+              <Layout>
+                <Tools />
               </Layout>
             </ProtectedRoute>
           } />
