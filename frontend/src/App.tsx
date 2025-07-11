@@ -78,14 +78,14 @@ function App() {
             </ProtectedRoute>
           } />
           <Route path="/users" element={
-            <ProtectedRoute requiredRole="team_leader">
+            <ProtectedRoute requiredRole="admin">
               <Layout>
                 <Users />
               </Layout>
             </ProtectedRoute>
           } />
           <Route path="/audit" element={
-            <ProtectedRoute requiredRole="team_leader">
+            <ProtectedRoute requiredRole="admin">
               <Layout>
                 <AuditLogs />
               </Layout>

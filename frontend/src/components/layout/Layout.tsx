@@ -86,17 +86,19 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     { label: 'Ferramentas', icon: Wrench, href: '/tools' },
   ]
 
-  if (userProfile?.role === 'admin' || userProfile?.role === 'team_leader') {
+  // Páginas apenas para ADMIN
+  if (userProfile?.role === 'admin') {
     navigationItems.push(
       { label: 'Usuários', icon: Users, href: '/users' },
       { label: 'Auditoria', icon: Activity, href: '/audit' },
-      { label: 'Relatórios', icon: FileText, href: '/reports' }
+      { label: 'Configurações', icon: Settings, href: '/battalion-settings' }
     )
   }
 
-  if (userProfile?.role === 'admin') {
+  // Páginas para ADMIN + TEAM_LEADER (Configurações)
+  if (userProfile?.role === 'admin' || userProfile?.role === 'team_leader') {
     navigationItems.push(
-      { label: 'Configurações', icon: Settings, href: '/battalion-settings' }
+      { label: 'Relatórios', icon: FileText, href: '/reports' }
     )
   }
 

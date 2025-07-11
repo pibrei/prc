@@ -70,6 +70,9 @@ const Users: React.FC = () => {
   const [approvalAction, setApprovalAction] = useState<'approve' | 'reject'>('approve')
   const [approvalResults, setApprovalResults] = useState<any[]>([])
   const [processingApproval, setProcessingApproval] = useState(false)
+  const [showPasswordResetModal, setShowPasswordResetModal] = useState(false)
+  const [resetPasswordData, setResetPasswordData] = useState<{email: string, password: string} | null>(null)
+  const [resettingPassword, setResettingPassword] = useState(false)
 
   // Função para gerar senha simples
   const generateSimplePassword = () => {
@@ -81,6 +84,11 @@ const Users: React.FC = () => {
     const noun = nouns[Math.floor(Math.random() * nouns.length)]
     
     return `${adjective}${noun}${numbers}`
+  }
+
+  // Função para gerar senha de 6 dígitos para reset
+  const generateResetPassword = () => {
+    return Math.floor(100000 + Math.random() * 900000).toString()
   }
 
   useEffect(() => {
@@ -453,6 +461,73 @@ const Users: React.FC = () => {
     }
   }
 
+  const handlePasswordReset = async (user: User) => {
+    if (!window.confirm(`Tem certeza que deseja resetar a senha do usuário ${user.full_name}?\n\nUma nova senha de 6 dígitos será gerada.`)) {
+      return
+    }
+
+    setResettingPassword(true)
+    try {
+      const newPassword = generateResetPassword()
+      
+      // Usar Edge Function para resetar senha
+      const { data: { session } } = await supabase.auth.getSession()
+      if (!session) {
+        throw new Error('Sessão não encontrada')
+      }
+      
+      const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
+      const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY
+      
+      const response = await fetch(`${supabaseUrl}/functions/v1/reset-user-password`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${session.access_token}`,
+          'apikey': supabaseKey
+        },
+        body: JSON.stringify({
+          userId: user.id,
+          newPassword: newPassword
+        })
+      })
+      
+      const responseText = await response.text()
+      console.log('Password reset response status:', response.status)
+      console.log('Password reset response text:', responseText)
+      
+      if (!response.ok) {
+        let errorMessage = 'Erro ao resetar senha'
+        try {
+          const errorData = JSON.parse(responseText)
+          errorMessage = errorData.error || errorMessage
+        } catch (e) {
+          errorMessage = responseText || errorMessage
+        }
+        throw new Error(errorMessage)
+      }
+      
+      const result = JSON.parse(responseText)
+      console.log('Password reset result:', result)
+      
+      if (result.success) {
+        setResetPasswordData({
+          email: user.email,
+          password: newPassword
+        })
+        setShowPasswordResetModal(true)
+      } else {
+        throw new Error(result.error || 'Erro ao resetar senha')
+      }
+      
+    } catch (error) {
+      console.error('Erro ao resetar senha:', error)
+      alert(`Erro ao resetar senha: ${(error as Error).message}`)
+    } finally {
+      setResettingPassword(false)
+    }
+  }
+
   const getRoleColor = (role: string) => {
     switch (role) {
       case 'admin': return 'bg-red-100 text-red-800'
@@ -779,21 +854,39 @@ const Users: React.FC = () => {
                 </div>
               </div>
 
-              <div className="flex justify-end space-x-2">
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => {
-                    setShowForm(false)
-                    setEditingUser(null)
-                    resetForm()
-                  }}
-                >
-                  Cancelar
-                </Button>
-                <Button type="submit">
-                  {editingUser ? 'Atualizar' : 'Salvar'}
-                </Button>
+              <div className="flex justify-between">
+                {/* Botão de Reset de Senha (apenas quando editando) */}
+                <div>
+                  {editingUser && (
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={() => handlePasswordReset(editingUser)}
+                      disabled={resettingPassword}
+                      className="bg-yellow-50 hover:bg-yellow-100 border-yellow-300 text-yellow-700"
+                    >
+                      {resettingPassword ? 'Resetando...' : '🔄 Resetar Senha'}
+                    </Button>
+                  )}
+                </div>
+                
+                {/* Botões de ação */}
+                <div className="flex space-x-2">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => {
+                      setShowForm(false)
+                      setEditingUser(null)
+                      resetForm()
+                    }}
+                  >
+                    Cancelar
+                  </Button>
+                  <Button type="submit">
+                    {editingUser ? 'Atualizar' : 'Salvar'}
+                  </Button>
+                </div>
               </div>
             </form>
           </CardContent>
@@ -1036,6 +1129,79 @@ const Users: React.FC = () => {
                 className="px-8"
               >
                 Fechar
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal de Reset de Senha */}
+      {showPasswordResetModal && resetPasswordData && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 border border-gray-200">
+            <div className="text-center mb-6">
+              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="text-green-600 text-2xl">🔑</span>
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">
+                Senha Resetada com Sucesso!
+              </h3>
+              <p className="text-gray-600 text-sm">
+                Uma nova senha foi gerada para o usuário
+              </p>
+            </div>
+            
+            <div className="space-y-4">
+              <div className="bg-gray-50 rounded-lg p-4">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Email do Usuário:
+                </label>
+                <div className="text-base font-mono bg-white p-3 rounded border border-gray-200">
+                  {resetPasswordData.email}
+                </div>
+              </div>
+              
+              <div className="bg-yellow-50 rounded-lg p-4 border border-yellow-200">
+                <label className="block text-sm font-medium text-yellow-800 mb-2">
+                  Nova Senha (6 dígitos):
+                </label>
+                <div className="flex items-center space-x-2">
+                  <div className="text-2xl font-mono font-bold bg-white p-3 rounded border border-yellow-300 flex-1 text-center tracking-wider">
+                    {resetPasswordData.password}
+                  </div>
+                  <Button
+                    onClick={() => {
+                      navigator.clipboard.writeText(resetPasswordData.password);
+                      alert('Senha copiada para a área de transferência!');
+                    }}
+                    variant="outline"
+                    size="sm"
+                    className="bg-yellow-100 hover:bg-yellow-200 border-yellow-300"
+                  >
+                    📋
+                  </Button>
+                </div>
+              </div>
+              
+              <div className="bg-blue-50 rounded-lg p-4 border border-blue-200">
+                <p className="text-sm text-blue-800">
+                  <strong>Instruções:</strong><br/>
+                  1. Informe esta senha para o usuário<br/>
+                  2. O usuário deve fazer login com essa senha<br/>
+                  3. Recomende alterar a senha no primeiro acesso
+                </p>
+              </div>
+            </div>
+            
+            <div className="flex justify-center mt-6">
+              <Button
+                onClick={() => {
+                  setShowPasswordResetModal(false);
+                  setResetPasswordData(null);
+                }}
+                className="px-8 bg-green-600 hover:bg-green-700"
+              >
+                Entendi
               </Button>
             </div>
           </div>

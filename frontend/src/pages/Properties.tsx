@@ -287,15 +287,54 @@ const Properties: React.FC = () => {
   const handleDelete = async (id: string) => {
     if (window.confirm('Tem certeza que deseja excluir esta propriedade?')) {
       try {
-        const { error } = await supabase
-          .from('properties')
-          .delete()
-          .eq('id', id)
+        // Verificar se o usuário está autenticado
+        const { data: { session } } = await supabase.auth.getSession()
+        if (!session) {
+          alert('Erro: Usuário não autenticado. Faça login novamente.')
+          return
+        }
 
-        if (error) throw error
+        console.log('🔍 Debug delete - Property ID:', id)
+        console.log('🔍 Debug delete - User Role:', userProfile?.role)
+
+        // Usar Edge Function para exclusão (mesmo padrão dos usuários)
+        const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
+        const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY
+        
+        const response = await fetch(`${supabaseUrl}/functions/v1/delete-property`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${session.access_token}`,
+            'apikey': supabaseKey
+          },
+          body: JSON.stringify({
+            propertyId: id
+          })
+        })
+        
+        const responseText = await response.text()
+        console.log('Delete response status:', response.status)
+        console.log('Delete response text:', responseText)
+        
+        if (!response.ok) {
+          let errorMessage = 'Erro ao excluir propriedade'
+          try {
+            const errorData = JSON.parse(responseText)
+            errorMessage = errorData.error || errorMessage
+          } catch (e) {
+            errorMessage = responseText || errorMessage
+          }
+          throw new Error(errorMessage)
+        }
+
+        console.log('✅ Delete successful via Edge Function')
+        setSuccessMessage('Propriedade excluída com sucesso!')
+        setTimeout(() => setSuccessMessage(''), 5000)
         fetchProperties()
       } catch (error) {
         console.error('Erro ao excluir propriedade:', error)
+        alert(`Erro ao excluir propriedade: ${(error as Error).message}`)
       }
     }
   }
