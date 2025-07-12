@@ -42,11 +42,22 @@ const LocationInput: React.FC<LocationInputProps> = ({
     // Use provided coordinates or default to Curitiba if none provided
     const defaultLat = latitude || -25.4284
     const defaultLng = longitude || -49.2733
-    openPicker(defaultLat, defaultLng, (lat, lng) => {
-      onLocationChange(lat, lng)
-      setManualLat(lat.toString())
-      setManualLng(lng.toString())
-    })
+    openPicker(
+      defaultLat, 
+      defaultLng, 
+      // onConfirm callback
+      (lat, lng) => {
+        onLocationChange(lat, lng)
+        setManualLat(lat.toString())
+        setManualLng(lng.toString())
+      },
+      // onLocationChange callback (tempo real)
+      (lat, lng) => {
+        onLocationChange(lat, lng)
+        setManualLat(lat.toString())
+        setManualLng(lng.toString())
+      }
+    )
   }
 
   const handleManualSubmit = () => {

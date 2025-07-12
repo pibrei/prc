@@ -346,8 +346,8 @@ const PropertyFormModal: React.FC<PropertyFormModalProps> = ({
 
               <div className="mt-4">
                 <LocationInput
-                  latitude={parseFloat(formData.latitude) || -25.4284}
-                  longitude={parseFloat(formData.longitude) || -49.2733}
+                  latitude={formData.latitude && !isNaN(parseFloat(formData.latitude)) ? parseFloat(formData.latitude) : undefined}
+                  longitude={formData.longitude && !isNaN(parseFloat(formData.longitude)) ? parseFloat(formData.longitude) : undefined}
                   onLocationChange={(lat, lng) => {
                     setFormData({
                       ...formData,

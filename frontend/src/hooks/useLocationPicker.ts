@@ -5,6 +5,7 @@ interface LocationPickerState {
   latitude: number
   longitude: number
   onConfirm?: (lat: number, lng: number) => void
+  onLocationChange?: (lat: number, lng: number) => void
 }
 
 export const useLocationPicker = () => {
@@ -12,19 +13,22 @@ export const useLocationPicker = () => {
     isOpen: false,
     latitude: -25.4284, // Default to Curitiba
     longitude: -49.2733,
-    onConfirm: undefined
+    onConfirm: undefined,
+    onLocationChange: undefined
   })
 
   const openPicker = useCallback((
     initialLat: number = -25.4284,
     initialLng: number = -49.2733,
-    onConfirm?: (lat: number, lng: number) => void
+    onConfirm?: (lat: number, lng: number) => void,
+    onLocationChangeCallback?: (lat: number, lng: number) => void
   ) => {
     setState({
       isOpen: true,
       latitude: initialLat,
       longitude: initialLng,
-      onConfirm
+      onConfirm,
+      onLocationChange: onLocationChangeCallback
     })
   }, [])
 
@@ -39,7 +43,9 @@ export const useLocationPicker = () => {
 
   const handleLocationChange = useCallback((lat: number, lng: number) => {
     setState(prev => ({ ...prev, latitude: lat, longitude: lng }))
-  }, [])
+    // Chamar o callback do formulário em tempo real
+    state.onLocationChange?.(lat, lng)
+  }, [state.onLocationChange])
 
   return {
     isOpen: state.isOpen,

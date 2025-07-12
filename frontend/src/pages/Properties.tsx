@@ -258,13 +258,22 @@ const Properties: React.FC = () => {
 
   const handleSubmit = async (formData: any) => {
     try {
+      // Validar coordenadas antes de prosseguir
+      const latitude = parseFloat(formData.latitude)
+      const longitude = parseFloat(formData.longitude)
+      
+      if (!formData.latitude || !formData.longitude || isNaN(latitude) || isNaN(longitude)) {
+        alert('Erro: Coordenadas GPS são obrigatórias. Por favor, colete as coordenadas antes de salvar a propriedade.')
+        return
+      }
+      
       if (editingProperty) {
         // Para edição, usar update direto
         const propertyData = {
           name: formData.name,
           description: formData.description || null,
-          latitude: parseFloat(formData.latitude),
-          longitude: parseFloat(formData.longitude),
+          latitude: latitude,
+          longitude: longitude,
           cidade: formData.cidade,
           bairro: formData.bairro || null,
           numero_placa: formData.numero_placa || null,
@@ -302,8 +311,8 @@ const Properties: React.FC = () => {
         const { data, error } = await supabase
           .rpc('create_property_profile', {
             property_name: formData.name,
-            property_latitude: parseFloat(formData.latitude),
-            property_longitude: parseFloat(formData.longitude),
+            property_latitude: latitude,
+            property_longitude: longitude,
             property_cidade: formData.cidade,
             property_batalhao: formData.batalhao,
             property_crpm: formData.crpm,

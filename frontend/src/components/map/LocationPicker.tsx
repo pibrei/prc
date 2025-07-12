@@ -90,6 +90,7 @@ const LocationPicker: React.FC<LocationPickerProps> = ({
     setPosition([lat, lng])
     setManualLat(lat.toFixed(6))
     setManualLng(lng.toFixed(6))
+    // Atualizar o formulário em tempo real
     onLocationChange(lat, lng)
   }
 
@@ -145,6 +146,7 @@ const LocationPicker: React.FC<LocationPickerProps> = ({
         {/* GPS Location */}
         <div className="space-y-2">
           <Button
+            type="button"
             onClick={getCurrentLocation}
             disabled={loading}
             variant={userLocation && hasLocationPermission ? "default" : "outline"}
@@ -184,6 +186,7 @@ const LocationPicker: React.FC<LocationPickerProps> = ({
           <div className="space-y-2">
             <label className="text-sm font-medium sm:invisible">Aplicar</label>
             <Button
+              type="button"
               onClick={handleManualCoordinates}
               variant="outline"
               size="sm"
@@ -229,10 +232,10 @@ const LocationPicker: React.FC<LocationPickerProps> = ({
 
         {/* Actions */}
         <div className="flex flex-col sm:flex-row gap-2 sm:justify-end">
-          <Button variant="outline" onClick={onCancel} className="w-full sm:w-auto">
+          <Button type="button" variant="outline" onClick={onCancel} className="w-full sm:w-auto">
             Cancelar
           </Button>
-          <Button onClick={handleConfirm} className="w-full sm:w-auto">
+          <Button type="button" onClick={handleConfirm} className="w-full sm:w-auto">
             Confirmar Localização
           </Button>
         </div>
